@@ -10,11 +10,15 @@
   "repository": "https://github.com/freelance-os/freelance-os",
   "license": "MIT",
   "keywords": ["freelance", "crm", "proposals", "invoices", "mcp", "scope", "time-tracking"],
-  "skills": "./skills/",
+  "skills": ["./skills/*/SKILL.md"],
   "userConfig": {
     "FREELANCEOS_API_KEY": {
       "description": "Your FreelanceOS API key — get one at freelanceos.dev/dashboard",
       "sensitive": true
+    },
+    "FREELANCEOS_SERVER_URL": {
+      "description": "FreelanceOS MCP server URL (e.g., https://mcp.freelanceos.dev/mcp)",
+      "sensitive": false
     }
   }
 }

@@ -2,7 +2,7 @@
   "mcpServers": {
     "freelance-os": {
       "type": "http",
-      "url": "https://mcp.freelanceos.dev/mcp",
+      "url": "${user_config.FREELANCEOS_SERVER_URL}",
       "headers": {
         "Authorization": "Bearer ${user_config.FREELANCEOS_API_KEY}"
       }
