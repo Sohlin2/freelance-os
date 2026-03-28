@@ -55,7 +55,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **SKLL-01**: Skill pack provides freelance domain knowledge via SKILL.md files for proposals, invoices, scope, and follow-ups
 - [ ] **SKLL-02**: Skills are chat-invocable — user describes what they need, Claude applies domain knowledge automatically
-- [ ] **SKLL-03**: Total tool manifest stays under 15,000 tokens to preserve reasoning quality
+- [x] **SKLL-03**: Total tool manifest stays under 15,000 tokens to preserve reasoning quality
 
 ## v2 Requirements
 
@@ -127,7 +127,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FLLW-03 | Phase 3 | Complete |
 | SKLL-01 | Phase 4 | Pending |
 | SKLL-02 | Phase 4 | Pending |
-| SKLL-03 | Phase 4 | Pending |
+| SKLL-03 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 29 total

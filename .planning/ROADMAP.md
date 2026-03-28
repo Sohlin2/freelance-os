@@ -82,10 +82,10 @@ Plans:
   2. When drafting a follow-up, Claude advises on timing and tone appropriate to the context (late invoice vs. check-in vs. awaiting proposal response) without being asked
   3. Skills are invoked automatically by describing a need — user does not type skill names or commands
   4. Total tool manifest stays under 15,000 tokens, verified by inspection
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
-- [ ] 04-01-PLAN.md — Token counting enforcement script and vitest budget test (SKLL-03)
+- [x] 04-01-PLAN.md — Token counting enforcement script and vitest budget test (SKLL-03)
 - [ ] 04-02-PLAN.md — High-priority skills: proposals, follow-ups, scope (PROP-02, FLLW-02, SKLL-01, SKLL-02)
 - [ ] 04-03-PLAN.md — Lower-priority skills: invoices, time-tracking (SKLL-01, SKLL-02, SKLL-03)
 
@@ -110,5 +110,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Data Foundation | 3/3 | Complete   | 2026-03-28 |
 | 2. MCP Server Core | 2/3 | In Progress|  |
 | 3. Full Tool Suite | 5/5 | Complete   | 2026-03-28 |
-| 4. Skill Pack | 0/3 | Not started | - |
+| 4. Skill Pack | 1/3 | In Progress|  |
 | 5. Plugin Packaging | 0/TBD | Not started | - |
