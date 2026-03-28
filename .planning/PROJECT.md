@@ -12,7 +12,7 @@ A freelancer can manage their entire client lifecycle — from proposal to invoi
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Supabase schema with all 9 domain tables, RLS policies, enum types, helper functions — Validated in Phase 01: Data Foundation
 
 ### Active
 
@@ -79,4 +79,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after initialization*
+*Last updated: 2026-03-28 after Phase 01 completion*
