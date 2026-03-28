@@ -2,8 +2,8 @@
 phase: 2
 slug: mcp-server-core
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-28
 ---
 
@@ -38,12 +38,13 @@ created: 2026-03-28
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 02-01-01 | 01 | 0 | ALL | setup | `npx vitest run` | No — W0 | ⬜ pending |
-| 02-02-01 | 02 | 1 | CRM-01 | unit | `npx vitest run tests/middleware/auth.test.ts` | No — W0 | ⬜ pending |
-| 02-02-02 | 02 | 1 | CRM-01 | unit | `npx vitest run tests/tools/clients.test.ts` | No — W0 | ⬜ pending |
-| 02-02-03 | 02 | 1 | CRM-02 | unit | `npx vitest run tests/tools/projects.test.ts` | No — W0 | ⬜ pending |
-| 02-02-04 | 02 | 1 | CRM-03 | unit | `npx vitest run tests/tools/clients.test.ts` | No — W0 | ⬜ pending |
-| 02-02-05 | 02 | 1 | CRM-04 | unit | `npx vitest run tests/tools/clients.test.ts` | No — W0 | ⬜ pending |
+| 02-01-T1 | 01 | 1 | ALL | setup | `npx vitest run` | Created in task | ⬜ pending |
+| 02-01-T2 | 01 | 1 | CRM-01 | compile+smoke | `npx tsc --noEmit && curl localhost:3000/mcp` | Created in task | ⬜ pending |
+| 02-01-T3 | 01 | 1 | CRM-01 | unit | `npx vitest run tests/middleware/auth.test.ts` | Created in task | ⬜ pending |
+| 02-02-T1 | 02 | 2 | CRM-01,CRM-03,CRM-04 | compile | `npx tsc --noEmit` | Created in task | ⬜ pending |
+| 02-02-T2 | 02 | 2 | CRM-01,CRM-03,CRM-04 | unit | `npx vitest run tests/tools/clients.test.ts` | Created in task | ⬜ pending |
+| 02-03-T1 | 03 | 3 | CRM-02,CRM-04 | compile | `npx tsc --noEmit` | Created in task | ⬜ pending |
+| 02-03-T2 | 03 | 3 | CRM-02,CRM-04 | unit | `npx vitest run tests/tools/projects.test.ts` | Created in task | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -51,12 +52,12 @@ created: 2026-03-28
 
 ## Wave 0 Requirements
 
-- [ ] `vitest.config.ts` — minimal config for ESM + Node16 resolution
-- [ ] `tests/middleware/auth.test.ts` — stubs for auth middleware (CRM-01 auth gate)
-- [ ] `tests/tools/clients.test.ts` — stubs for client tool handlers (CRM-01, CRM-03, CRM-04)
-- [ ] `tests/tools/projects.test.ts` — stubs for project tool handlers (CRM-02, CRM-04)
-- [ ] Package installs: `npm install --save-dev tsup @types/node @types/express`
-- [ ] New migration: `supabase/migrations/[timestamp]_create_set_app_user_id.sql`
+Existing infrastructure covers all phase requirements. Plan 02-01 (Wave 1) handles all setup:
+- [x] `vitest.config.ts` — created in Plan 02-01 Task 1
+- [x] `tests/middleware/auth.test.ts` — created in Plan 02-01 Task 3
+- [x] Package installs — handled in Plan 02-01 Task 1
+- [x] New migration `set_app_user_id` — handled in Plan 02-01 Task 1
+- Test files for tools created in Plan 02-02 Task 2 and Plan 02-03 Task 2
 
 ---
 
@@ -71,11 +72,11 @@ created: 2026-03-28
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 5s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 5s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved 2026-03-28
