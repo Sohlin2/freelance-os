@@ -2,16 +2,15 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import express from 'express';
 import { apiKeyAuthMiddleware } from './middleware/auth.js';
+import { registerClientTools } from './tools/clients.js';
 
 export function buildServer(userId: string): McpServer {
   const server = new McpServer(
     { name: 'freelance-os', version: '0.1.0' },
     { capabilities: { logging: {} } }
   );
-  // Tool registration happens here — Phase 2 Plans 02/03 will add:
-  // registerClientTools(server, userId);
-  // registerProjectTools(server, userId);
-  void userId; // userId will be used by tool registrations in future plans
+  registerClientTools(server, userId);
+  // registerProjectTools(server, userId);  — Phase 2 Plan 03
   return server;
 }
 
