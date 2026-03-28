@@ -515,6 +515,7 @@ export type Database = {
     }
     Functions: {
       current_app_user_id: { Args: never; Returns: string }
+      set_app_user_id: { Args: { p_user_id: string }; Returns: undefined }
       validate_api_key: { Args: { p_key: string }; Returns: string }
     }
     Enums: {
