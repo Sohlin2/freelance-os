@@ -24,10 +24,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Proposals
 
-- [ ] **PROP-01**: User can draft a project proposal from client context and project details
+- [x] **PROP-01**: User can draft a project proposal from client context and project details
 - [ ] **PROP-02**: Smart prompts coach on proposal quality (pricing, scope clarity, revision limits, payment terms)
-- [ ] **PROP-03**: Accepted proposal auto-seeds the project scope record with agreed deliverables
-- [ ] **PROP-04**: User can store and retrieve proposal history per client/project
+- [x] **PROP-03**: Accepted proposal auto-seeds the project scope record with agreed deliverables
+- [x] **PROP-04**: User can store and retrieve proposal history per client/project
 
 ### Invoices
 
@@ -108,10 +108,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CRM-02 | Phase 2 | Complete |
 | CRM-03 | Phase 2 | Complete |
 | CRM-04 | Phase 2 | Complete |
-| PROP-01 | Phase 3 | Pending |
+| PROP-01 | Phase 3 | Complete |
 | PROP-02 | Phase 4 | Pending |
-| PROP-03 | Phase 3 | Pending |
-| PROP-04 | Phase 3 | Pending |
+| PROP-03 | Phase 3 | Complete |
+| PROP-04 | Phase 3 | Complete |
 | INV-01 | Phase 3 | Pending |
 | INV-02 | Phase 3 | Pending |
 | INV-03 | Phase 3 | Pending |
