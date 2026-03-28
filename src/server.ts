@@ -4,6 +4,11 @@ import express from 'express';
 import { apiKeyAuthMiddleware } from './middleware/auth.js';
 import { registerClientTools } from './tools/clients.js';
 import { registerProjectTools } from './tools/projects.js';
+import { registerProposalTools } from './tools/proposals.js';
+import { registerInvoiceTools } from './tools/invoices.js';
+import { registerTimeEntryTools } from './tools/time-entries.js';
+import { registerScopeTools } from './tools/scope.js';
+import { registerFollowUpTools } from './tools/follow-ups.js';
 
 export function buildServer(userId: string): McpServer {
   const server = new McpServer(
@@ -12,6 +17,11 @@ export function buildServer(userId: string): McpServer {
   );
   registerClientTools(server, userId);
   registerProjectTools(server, userId);
+  registerProposalTools(server, userId);
+  registerInvoiceTools(server, userId);
+  registerTimeEntryTools(server, userId);
+  registerScopeTools(server, userId);
+  registerFollowUpTools(server, userId);
   return server;
 }
 
