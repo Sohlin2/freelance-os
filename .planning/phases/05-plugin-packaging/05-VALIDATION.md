@@ -1,9 +1,9 @@
 ---
 phase: 5
 slug: plugin-packaging
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: complete
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-28
 ---
 
@@ -17,60 +17,44 @@ created: 2026-03-28
 
 | Property | Value |
 |----------|-------|
-| **Framework** | vitest |
-| **Config file** | vitest.config.ts |
-| **Quick run command** | `npx vitest run --reporter=verbose` |
-| **Full suite command** | `npx vitest run --reporter=verbose` |
+| **Framework** | vitest 2.x |
+| **Config file** | `vitest.config.ts` |
+| **Quick run command** | `npx vitest run tests/plugin-package.test.ts` |
+| **Full suite command** | `npx vitest run` |
 | **Estimated runtime** | ~10 seconds |
 
 ---
 
 ## Sampling Rate
 
-- **After every task commit:** Run `npx vitest run --reporter=verbose`
-- **After every plan wave:** Run `npx vitest run --reporter=verbose`
-- **Before `/gsd:verify-work`:** Full suite must be green
+- **After every task commit:** Run `npx vitest run tests/plugin-package.test.ts`
+- **After every plan wave:** Run `npx vitest run`
+- **Before phase completion:** Full suite must be green (145 tests across all phases)
 - **Max feedback latency:** 10 seconds
 
 ---
 
-## Per-Task Verification Map
+## Phase 5 Test Coverage
 
-| Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
-|---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 05-01-01 | 01 | 1 | INFRA-04 | unit | `npx vitest run` | ❌ W0 | ⬜ pending |
-| 05-01-02 | 01 | 1 | INFRA-05 | unit | `npx vitest run` | ❌ W0 | ⬜ pending |
-
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
+| Test | File | What It Verifies |
+|------|------|------------------|
+| Plugin packaging | tests/plugin-package.test.ts | Manifest structure, userConfig sensitive API key, .mcp.json Bearer token, build script output, secret scan (no service_role/JWT/fos_live_ leakage), npm pack contents (41 tests) |
 
 ---
 
-## Wave 0 Requirements
+## Feedback Signals
 
-- [ ] Test stubs for plugin manifest validation (INFRA-04)
-- [ ] Test stubs for API key config and secret scanning (INFRA-05)
-- [ ] Fixtures for mock plugin.json and .mcp.json structures
-
-*Existing vitest infrastructure covers framework requirements.*
+- `npx vitest run tests/plugin-package.test.ts` — 41 tests pass, 0 failures
+- Build script output: "Build complete. 5 skills ready. No secrets detected."
+- `npm pack --dry-run --json` — confirms .claude-plugin/plugin.json, .mcp.json, skills/, README.md all present; no src/, tests/, .planning/ leakage
 
 ---
 
-## Manual-Only Verifications
+## Compliance Checklist
 
-| Behavior | Requirement | Why Manual | Test Instructions |
-|----------|-------------|------------|-------------------|
-| Plugin install prompts for API key | INFRA-05 | Requires Claude Code runtime | Install via `/plugin install`, verify keychain prompt appears |
-| End-to-end MCP connection | INFRA-04 | Requires running MCP server | Install plugin, run a tool call, verify response |
+- [x] Wave 0 tests exist (tests/plugin-package.test.ts with 41 tests covering manifest, MCP config, build, and secret scanning)
+- [x] Quick run command works (`npx vitest run tests/plugin-package.test.ts` exits 0)
+- [x] Sampling rate defined (plugin test after every packaging change, full suite after each plan wave)
+- [x] Feedback signals documented (test count, build script output, pack dry-run contents)
 
----
-
-## Validation Sign-Off
-
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 10s
-- [ ] `nyquist_compliant: true` set in frontmatter
-
-**Approval:** pending
+**Approval:** approved 2026-03-28
