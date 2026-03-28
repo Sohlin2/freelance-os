@@ -3,6 +3,7 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import express from 'express';
 import { apiKeyAuthMiddleware } from './middleware/auth.js';
 import { registerClientTools } from './tools/clients.js';
+import { registerProjectTools } from './tools/projects.js';
 
 export function buildServer(userId: string): McpServer {
   const server = new McpServer(
@@ -10,7 +11,7 @@ export function buildServer(userId: string): McpServer {
     { capabilities: { logging: {} } }
   );
   registerClientTools(server, userId);
-  // registerProjectTools(server, userId);  — Phase 2 Plan 03
+  registerProjectTools(server, userId);
   return server;
 }
 
