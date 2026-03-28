@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-mcp-server-core plan 01 (02-01-PLAN.md)
-last_updated: "2026-03-28T12:06:56.329Z"
-last_activity: 2026-03-28
+stopped_at: Phase 2 context gathered
+last_updated: "2026-03-28T11:59:03.975Z"
+last_activity: 2026-03-28 -- Phase 02 execution started
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 3
   percent: 33
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-28)
 
 **Core value:** A freelancer can manage their entire client lifecycle — from proposal to invoice — without leaving Claude Code.
-**Current focus:** Phase 01 — data-foundation
+**Current focus:** Phase 02 — mcp-server-core
 
 ## Current Position
 
-Phase: 2
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-03-28
+Phase: 02 (mcp-server-core) — EXECUTING
+Plan: 1 of 3
+Status: Executing Phase 02
+Last activity: 2026-03-28 -- Phase 02 execution started
 
 Progress: [███░░░░░░░] 33%
 
@@ -55,7 +55,6 @@ Progress: [███░░░░░░░] 33%
 | Phase 01 P01 | 3 | 2 tasks | 8 files |
 | Phase 01-data-foundation P02 | 2 | 2 tasks | 5 files |
 | Phase 01-data-foundation P03 | 4 | 2 tasks | 7 files |
-| Phase 02-mcp-server-core P01 | 5 | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -75,9 +74,6 @@ Recent decisions affecting current work:
 - [Phase 01-02]: follow_ups.project_id nullable with ON DELETE SET NULL preserves follow-up history if project deleted
 - [Phase 01-data-foundation]: TypeScript types hand-crafted from migrations (not supabase gen types --local) due to Docker unavailability; must regenerate after Docker setup
 - [Phase 01-data-foundation]: src/types/database.ts removed from .gitignore to track reference version alongside migrations
-- [Phase 02-01]: Transaction scope (true) for set_app_user_id over session scope (false) — context auto-clears at transaction end preventing cross-request user leakage
-- [Phase 02-01]: Stateless Streamable HTTP — new McpServer + transport per request with sessionIdGenerator: undefined, avoids session state complexity
-- [Phase 02-01]: buildServer(userId) factory closes over userId at request time, threading auth identity into tool handlers without global state
 
 ### Pending Todos
 
@@ -90,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T12:06:56.326Z
-Stopped at: Completed 02-mcp-server-core plan 01 (02-01-PLAN.md)
-Resume file: None
+Last session: 2026-03-28T11:22:45.601Z
+Stopped at: Phase 2 context gathered
+Resume file: .planning/phases/02-mcp-server-core/02-CONTEXT.md
