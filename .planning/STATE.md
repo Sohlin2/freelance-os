@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-03-28T10:48:01.304Z"
-last_activity: 2026-03-28 — Phase 01 Wave 1 complete (plan 01-01)
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-03-28T10:53:12.618Z"
+last_activity: 2026-03-28
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
-  percent: 0
+  completed_plans: 2
+  percent: 33
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-03-28)
 ## Current Position
 
 Phase: 01 (data-foundation) — EXECUTING
-Plan: 1 of 3
-Status: Executing Phase 01
-Last activity: 2026-03-28 — Phase 01 Wave 1 complete (plan 01-01)
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-03-28
 
 Progress: [███░░░░░░░] 33%
 
@@ -53,6 +53,7 @@ Progress: [███░░░░░░░] 33%
 
 *Updated after each plan completion*
 | Phase 01 P01 | 3 | 2 tasks | 8 files |
+| Phase 01-data-foundation P02 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,9 @@ Recent decisions affecting current work:
 - [Phase 01]: Extensions installed in extensions schema to avoid search_path conflicts
 - [Phase 01]: current_app_user_id() uses NULLIF empty-string guard to prevent UUID cast error when session variable is unset
 - [Phase 01]: supabase CLI installed as npm dev dep for portable cross-platform usage
+- [Phase 01-02]: validate_api_key() declared SECURITY DEFINER so MCP server can call it before setting app.current_user_id session variable
+- [Phase 01-02]: scope_definitions unique(project_id) enforces one-scope-per-project at database level
+- [Phase 01-02]: follow_ups.project_id nullable with ON DELETE SET NULL preserves follow-up history if project deleted
 
 ### Pending Todos
 
@@ -79,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T10:48:01.301Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-03-28T10:53:12.615Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None

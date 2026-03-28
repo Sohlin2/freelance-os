@@ -29,11 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. RLS policies are enabled on every table such that User A's data is never returned by queries authenticated as User B
   3. A valid API key successfully authenticates against the api_keys table; an invalid or missing key is rejected with a 401
   4. Supabase TypeScript types are generated from the schema and importable in server code
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 - [x] 01-01-PLAN.md — Project init, Supabase CLI setup, foundational migrations (extensions, enums, helper function)
-- [ ] 01-02-PLAN.md — All 9 domain table migrations with RLS policies and moddatetime triggers
+- [x] 01-02-PLAN.md — All 9 domain table migrations with RLS policies and moddatetime triggers
 - [ ] 01-03-PLAN.md — Seed data, pgTAP tests (schema, API key, RLS isolation), TypeScript type generation
 
 ### Phase 2: MCP Server Core
@@ -91,7 +91,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Foundation | 1/3 | In Progress|  |
+| 1. Data Foundation | 2/3 | In Progress|  |
 | 2. MCP Server Core | 0/TBD | Not started | - |
 | 3. Full Tool Suite | 0/TBD | Not started | - |
 | 4. Skill Pack | 0/TBD | Not started | - |
