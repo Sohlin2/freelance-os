@@ -341,33 +341,23 @@ describe('list_scope_changes', () => {
   });
 
   it('with classification filter: calls eq for classification', async () => {
-    let classificationFilterCalled = false;
+    const eqCalls: Array<[string, unknown]> = [];
+
+    // Build a chainable mock that records all eq() calls
+    const makeChain = (): Record<string, unknown> => ({
+      eq: (field: string, val: unknown) => {
+        eqCalls.push([field, val]);
+        return makeChain();
+      },
+      is: () => makeChain(),
+      order: () => makeChain(),
+      range: async () => ({ data: [baseScopeChange], error: null, count: 1 }),
+    });
 
     mockWithUserContext.mockImplementation(async (_userId, fn) => {
       return fn({
         from: () => ({
-          select: () => ({
-            eq: (field: string, _val: unknown) => {
-              if (field === 'classification') classificationFilterCalled = true;
-              return {
-                eq: (field2: string, _val2: unknown) => {
-                  if (field2 === 'classification') classificationFilterCalled = true;
-                  return {
-                    is: () => ({
-                      order: () => ({
-                        range: async () => ({ data: [baseScopeChange], error: null, count: 1 }),
-                      }),
-                    }),
-                  };
-                },
-                is: () => ({
-                  order: () => ({
-                    range: async () => ({ data: [baseScopeChange], error: null, count: 1 }),
-                  }),
-                }),
-              };
-            },
-          }),
+          select: () => makeChain(),
         }),
       } as never);
     });
@@ -381,7 +371,9 @@ describe('list_scope_changes', () => {
       offset: 0,
     });
 
-    expect(classificationFilterCalled).toBe(true);
+    const classificationCall = eqCalls.find(([field]) => field === 'classification');
+    expect(classificationCall).toBeDefined();
+    expect(classificationCall?.[1]).toBe('out_of_scope');
   });
 });
 
