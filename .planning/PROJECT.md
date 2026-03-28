@@ -27,13 +27,30 @@ A freelancer can manage their entire client lifecycle — from proposal to invoi
 
 ### Active
 
-- [ ] Server build pipeline (tsup bundling, main/bin entry points) for hosted deployment
-- [ ] API key issuance infrastructure (Stripe → key generation → key delivery)
-- [ ] Server deployment to freelanceos.dev (or user-configured URL)
+- [ ] npm publish with correct package structure for plugin installation
+- [ ] MCP server registry listings (mcp.so, glama.ai, smithery.ai)
+- [ ] SEO-optimized landing page with conversion-focused copy
+- [ ] Social media launch content (X thread, Reddit, HN Show HN)
+- [ ] Free trial support (7-day trial for monthly plan)
+- [ ] README with install instructions, feature showcase, and buy links
+- [ ] Analytics/monitoring for conversion tracking
+
+## Current Milestone: v1.1 Marketing & Monetization Launch
+
+**Goal:** Take FreelanceOS from deployed to revenue-generating — npm published, marketplace-listed, discoverable, and converting visitors to paying subscribers.
+
+**Target features:**
+- npm publish with correct package structure
+- MCP server registry listings
+- SEO-optimized landing page
+- Social media launch content
+- Free trial support
+- README with install docs and buy links
+- Conversion analytics
 
 ### Out of Scope
 
-- Payment processing (Stripe, PayPal integration) — adds regulatory complexity, defer to v2
+- ~~Payment processing~~ — DONE: Stripe billing live with monthly ($19) and lifetime ($40) plans
 - Mobile app — Claude Code is desktop-first
 - Multi-user collaboration / team features — solo freelancers first
 - Calendar/scheduling integration — not core to the financial lifecycle
@@ -51,7 +68,11 @@ Tech stack: Node.js 20, Express, MCP SDK 1.x (Streamable HTTP), Supabase (PostgR
 - Chat-driven UX: users talk to Claude naturally, skills provide domain context, MCP handles data
 - Target market: solo freelancers and small agencies who already use Claude Code for development
 - Monetization via API key gating — MCP server requires valid key, key issued on subscription or one-time purchase
-- Server deployment and billing infrastructure are pre-launch requirements for next milestone
+- **DEPLOYED:** MCP server live at freelance-os-production.up.railway.app (Railway, Docker)
+- **BILLING LIVE:** Stripe products/prices created, webhook registered, customer portal configured, payment links active
+- **API KEY DELIVERY:** Edge function serves one-time key retrieval page after checkout
+- Monthly: $19/mo (price_1TG44XLtZyfmfxUd77Aypt2r) | Lifetime: $40 (price_1TG44YLtZyfmfxUd3O8gEJnT)
+- Payment links: buy.stripe.com/bJefZi83Zg75dmu2A22Ji00 (monthly) | buy.stripe.com/00w4gAac7bQP2HQ1vY2Ji01 (lifetime)
 
 ## Constraints
 
@@ -93,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after v1.0 milestone*
+*Last updated: 2026-03-28 after v1.1 milestone start*
