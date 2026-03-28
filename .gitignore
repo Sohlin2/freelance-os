@@ -8,8 +8,8 @@ dist/
 supabase/.branches
 supabase/.temp
 
-# Generated files
-src/types/database.ts
+# Generated files (regenerate via: npm run db:types after supabase start)
+# src/types/database.ts is committed as a reference version; regenerate locally after Docker setup
 
 # OS
 .DS_Store
