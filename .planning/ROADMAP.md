@@ -143,5 +143,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 Plans:
 - [x] 07-01-PLAN.md — SUMMARY frontmatter fixes + plugin config corrections (.mcp.json URL, plugin.json skills format)
-- [ ] 07-02-PLAN.md — Skill coaching for orphaned tools (get_followup, archive_project) + accept_proposal rollback
+- [x] 07-02-PLAN.md — Skill coaching for orphaned tools (get_followup, archive_project) + accept_proposal rollback
 - [ ] 07-03-PLAN.md — Nyquist VALIDATION.md updates for phases 1, 3, 4, 5, 6

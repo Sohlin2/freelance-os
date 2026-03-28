@@ -274,6 +274,9 @@ export function registerProposalTools(server: McpServer, userId: string): void {
             };
           }
 
+          // Capture original status before update for rollback if needed
+          const originalStatus = (proposal as { status: string }).status;
+
           // Step 2: Update proposal status to accepted
           const { data: updatedProposal, error: updateError } = await db
             .from('proposals')
@@ -309,22 +312,20 @@ export function registerProposalTools(server: McpServer, userId: string): void {
             .single();
 
           if (scopeError) {
-            // Scope upsert failed but proposal was already accepted — return partial success
+            // Rollback: restore proposal to original status since scope seeding failed
+            await db
+              .from('proposals')
+              .update({ status: originalStatus, responded_at: null })
+              .eq('id', args.proposal_id);
+
             return {
               content: [
                 {
                   type: 'text',
-                  text: JSON.stringify(
-                    {
-                      proposal: updatedProposal,
-                      scope: null,
-                      error: scopeError.message,
-                    },
-                    null,
-                    2
-                  ),
+                  text: `Failed to accept proposal: scope seeding failed (${scopeError.message}). Proposal status rolled back to '${originalStatus}'.`,
                 },
               ],
+              isError: true,
             };
           }
 
