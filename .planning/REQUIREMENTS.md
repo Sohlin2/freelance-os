@@ -1,7 +1,7 @@
 # Requirements: FreelanceOS
 
 **Defined:** 2026-03-28
-**Core Value:** A freelancer can manage their entire client lifecycle — from proposal to invoice — without leaving Claude Code.
+**Core Value:** A freelancer can manage their entire client lifecycle -- from proposal to invoice -- without leaving Claude Code.
 
 ## v1.1 Requirements
 
@@ -24,8 +24,8 @@ Requirements for Marketing & Monetization Launch. Each maps to roadmap phases.
 ### Conversion
 
 - [ ] **CONV-01**: Monthly plan supports 7-day free trial via Stripe checkout
-- [ ] **CONV-02**: Checkout success page displays API key with copy button and setup instructions
-- [ ] **CONV-03**: Customer portal accessible for subscription management (cancel, update payment)
+- [x] **CONV-02**: Checkout success page displays API key with copy button and setup instructions (PRE-COMPLETED)
+- [x] **CONV-03**: Customer portal accessible for subscription management (cancel, update payment) (PRE-COMPLETED)
 
 ### Launch Content
 
@@ -36,7 +36,7 @@ Requirements for Marketing & Monetization Launch. Each maps to roadmap phases.
 
 ### Monitoring
 
-- [ ] **MNTR-01**: Health endpoint returns server version and uptime status
+- [x] **MNTR-01**: Health endpoint returns server version and uptime status (PRE-COMPLETED)
 - [ ] **MNTR-02**: Webhook events logged with structured output for debugging
 - [ ] **MNTR-03**: Expired API key deliveries cleaned up automatically
 
@@ -67,30 +67,31 @@ Requirements for Marketing & Monetization Launch. Each maps to roadmap phases.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DIST-01 | TBD | Pending |
-| DIST-02 | TBD | Pending |
-| DIST-03 | TBD | Pending |
-| DIST-04 | TBD | Pending |
-| LAND-01 | TBD | Pending |
-| LAND-02 | TBD | Pending |
-| LAND-03 | TBD | Pending |
-| LAND-04 | TBD | Pending |
-| CONV-01 | TBD | Pending |
-| CONV-02 | TBD | Pending |
-| CONV-03 | TBD | Pending |
-| LNCH-01 | TBD | Pending |
-| LNCH-02 | TBD | Pending |
-| LNCH-03 | TBD | Pending |
-| LNCH-04 | TBD | Pending |
-| MNTR-01 | TBD | Pending |
-| MNTR-02 | TBD | Pending |
-| MNTR-03 | TBD | Pending |
+| DIST-01 | Phase 8 | Pending |
+| DIST-02 | Phase 8 | Pending |
+| DIST-03 | Phase 8 | Pending |
+| DIST-04 | Phase 11 | Pending |
+| LAND-01 | Phase 9 | Pending |
+| LAND-02 | Phase 9 | Pending |
+| LAND-03 | Phase 9 | Pending |
+| LAND-04 | Phase 9 | Pending |
+| CONV-01 | Phase 10 | Pending |
+| CONV-02 | Phase 10 | Pre-completed |
+| CONV-03 | Phase 10 | Pre-completed |
+| LNCH-01 | Phase 12 | Pending |
+| LNCH-02 | Phase 12 | Pending |
+| LNCH-03 | Phase 12 | Pending |
+| LNCH-04 | Phase 12 | Pending |
+| MNTR-01 | Phase 13 | Pre-completed |
+| MNTR-02 | Phase 13 | Pending |
+| MNTR-03 | Phase 13 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 18 total
-- Mapped to phases: 0
-- Unmapped: 18 (pending roadmap)
+- Mapped to phases: 18
+- Unmapped: 0
+- Pre-completed: 3 (CONV-02, CONV-03, MNTR-01)
 
 ---
 *Requirements defined: 2026-03-28*
-*Last updated: 2026-03-28 after initial definition*
+*Last updated: 2026-03-28 after roadmap creation*

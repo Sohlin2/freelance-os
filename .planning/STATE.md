@@ -4,12 +4,12 @@ milestone: v1.1
 milestone_name: Marketing & Monetization Launch
 status: active
 stopped_at: null
-last_updated: "2026-03-28T22:00:00.000Z"
+last_updated: "2026-03-28T23:00:00.000Z"
 last_activity: 2026-03-28
 progress:
-  total_phases: 0
+  total_phases: 6
   completed_phases: 0
-  total_plans: 0
+  total_plans: 8
   completed_plans: 0
   percent: 0
 ---
@@ -20,15 +20,26 @@ progress:
 
 See: .planning/PROJECT.md (updated 2026-03-28)
 
-**Core value:** A freelancer can manage their entire client lifecycle — from proposal to invoice — without leaving Claude Code.
-**Current focus:** Defining requirements for v1.1
+**Core value:** A freelancer can manage their entire client lifecycle -- from proposal to invoice -- without leaving Claude Code.
+**Current focus:** Phase 8 - npm Distribution
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-03-28 — Milestone v1.1 started
+Phase: 8 of 13 (npm Distribution) -- first phase of v1.1
+Plan: 0 of 2 in current phase
+Status: Ready to plan
+Last activity: 2026-03-28 -- Roadmap created for v1.1
+
+Progress: [░░░░░░░░░░] 0%
+
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed: 20 (v1.0)
+- v1.1 plans completed: 0
+- Total v1.1 plans: 8
+
+**Note:** 3 requirements pre-completed (CONV-02, CONV-03, MNTR-01). Effective new work: 15 requirements across 6 phases.
 
 ## Accumulated Context
 
@@ -39,23 +50,19 @@ Full decision log in PROJECT.md Key Decisions table. v1.0 decisions archived wit
 - Stripe billing fully configured (products, prices, webhook, portal)
 - MCP server deployed to Railway (freelance-os-production.up.railway.app)
 - API key delivery via Supabase Edge Function (one-time retrieval page)
-- Landing page served from Express root route
+- Landing page served from Express root route (basic version exists)
+- CONV-02, CONV-03, MNTR-01 already implemented -- marked pre-completed in roadmap
 
 ### Pending Todos
 
 None.
 
-### Roadmap Evolution
-
-- v1.0 MVP shipped 2026-03-28 (7 phases, 20 plans)
-- v1.1 Marketing & Monetization Launch started 2026-03-28
-
 ### Blockers/Concerns
 
-None — billing and deployment infrastructure complete.
+None -- billing and deployment infrastructure complete.
 
 ## Session Continuity
 
 Last session: 2026-03-28
-Stopped at: Defining v1.1 requirements
+Stopped at: Roadmap created for v1.1 milestone
 Resume file: None
