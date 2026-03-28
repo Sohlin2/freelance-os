@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: MCP Server Core** - Streamable HTTP MCP server with auth middleware and proven client/project CRUD tools
 - [x] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups (completed 2026-03-28)
 - [ ] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical
-- [ ] **Phase 5: Plugin Packaging** - npm-installable Claude Code plugin with manifest, API key config, and publish pipeline
+- [x] **Phase 5: Plugin Packaging** - npm-installable Claude Code plugin with manifest, API key config, and publish pipeline (completed 2026-03-28)
 
 ## Phase Details
 
@@ -98,11 +98,11 @@ Plans:
   2. The API key is stored in the system keychain (not in plaintext config) and passed as a Bearer token to the MCP server on every request
   3. `npm pack` produces a tarball with no service role keys, no hardcoded secrets, and all required plugin manifest fields
   4. An installed plugin connects to the FreelanceOS MCP server and can execute a full end-to-end action (e.g., create a client) from a fresh Claude Code session
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 05-01-PLAN.md — Plugin manifest, MCP config, build script, package.json publishing setup (INFRA-04, INFRA-05)
-- [ ] 05-02-PLAN.md — Plugin packaging tests and npm-focused README (INFRA-04, INFRA-05)
+- [x] 05-02-PLAN.md — Plugin packaging tests and npm-focused README (INFRA-04, INFRA-05)
 
 ## Progress
 
@@ -115,4 +115,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. MCP Server Core | 2/3 | In Progress|  |
 | 3. Full Tool Suite | 5/5 | Complete   | 2026-03-28 |
 | 4. Skill Pack | 1/3 | In Progress|  |
-| 5. Plugin Packaging | 0/2 | Not started | - |
+| 5. Plugin Packaging | 2/2 | Complete   | 2026-03-28 |
