@@ -1,0 +1,13 @@
+src/
+supabase/
+tests/
+scripts/
+.claude/
+.planning/
+.env
+.env.*
+tsconfig*.json
+vitest.config.ts
+node_modules/
+*.ts
+!*.d.ts

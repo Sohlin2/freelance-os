@@ -1,0 +1,20 @@
+{
+  "name": "freelance-os",
+  "version": "0.1.0",
+  "description": "Freelance business manager for Claude Code — proposals, invoices, follow-ups, scope, and time tracking",
+  "author": {
+    "name": "FreelanceOS",
+    "url": "https://freelanceos.dev"
+  },
+  "homepage": "https://freelanceos.dev",
+  "repository": "https://github.com/freelance-os/freelance-os",
+  "license": "MIT",
+  "keywords": ["freelance", "crm", "proposals", "invoices", "mcp", "scope", "time-tracking"],
+  "skills": "./skills/",
+  "userConfig": {
+    "FREELANCEOS_API_KEY": {
+      "description": "Your FreelanceOS API key — get one at freelanceos.dev/dashboard",
+      "sensitive": true
+    }
+  }
+}
