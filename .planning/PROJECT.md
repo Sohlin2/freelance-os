@@ -13,6 +13,7 @@ A freelancer can manage their entire client lifecycle — from proposal to invoi
 ### Validated
 
 - [x] Supabase schema with all 9 domain tables, RLS policies, enum types, helper functions — Validated in Phase 01: Data Foundation
+- [x] Smart prompt skill pack gives Claude freelance domain knowledge (proposal best practices, invoice formatting, follow-up timing) — Validated in Phase 04: Skill Pack
 
 ### Active
 
@@ -24,7 +25,6 @@ A freelancer can manage their entire client lifecycle — from proposal to invoi
 - [ ] Follow-up drafting: write follow-up emails based on project status and client context
 - [ ] Scope management: track agreed scope vs requested changes, flag scope creep
 - [ ] Time tracking: log hours against project scope, surface overruns
-- [ ] Smart prompt skill pack gives Claude freelance domain knowledge (proposal best practices, invoice formatting, follow-up timing)
 - [ ] npm installable package with MCP server configuration
 
 ### Out of Scope
@@ -79,4 +79,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after Phase 03 completion — full tool suite with 37 MCP tools covering clients, projects, proposals, invoices, time tracking, scope management, and follow-ups*
+*Last updated: 2026-03-28 after Phase 04 completion — 5 SKILL.md files (proposals, follow-ups, scope, invoices, time) with token budget enforcement at 12,103/15,000 tokens*
