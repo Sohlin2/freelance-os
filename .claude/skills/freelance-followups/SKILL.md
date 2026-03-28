@@ -29,6 +29,7 @@ This skill activates when a freelancer is:
 
 Also useful:
 - `list_followups` — check follow-up history before drafting to avoid sending duplicate follow-ups on the same day
+- `get_followup` — retrieve a specific follow-up by ID. Use when referencing a previously created follow-up to check its content, type, or sent status before drafting a new one.
 
 ## Timing and tone matrix
 

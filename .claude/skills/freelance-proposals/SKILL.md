@@ -27,6 +27,12 @@ This skill activates when a freelancer is:
 6. After user confirms they have sent it: `update_proposal` with status "sent" and sent_at timestamp
 7. When client accepts: `accept_proposal` — marks the proposal accepted AND seeds the project scope from deliverables
 
+### Project lifecycle tools
+
+These tools operate on the project entity referenced by proposals:
+
+- `archive_project` — soft-delete a project when it is complete or cancelled. Use after final invoice is paid and all deliverables are accepted. Archiving is reversible (data is retained with an `archived_at` timestamp, not deleted). Always confirm with the freelancer before archiving — once archived, the project will not appear in default `list_projects` results.
+
 ## Coaching principles
 
 ### Pricing
