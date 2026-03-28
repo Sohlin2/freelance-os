@@ -24,17 +24,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Proposals
 
-- [x] **PROP-01**: User can draft a project proposal from client context and project details
+- [ ] **PROP-01**: User can draft a project proposal from client context and project details
 - [ ] **PROP-02**: Smart prompts coach on proposal quality (pricing, scope clarity, revision limits, payment terms)
-- [x] **PROP-03**: Accepted proposal auto-seeds the project scope record with agreed deliverables
-- [x] **PROP-04**: User can store and retrieve proposal history per client/project
+- [ ] **PROP-03**: Accepted proposal auto-seeds the project scope record with agreed deliverables
+- [ ] **PROP-04**: User can store and retrieve proposal history per client/project
 
 ### Invoices
 
-- [ ] **INV-01**: User can generate an invoice with line items, totals, and due date
-- [ ] **INV-02**: User can track invoice status (draft/sent/paid/overdue)
-- [ ] **INV-03**: Invoice auto-references the original proposal scope and agreed rate
-- [ ] **INV-04**: User can list invoices filtered by status, client, or date range
+- [x] **INV-01**: User can generate an invoice with line items, totals, and due date
+- [x] **INV-02**: User can track invoice status (draft/sent/paid/overdue)
+- [x] **INV-03**: Invoice auto-references the original proposal scope and agreed rate
+- [x] **INV-04**: User can list invoices filtered by status, client, or date range
 
 ### Time & Scope
 
@@ -108,14 +108,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CRM-02 | Phase 2 | Complete |
 | CRM-03 | Phase 2 | Complete |
 | CRM-04 | Phase 2 | Complete |
-| PROP-01 | Phase 3 | Complete |
+| PROP-01 | Phase 3 | Pending |
 | PROP-02 | Phase 4 | Pending |
-| PROP-03 | Phase 3 | Complete |
-| PROP-04 | Phase 3 | Complete |
-| INV-01 | Phase 3 | Pending |
-| INV-02 | Phase 3 | Pending |
-| INV-03 | Phase 3 | Pending |
-| INV-04 | Phase 3 | Pending |
+| PROP-03 | Phase 3 | Pending |
+| PROP-04 | Phase 3 | Pending |
+| INV-01 | Phase 3 | Complete |
+| INV-02 | Phase 3 | Complete |
+| INV-03 | Phase 3 | Complete |
+| INV-04 | Phase 3 | Complete |
 | TIME-01 | Phase 3 | Pending |
 | TIME-02 | Phase 3 | Pending |
 | SCOPE-01 | Phase 3 | Pending |

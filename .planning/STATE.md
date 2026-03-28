@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-full-tool-suite-01-PLAN.md
-last_updated: "2026-03-28T15:17:11.280Z"
+stopped_at: Completed 03-02-PLAN.md (invoice tools)
+last_updated: "2026-03-28T15:17:37.873Z"
 last_activity: 2026-03-28
 progress:
   total_phases: 5
@@ -57,7 +57,7 @@ Progress: [███░░░░░░░] 33%
 | Phase 01-data-foundation P03 | 4 | 2 tasks | 7 files |
 | Phase 02-mcp-server-core P02 | 185s | 2 tasks | 5 files |
 | Phase 02-mcp-server-core P03 | 360s | 2 tasks | 4 files |
-| Phase 03-full-tool-suite P01 | 182 | 2 tasks | 2 files |
+| Phase 03-full-tool-suite P02 | 199s | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -80,8 +80,8 @@ Recent decisions affecting current work:
 - [Phase 02-mcp-server-core]: Installed @types/node and @types/express to fix pre-existing TypeScript compilation errors (Rule 3 deviation in Plan 02)
 - [Phase 02-mcp-server-core]: registerProjectTools follows same pattern as registerClientTools — consistent tool registration across all domain entities
 - [Phase 02-mcp-server-core]: list_projects uses conditional query chain for optional filters (status, client_id, name search) — all queries exclude archived_at IS NULL
-- [Phase 03-full-tool-suite]: accept_proposal performs 3 sequential DB ops in single withUserContext callback; partial success pattern if scope upsert fails after proposal update
-- [Phase 03-full-tool-suite]: Proposal enum values sourced from database.ts Constants: 'declined' (not 'rejected'), 'expired' included
+- [Phase 03-full-tool-suite]: line_items uses z.array(z.object(...)) schema matching Supabase Json type - no extra serialization, stored directly as JSONB
+- [Phase 03-full-tool-suite]: list_invoices conditional filter chain appends each filter only when argument provided (same pattern as list_projects)
 
 ### Pending Todos
 
@@ -94,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T15:17:11.274Z
-Stopped at: Completed 03-full-tool-suite-01-PLAN.md
+Last session: 2026-03-28T15:17:37.867Z
+Stopped at: Completed 03-02-PLAN.md (invoice tools)
 Resume file: None
