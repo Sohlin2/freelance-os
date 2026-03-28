@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical (completed 2026-03-28)
 - [x] **Phase 5: Plugin Packaging** - npm-installable Claude Code plugin with manifest, API key config, and publish pipeline (completed 2026-03-28)
 - [x] **Phase 6: Critical Integration Fixes** - Fix RLS context scope and missing runtime dependencies identified by milestone audit (completed 2026-03-28)
-- [ ] **Phase 7: Tech Debt Cleanup** - Address all 11 tech debt items from milestone audit before milestone completion
+- [x] **Phase 7: Tech Debt Cleanup** - Address all 11 tech debt items from milestone audit before milestone completion (completed 2026-03-28)
 
 ## Phase Details
 
@@ -133,15 +133,15 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 4. Skill Pack | 3/3 | Complete   | 2026-03-28 |
 | 5. Plugin Packaging | 2/2 | Complete   | 2026-03-28 |
 | 6. Critical Integration Fixes | 1/1 | Complete   | 2026-03-28 |
-| 7. Tech Debt Cleanup | 0/3 | Planning   | — |
+| 7. Tech Debt Cleanup | 3/3 | Complete   | 2026-03-28 |
 
 ### Phase 7: Tech Debt Cleanup
 **Goal**: Address all 11 tech debt items from the v1.0 milestone audit — fix SUMMARY frontmatter gaps, add skill coaching for orphaned tools, add accept_proposal rollback on scope upsert failure, fix .mcp.json URL, and fill Nyquist validation gaps
 **Depends on**: Phase 6
 **Requirements**: None (debt cleanup, no new requirements)
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 07-01-PLAN.md — SUMMARY frontmatter fixes + plugin config corrections (.mcp.json URL, plugin.json skills format)
 - [x] 07-02-PLAN.md — Skill coaching for orphaned tools (get_followup, archive_project) + accept_proposal rollback
-- [ ] 07-03-PLAN.md — Nyquist VALIDATION.md updates for phases 1, 3, 4, 5, 6
+- [x] 07-03-PLAN.md — Nyquist VALIDATION.md updates for phases 1, 3, 4, 5, 6
