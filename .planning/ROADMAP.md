@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups (completed 2026-03-28)
 - [x] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical (completed 2026-03-28)
 - [x] **Phase 5: Plugin Packaging** - npm-installable Claude Code plugin with manifest, API key config, and publish pipeline (completed 2026-03-28)
-- [ ] **Phase 6: Critical Integration Fixes** - Fix RLS context scope and missing runtime dependencies identified by milestone audit
+- [x] **Phase 6: Critical Integration Fixes** - Fix RLS context scope and missing runtime dependencies identified by milestone audit (completed 2026-03-28)
 
 ## Phase Details
 
@@ -114,10 +114,10 @@ Plans:
   1. `set_app_user_id` RPC sets session-scoped config (`false`) so subsequent PostgREST queries see the user context and RLS returns correct data
   2. `npm install` installs `express` and `zod` as runtime dependencies — `node src/server.ts` starts without module-not-found errors
   3. A full data query flow (set user context → query table → receive RLS-filtered results) returns non-empty results for a valid user
-**Plans:** 0/1 plans complete
+**Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 06-01-PLAN.md — Fix RLS scope, move runtime deps, reconcile documentation
+- [x] 06-01-PLAN.md — Fix RLS scope, move runtime deps, reconcile documentation
 
 ## Progress
 
@@ -131,4 +131,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 3. Full Tool Suite | 5/5 | Complete   | 2026-03-28 |
 | 4. Skill Pack | 3/3 | Complete   | 2026-03-28 |
 | 5. Plugin Packaging | 2/2 | Complete   | 2026-03-28 |
-| 6. Critical Integration Fixes | 0/1 | Pending | |
+| 6. Critical Integration Fixes | 1/1 | Complete   | 2026-03-28 |
