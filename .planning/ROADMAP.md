@@ -13,10 +13,11 @@ FreelanceOS builds from the ground up along a strict dependency chain: the Supab
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Data Foundation** - Supabase schema, RLS policies, and API key gating (the security baseline everything else depends on) (completed 2026-03-28)
-- [ ] **Phase 2: MCP Server Core** - Streamable HTTP MCP server with auth middleware and proven client/project CRUD tools
+- [x] **Phase 2: MCP Server Core** - Streamable HTTP MCP server with auth middleware and proven client/project CRUD tools (completed 2026-03-28)
 - [x] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups (completed 2026-03-28)
-- [ ] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical
+- [x] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical (completed 2026-03-28)
 - [x] **Phase 5: Plugin Packaging** - npm-installable Claude Code plugin with manifest, API key config, and publish pipeline (completed 2026-03-28)
+- [ ] **Phase 6: Critical Integration Fixes** - Fix RLS context scope and missing runtime dependencies identified by milestone audit
 
 ## Phase Details
 
@@ -46,12 +47,12 @@ Plans:
   3. User can ask Claude to show a client's project history and communication log and receive accurate data
   4. User can search or filter clients and projects by name, status, or date and get correctly filtered results
   5. A request with a missing or invalid API key is rejected by the server before any tool handler runs
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 02-01-PLAN.md — Server foundation: deps, migration, vitest config, Express entry point, auth middleware, Supabase helpers
 - [x] 02-02-PLAN.md — Client tools: create, get, list, update, archive with tests (CRM-01, CRM-03, CRM-04)
-- [ ] 02-03-PLAN.md — Project tools: create, get, list, update, archive with tests (CRM-02, CRM-04)
+- [x] 02-03-PLAN.md — Project tools: create, get, list, update, archive with tests (CRM-02, CRM-04)
 
 ### Phase 3: Full Tool Suite
 **Goal**: All remaining freelance domain entities — proposals, invoices, time entries, scope definitions, scope changes, and follow-ups — have working MCP tools backed by domain logic
@@ -82,12 +83,12 @@ Plans:
   2. When drafting a follow-up, Claude advises on timing and tone appropriate to the context (late invoice vs. check-in vs. awaiting proposal response) without being asked
   3. Skills are invoked automatically by describing a need — user does not type skill names or commands
   4. Total tool manifest stays under 15,000 tokens, verified by inspection
-**Plans:** 1/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 04-01-PLAN.md — Token counting enforcement script and vitest budget test (SKLL-03)
-- [ ] 04-02-PLAN.md — High-priority skills: proposals, follow-ups, scope (PROP-02, FLLW-02, SKLL-01, SKLL-02)
-- [ ] 04-03-PLAN.md — Lower-priority skills: invoices, time-tracking (SKLL-01, SKLL-02, SKLL-03)
+- [x] 04-02-PLAN.md — High-priority skills: proposals, follow-ups, scope (PROP-02, FLLW-02, SKLL-01, SKLL-02)
+- [x] 04-03-PLAN.md — Lower-priority skills: invoices, time-tracking (SKLL-01, SKLL-02, SKLL-03)
 
 ### Phase 5: Plugin Packaging
 **Goal**: FreelanceOS is installable as a Claude Code plugin via npm, the API key is collected at install time and stored securely, and the package is ready to publish
@@ -104,6 +105,20 @@ Plans:
 - [x] 05-01-PLAN.md — Plugin manifest, MCP config, build script, package.json publishing setup (INFRA-04, INFRA-05)
 - [x] 05-02-PLAN.md — Plugin packaging tests and npm-focused README (INFRA-04, INFRA-05)
 
+### Phase 6: Critical Integration Fixes
+**Goal**: Fix the two critical cross-phase integration breaks found by milestone audit — RLS context scope mismatch and missing runtime dependencies — so the system works end-to-end at runtime
+**Depends on**: Phase 5
+**Requirements**: INFRA-01, INFRA-03
+**Gap Closure:** Closes gaps BROKEN-02, MISSING-01, MISSING-02, BROKEN-FLOW-01, BROKEN-FLOW-02 from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. `set_app_user_id` RPC sets session-scoped config (`false`) so subsequent PostgREST queries see the user context and RLS returns correct data
+  2. `npm install` installs `express` and `zod` as runtime dependencies — `node src/server.ts` starts without module-not-found errors
+  3. A full data query flow (set user context → query table → receive RLS-filtered results) returns non-empty results for a valid user
+**Plans:** 0/1 plans complete
+
+Plans:
+- [ ] 06-01-PLAN.md — Fix RLS scope, move runtime deps, reconcile documentation
+
 ## Progress
 
 **Execution Order:**
@@ -112,7 +127,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Foundation | 3/3 | Complete   | 2026-03-28 |
-| 2. MCP Server Core | 2/3 | In Progress|  |
+| 2. MCP Server Core | 3/3 | Complete   | 2026-03-28 |
 | 3. Full Tool Suite | 5/5 | Complete   | 2026-03-28 |
-| 4. Skill Pack | 1/3 | In Progress|  |
+| 4. Skill Pack | 3/3 | Complete   | 2026-03-28 |
 | 5. Plugin Packaging | 2/2 | Complete   | 2026-03-28 |
+| 6. Critical Integration Fixes | 0/1 | Pending | |
