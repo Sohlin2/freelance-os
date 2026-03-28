@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-03-28T10:53:12.618Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-03-28T11:00:41.387Z"
 last_activity: 2026-03-28
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
   percent: 33
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-28)
 ## Current Position
 
 Phase: 01 (data-foundation) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-03-28
 
@@ -54,6 +54,7 @@ Progress: [███░░░░░░░] 33%
 *Updated after each plan completion*
 | Phase 01 P01 | 3 | 2 tasks | 8 files |
 | Phase 01-data-foundation P02 | 2 | 2 tasks | 5 files |
+| Phase 01-data-foundation P03 | 4 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,8 @@ Recent decisions affecting current work:
 - [Phase 01-02]: validate_api_key() declared SECURITY DEFINER so MCP server can call it before setting app.current_user_id session variable
 - [Phase 01-02]: scope_definitions unique(project_id) enforces one-scope-per-project at database level
 - [Phase 01-02]: follow_ups.project_id nullable with ON DELETE SET NULL preserves follow-up history if project deleted
+- [Phase 01-data-foundation]: TypeScript types hand-crafted from migrations (not supabase gen types --local) due to Docker unavailability; must regenerate after Docker setup
+- [Phase 01-data-foundation]: src/types/database.ts removed from .gitignore to track reference version alongside migrations
 
 ### Pending Todos
 
@@ -83,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T10:53:12.615Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-03-28T11:00:41.385Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None

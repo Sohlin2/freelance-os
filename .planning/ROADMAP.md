@@ -12,7 +12,7 @@ FreelanceOS builds from the ground up along a strict dependency chain: the Supab
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Data Foundation** - Supabase schema, RLS policies, and API key gating (the security baseline everything else depends on)
+- [x] **Phase 1: Data Foundation** - Supabase schema, RLS policies, and API key gating (the security baseline everything else depends on) (completed 2026-03-28)
 - [ ] **Phase 2: MCP Server Core** - Streamable HTTP MCP server with auth middleware and proven client/project CRUD tools
 - [ ] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups
 - [ ] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical
@@ -29,12 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. RLS policies are enabled on every table such that User A's data is never returned by queries authenticated as User B
   3. A valid API key successfully authenticates against the api_keys table; an invalid or missing key is rejected with a 401
   4. Supabase TypeScript types are generated from the schema and importable in server code
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Project init, Supabase CLI setup, foundational migrations (extensions, enums, helper function)
 - [x] 01-02-PLAN.md — All 9 domain table migrations with RLS policies and moddatetime triggers
-- [ ] 01-03-PLAN.md — Seed data, pgTAP tests (schema, API key, RLS isolation), TypeScript type generation
+- [x] 01-03-PLAN.md — Seed data, pgTAP tests (schema, API key, RLS isolation), TypeScript type generation
 
 ### Phase 2: MCP Server Core
 **Goal**: A running Node.js MCP server using Streamable HTTP transport authenticates via Bearer token and exposes working client and project CRUD tools — proving the full stack before all entities are built
@@ -91,7 +91,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Foundation | 2/3 | In Progress|  |
+| 1. Data Foundation | 3/3 | Complete   | 2026-03-28 |
 | 2. MCP Server Core | 0/TBD | Not started | - |
 | 3. Full Tool Suite | 0/TBD | Not started | - |
 | 4. Skill Pack | 0/TBD | Not started | - |
