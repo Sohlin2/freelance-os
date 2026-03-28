@@ -69,8 +69,8 @@ Plans:
 Plans:
 - [ ] 03-01-PLAN.md — Proposal tools: create, get, list, update, accept_proposal with scope seeding (PROP-01, PROP-03, PROP-04)
 - [ ] 03-02-PLAN.md — Invoice tools: create, get, list, update with JSONB line items and status tracking (INV-01, INV-02, INV-03, INV-04)
-- [x] 03-03-PLAN.md — Time entry tools: create, get, list, update, archive, aggregate_time (TIME-01, TIME-02)
-- [ ] 03-04-PLAN.md — Scope tools: create, get, update, log_scope_change, list_scope_changes, check_scope (SCOPE-01, SCOPE-02, SCOPE-03, SCOPE-04)
+- [ ] 03-03-PLAN.md — Time entry tools: create, get, list, update, archive, aggregate_time (TIME-01, TIME-02)
+- [x] 03-04-PLAN.md — Scope tools: create, get, update, log_scope_change, list_scope_changes, check_scope (SCOPE-01, SCOPE-02, SCOPE-03, SCOPE-04)
 - [ ] 03-05-PLAN.md — Follow-up tools: create, get, list, update, mark_sent, get_context + server wiring (FLLW-01, FLLW-03)
 
 ### Phase 4: Skill Pack

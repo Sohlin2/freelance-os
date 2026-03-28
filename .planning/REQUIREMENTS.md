@@ -38,12 +38,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Time & Scope
 
-- [x] **TIME-01**: User can log time entries against a project with description and duration
-- [x] **TIME-02**: User can view aggregated time per project for invoicing
-- [ ] **SCOPE-01**: User can define agreed project scope (deliverables, boundaries) at project start
-- [ ] **SCOPE-02**: User can log scope change requests with classification (in-scope/out-of-scope)
-- [ ] **SCOPE-03**: AI detects when a new request falls outside agreed scope and flags it as potential scope creep
-- [ ] **SCOPE-04**: User can view scope change history and creep alerts per project
+- [ ] **TIME-01**: User can log time entries against a project with description and duration
+- [ ] **TIME-02**: User can view aggregated time per project for invoicing
+- [x] **SCOPE-01**: User can define agreed project scope (deliverables, boundaries) at project start
+- [x] **SCOPE-02**: User can log scope change requests with classification (in-scope/out-of-scope)
+- [x] **SCOPE-03**: AI detects when a new request falls outside agreed scope and flags it as potential scope creep
+- [x] **SCOPE-04**: User can view scope change history and creep alerts per project
 
 ### Follow-ups
 
@@ -116,12 +116,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INV-02 | Phase 3 | Pending |
 | INV-03 | Phase 3 | Pending |
 | INV-04 | Phase 3 | Pending |
-| TIME-01 | Phase 3 | Complete |
-| TIME-02 | Phase 3 | Complete |
-| SCOPE-01 | Phase 3 | Pending |
-| SCOPE-02 | Phase 3 | Pending |
-| SCOPE-03 | Phase 3 | Pending |
-| SCOPE-04 | Phase 3 | Pending |
+| TIME-01 | Phase 3 | Pending |
+| TIME-02 | Phase 3 | Pending |
+| SCOPE-01 | Phase 3 | Complete |
+| SCOPE-02 | Phase 3 | Complete |
+| SCOPE-03 | Phase 3 | Complete |
+| SCOPE-04 | Phase 3 | Complete |
 | FLLW-01 | Phase 3 | Pending |
 | FLLW-02 | Phase 4 | Pending |
 | FLLW-03 | Phase 3 | Pending |
