@@ -46,10 +46,10 @@ Plans:
   3. User can ask Claude to show a client's project history and communication log and receive accurate data
   4. User can search or filter clients and projects by name, status, or date and get correctly filtered results
   5. A request with a missing or invalid API key is rejected by the server before any tool handler runs
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — Server foundation: deps, migration, vitest config, Express entry point, auth middleware, Supabase helpers
+- [x] 02-01-PLAN.md — Server foundation: deps, migration, vitest config, Express entry point, auth middleware, Supabase helpers
 - [ ] 02-02-PLAN.md — Client tools: create, get, list, update, archive with tests (CRM-01, CRM-03, CRM-04)
 - [ ] 02-03-PLAN.md — Project tools: create, get, list, update, archive with tests (CRM-02, CRM-04)
 
@@ -97,7 +97,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Foundation | 3/3 | Complete   | 2026-03-28 |
-| 2. MCP Server Core | 0/3 | Planning complete | - |
+| 2. MCP Server Core | 1/3 | In Progress|  |
 | 3. Full Tool Suite | 0/TBD | Not started | - |
 | 4. Skill Pack | 0/TBD | Not started | - |
 | 5. Plugin Packaging | 0/TBD | Not started | - |
