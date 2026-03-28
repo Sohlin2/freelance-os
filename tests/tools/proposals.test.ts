@@ -502,4 +502,74 @@ describe('accept_proposal', () => {
     expect(upsertOptions).not.toBeNull();
     expect(upsertOptions!['onConflict']).toBe('project_id');
   });
+
+  it('rolls back proposal status if scope upsert fails', async () => {
+    const acceptedProposal = { ...baseProposal, status: 'accepted', responded_at: '2026-01-02T00:00:00Z' };
+    let callCount = 0;
+    let rollbackUpdate: Record<string, unknown> | null = null;
+
+    mockWithUserContext.mockImplementation(async (_userId, fn) => {
+      return fn({
+        from: (table: string) => {
+          if (table === 'proposals' && callCount === 0) {
+            // Step 1: fetch proposal — returns draft status
+            callCount++;
+            return {
+              select: () => ({
+                eq: () => ({
+                  is: () => ({
+                    single: async () => ({ data: baseProposal, error: null }),
+                  }),
+                }),
+              }),
+            };
+          } else if (table === 'proposals' && callCount === 1) {
+            // Step 2: update status to accepted
+            callCount++;
+            return {
+              update: () => ({
+                eq: () => ({
+                  select: () => ({
+                    single: async () => ({ data: acceptedProposal, error: null }),
+                  }),
+                }),
+              }),
+            };
+          } else if (table === 'scope_definitions') {
+            // Step 3: scope upsert fails
+            return {
+              upsert: () => ({
+                select: () => ({
+                  single: async () => ({ data: null, error: { message: 'scope insert failed' } }),
+                }),
+              }),
+            };
+          } else {
+            // Step 4: rollback update (proposals table, callCount >= 2)
+            return {
+              update: (fields: Record<string, unknown>) => {
+                rollbackUpdate = fields;
+                return {
+                  eq: () => Promise.resolve({ data: null, error: null }),
+                };
+              },
+            };
+          }
+        },
+      } as never);
+    });
+
+    const result = await handlers['accept_proposal']({ proposal_id: baseProposal.id }) as {
+      isError: boolean;
+      content: Array<{ type: string; text: string }>;
+    };
+
+    // Assert rollback occurred
+    expect(result.isError).toBe(true);
+    expect(result.content[0].text).toContain('rolled back');
+    // Assert rollback restores original status and clears responded_at
+    expect(rollbackUpdate).not.toBeNull();
+    expect(rollbackUpdate!['status']).toBe('draft');
+    expect(rollbackUpdate!['responded_at']).toBeNull();
+  });
 });
