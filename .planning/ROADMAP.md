@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Data Foundation** - Supabase schema, RLS policies, and API key gating (the security baseline everything else depends on) (completed 2026-03-28)
 - [ ] **Phase 2: MCP Server Core** - Streamable HTTP MCP server with auth middleware and proven client/project CRUD tools
-- [x] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups (completed 2026-03-28)
+- [x] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups (completed 2026-03-28)
 - [ ] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical
 - [ ] **Phase 5: Plugin Packaging** - npm-installable Claude Code plugin with manifest, API key config, and publish pipeline
 
@@ -82,7 +82,12 @@ Plans:
   2. When drafting a follow-up, Claude advises on timing and tone appropriate to the context (late invoice vs. check-in vs. awaiting proposal response) without being asked
   3. Skills are invoked automatically by describing a need — user does not type skill names or commands
   4. Total tool manifest stays under 15,000 tokens, verified by inspection
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Token counting enforcement script and vitest budget test (SKLL-03)
+- [ ] 04-02-PLAN.md — High-priority skills: proposals, follow-ups, scope (PROP-02, FLLW-02, SKLL-01, SKLL-02)
+- [ ] 04-03-PLAN.md — Lower-priority skills: invoices, time-tracking (SKLL-01, SKLL-02, SKLL-03)
 
 ### Phase 5: Plugin Packaging
 **Goal**: FreelanceOS is installable as a Claude Code plugin via npm, the API key is collected at install time and stored securely, and the package is ready to publish
@@ -105,5 +110,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Data Foundation | 3/3 | Complete   | 2026-03-28 |
 | 2. MCP Server Core | 2/3 | In Progress|  |
 | 3. Full Tool Suite | 5/5 | Complete   | 2026-03-28 |
-| 4. Skill Pack | 0/TBD | Not started | - |
+| 4. Skill Pack | 0/3 | Not started | - |
 | 5. Plugin Packaging | 0/TBD | Not started | - |
