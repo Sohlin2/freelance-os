@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-28T12:13:34.895Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-03-28T12:20:31.295Z"
 last_activity: 2026-03-28
 progress:
   total_phases: 5
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-28)
 ## Current Position
 
 Phase: 02 (mcp-server-core) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-03-28
 
@@ -56,6 +56,7 @@ Progress: [███░░░░░░░] 33%
 | Phase 01-data-foundation P02 | 2 | 2 tasks | 5 files |
 | Phase 01-data-foundation P03 | 4 | 2 tasks | 7 files |
 | Phase 02-mcp-server-core P02 | 185s | 2 tasks | 5 files |
+| Phase 02-mcp-server-core P03 | 360s | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,8 @@ Recent decisions affecting current work:
 - [Phase 01-data-foundation]: TypeScript types hand-crafted from migrations (not supabase gen types --local) due to Docker unavailability; must regenerate after Docker setup
 - [Phase 01-data-foundation]: src/types/database.ts removed from .gitignore to track reference version alongside migrations
 - [Phase 02-mcp-server-core]: Installed @types/node and @types/express to fix pre-existing TypeScript compilation errors (Rule 3 deviation in Plan 02)
+- [Phase 02-mcp-server-core]: registerProjectTools follows same pattern as registerClientTools — consistent tool registration across all domain entities
+- [Phase 02-mcp-server-core]: list_projects uses conditional query chain for optional filters (status, client_id, name search) — all queries exclude archived_at IS NULL
 
 ### Pending Todos
 
@@ -88,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T12:13:34.892Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-28T12:20:31.292Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
