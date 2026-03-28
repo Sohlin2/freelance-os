@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-skill-pack-01-PLAN.md
-last_updated: "2026-03-28T16:19:31.943Z"
+stopped_at: Completed 04-skill-pack-02-PLAN.md
+last_updated: "2026-03-28T16:29:33.490Z"
 last_activity: 2026-03-28
 progress:
   total_phases: 5
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-28)
 ## Current Position
 
 Phase: 04 (skill-pack) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-03-28
 
@@ -60,6 +60,7 @@ Progress: [███░░░░░░░] 33%
 | Phase 03-full-tool-suite P04 | 232 | 2 tasks | 2 files |
 | Phase 03-full-tool-suite P05 | 238 | 3 tasks | 3 files |
 | Phase 04-skill-pack P01 | 256 | 2 tasks | 3 files |
+| Phase 04-skill-pack P02 | 312 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,8 @@ Recent decisions affecting current work:
 - [Phase 03-full-tool-suite]: mark_followup_sent uses sent_at IS NOT NULL pattern (no status enum) — consistent with schema design from Phase 01
 - [Phase 03-full-tool-suite]: get_followup_context uses Promise.all for three parallel Supabase queries inside one withUserContext to avoid sequential latency
 - [Phase 04-skill-pack]: Token counting uses Math.ceil(chars/4) conservative approximation; bracket-depth parser extracts registerTool config blocks; tsconfig.scripts.json added for scripts/ dir TypeScript compilation
+- [Phase 04-skill-pack]: Conditional coaching pattern: each skill includes 'just save it' clause to avoid over-coaching when user wants immediate persistence
+- [Phase 04-skill-pack]: accept_proposal scope seeding documented in both proposals and scope skills to ensure cross-entity workflow visibility
 
 ### Pending Todos
 
@@ -99,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T16:19:31.936Z
-Stopped at: Completed 04-skill-pack-01-PLAN.md
+Last session: 2026-03-28T16:29:33.485Z
+Stopped at: Completed 04-skill-pack-02-PLAN.md
 Resume file: None

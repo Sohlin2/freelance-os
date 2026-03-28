@@ -25,7 +25,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Proposals
 
 - [ ] **PROP-01**: User can draft a project proposal from client context and project details
-- [ ] **PROP-02**: Smart prompts coach on proposal quality (pricing, scope clarity, revision limits, payment terms)
+- [x] **PROP-02**: Smart prompts coach on proposal quality (pricing, scope clarity, revision limits, payment terms)
 - [ ] **PROP-03**: Accepted proposal auto-seeds the project scope record with agreed deliverables
 - [ ] **PROP-04**: User can store and retrieve proposal history per client/project
 
@@ -48,13 +48,13 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Follow-ups
 
 - [x] **FLLW-01**: User can draft follow-up emails referencing real data (project name, invoice amount, days overdue)
-- [ ] **FLLW-02**: Smart prompts advise on follow-up timing and tone based on context (late invoice vs check-in vs awaiting response)
+- [x] **FLLW-02**: Smart prompts advise on follow-up timing and tone based on context (late invoice vs check-in vs awaiting response)
 - [x] **FLLW-03**: User can view follow-up history per client
 
 ### Skill Pack
 
-- [ ] **SKLL-01**: Skill pack provides freelance domain knowledge via SKILL.md files for proposals, invoices, scope, and follow-ups
-- [ ] **SKLL-02**: Skills are chat-invocable — user describes what they need, Claude applies domain knowledge automatically
+- [x] **SKLL-01**: Skill pack provides freelance domain knowledge via SKILL.md files for proposals, invoices, scope, and follow-ups
+- [x] **SKLL-02**: Skills are chat-invocable — user describes what they need, Claude applies domain knowledge automatically
 - [x] **SKLL-03**: Total tool manifest stays under 15,000 tokens to preserve reasoning quality
 
 ## v2 Requirements
@@ -109,7 +109,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CRM-03 | Phase 2 | Complete |
 | CRM-04 | Phase 2 | Complete |
 | PROP-01 | Phase 3 | Pending |
-| PROP-02 | Phase 4 | Pending |
+| PROP-02 | Phase 4 | Complete |
 | PROP-03 | Phase 3 | Pending |
 | PROP-04 | Phase 3 | Pending |
 | INV-01 | Phase 3 | Pending |
@@ -123,10 +123,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SCOPE-03 | Phase 3 | Complete |
 | SCOPE-04 | Phase 3 | Complete |
 | FLLW-01 | Phase 3 | Complete |
-| FLLW-02 | Phase 4 | Pending |
+| FLLW-02 | Phase 4 | Complete |
 | FLLW-03 | Phase 3 | Complete |
-| SKLL-01 | Phase 4 | Pending |
-| SKLL-02 | Phase 4 | Pending |
+| SKLL-01 | Phase 4 | Complete |
+| SKLL-02 | Phase 4 | Complete |
 | SKLL-03 | Phase 4 | Complete |
 
 **Coverage:**
