@@ -1,9 +1,24 @@
 {
   "name": "freelance-os",
   "version": "0.1.0",
-  "private": true,
+  "description": "Freelance business manager for Claude Code — proposals, invoices, follow-ups, scope, and time tracking",
   "type": "module",
+  "license": "MIT",
+  "author": "FreelanceOS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freelance-os/freelance-os"
+  },
+  "keywords": ["freelance", "crm", "proposals", "invoices", "mcp", "claude-code", "plugin"],
+  "files": [
+    ".claude-plugin/",
+    "skills/",
+    ".mcp.json",
+    "README.md"
+  ],
   "scripts": {
+    "build": "node scripts/build-plugin.js",
+    "prepublishOnly": "npm run build",
     "db:reset": "npx supabase db reset",
     "db:push": "npx supabase db push",
     "db:types": "npx supabase gen types typescript --local > src/types/database.ts",
