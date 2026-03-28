@@ -12,7 +12,7 @@ FreelanceOS builds from the ground up along a strict dependency chain: the Supab
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Data Foundation** - Supabase schema, RLS policies, and API key gating (the security baseline everything else depends on) (completed 2026-03-28)
+- [x] **Phase 1: Data Foundation** - Supabase schema, RLS policies, and API key gating (the security baseline everything else depends on) (completed 2026-03-28)
 - [ ] **Phase 2: MCP Server Core** - Streamable HTTP MCP server with auth middleware and proven client/project CRUD tools
 - [ ] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups
 - [ ] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical
@@ -46,7 +46,12 @@ Plans:
   3. User can ask Claude to show a client's project history and communication log and receive accurate data
   4. User can search or filter clients and projects by name, status, or date and get correctly filtered results
   5. A request with a missing or invalid API key is rejected by the server before any tool handler runs
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Server foundation: deps, migration, vitest config, Express entry point, auth middleware, Supabase helpers
+- [ ] 02-02-PLAN.md — Client tools: create, get, list, update, archive with tests (CRM-01, CRM-03, CRM-04)
+- [ ] 02-03-PLAN.md — Project tools: create, get, list, update, archive with tests (CRM-02, CRM-04)
 
 ### Phase 3: Full Tool Suite
 **Goal**: All remaining freelance domain entities — proposals, invoices, time entries, scope definitions, scope changes, and follow-ups — have working MCP tools backed by domain logic
@@ -92,7 +97,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Foundation | 3/3 | Complete   | 2026-03-28 |
-| 2. MCP Server Core | 0/TBD | Not started | - |
+| 2. MCP Server Core | 0/3 | Planning complete | - |
 | 3. Full Tool Suite | 0/TBD | Not started | - |
 | 4. Skill Pack | 0/TBD | Not started | - |
 | 5. Plugin Packaging | 0/TBD | Not started | - |
