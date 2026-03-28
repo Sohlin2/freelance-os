@@ -47,9 +47,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Follow-ups
 
-- [ ] **FLLW-01**: User can draft follow-up emails referencing real data (project name, invoice amount, days overdue)
+- [x] **FLLW-01**: User can draft follow-up emails referencing real data (project name, invoice amount, days overdue)
 - [ ] **FLLW-02**: Smart prompts advise on follow-up timing and tone based on context (late invoice vs check-in vs awaiting response)
-- [ ] **FLLW-03**: User can view follow-up history per client
+- [x] **FLLW-03**: User can view follow-up history per client
 
 ### Skill Pack
 
@@ -122,9 +122,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SCOPE-02 | Phase 3 | Complete |
 | SCOPE-03 | Phase 3 | Complete |
 | SCOPE-04 | Phase 3 | Complete |
-| FLLW-01 | Phase 3 | Pending |
+| FLLW-01 | Phase 3 | Complete |
 | FLLW-02 | Phase 4 | Pending |
-| FLLW-03 | Phase 3 | Pending |
+| FLLW-03 | Phase 3 | Complete |
 | SKLL-01 | Phase 4 | Pending |
 | SKLL-02 | Phase 4 | Pending |
 | SKLL-03 | Phase 4 | Pending |

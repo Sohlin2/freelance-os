@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Data Foundation** - Supabase schema, RLS policies, and API key gating (the security baseline everything else depends on) (completed 2026-03-28)
 - [ ] **Phase 2: MCP Server Core** - Streamable HTTP MCP server with auth middleware and proven client/project CRUD tools
-- [ ] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups
+- [x] **Phase 3: Full Tool Suite** - All remaining domain entities: proposals, invoices, time, scope, and follow-ups (completed 2026-03-28)
 - [ ] **Phase 4: Skill Pack** - SKILL.md domain knowledge files that make Claude feel intelligent, not mechanical
 - [ ] **Phase 5: Plugin Packaging** - npm-installable Claude Code plugin with manifest, API key config, and publish pipeline
 
@@ -64,14 +64,14 @@ Plans:
   4. User can log time entries against a project and ask Claude to aggregate total time for invoicing purposes
   5. User can define project scope, log scope change requests with classification, view scope history, and have the system detect when a new request falls outside agreed scope
   6. User can ask Claude to draft a follow-up email referencing real data (project name, invoice amount, days overdue) and view follow-up history per client
-**Plans:** 1/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
-- [ ] 03-01-PLAN.md — Proposal tools: create, get, list, update, accept_proposal with scope seeding (PROP-01, PROP-03, PROP-04)
-- [ ] 03-02-PLAN.md — Invoice tools: create, get, list, update with JSONB line items and status tracking (INV-01, INV-02, INV-03, INV-04)
-- [ ] 03-03-PLAN.md — Time entry tools: create, get, list, update, archive, aggregate_time (TIME-01, TIME-02)
+- [x] 03-01-PLAN.md — Proposal tools: create, get, list, update, accept_proposal with scope seeding (PROP-01, PROP-03, PROP-04)
+- [x] 03-02-PLAN.md — Invoice tools: create, get, list, update with JSONB line items and status tracking (INV-01, INV-02, INV-03, INV-04)
+- [x] 03-03-PLAN.md — Time entry tools: create, get, list, update, archive, aggregate_time (TIME-01, TIME-02)
 - [x] 03-04-PLAN.md — Scope tools: create, get, update, log_scope_change, list_scope_changes, check_scope (SCOPE-01, SCOPE-02, SCOPE-03, SCOPE-04)
-- [ ] 03-05-PLAN.md — Follow-up tools: create, get, list, update, mark_sent, get_context + server wiring (FLLW-01, FLLW-03)
+- [x] 03-05-PLAN.md — Follow-up tools: create, get, list, update, mark_sent, get_context + server wiring (FLLW-01, FLLW-03)
 
 ### Phase 4: Skill Pack
 **Goal**: SKILL.md domain knowledge files are authored and activated so Claude gives expert-quality guidance on proposals, invoices, scope, and follow-ups — not just mechanical data operations
@@ -104,6 +104,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Data Foundation | 3/3 | Complete   | 2026-03-28 |
 | 2. MCP Server Core | 2/3 | In Progress|  |
-| 3. Full Tool Suite | 1/5 | In Progress|  |
+| 3. Full Tool Suite | 5/5 | Complete   | 2026-03-28 |
 | 4. Skill Pack | 0/TBD | Not started | - |
 | 5. Plugin Packaging | 0/TBD | Not started | - |

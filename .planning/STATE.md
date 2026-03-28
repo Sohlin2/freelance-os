@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-04-PLAN.md
-last_updated: "2026-03-28T15:18:37.534Z"
+stopped_at: Completed 03-05-PLAN.md
+last_updated: "2026-03-28T15:26:38.117Z"
 last_activity: 2026-03-28
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 11
-  completed_plans: 7
+  completed_plans: 11
   percent: 33
 ---
 
@@ -58,6 +58,7 @@ Progress: [███░░░░░░░] 33%
 | Phase 02-mcp-server-core P02 | 185s | 2 tasks | 5 files |
 | Phase 02-mcp-server-core P03 | 360s | 2 tasks | 4 files |
 | Phase 03-full-tool-suite P04 | 232 | 2 tasks | 2 files |
+| Phase 03-full-tool-suite P05 | 238 | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,8 @@ Recent decisions affecting current work:
 - [Phase 02-mcp-server-core]: list_projects uses conditional query chain for optional filters (status, client_id, name search) — all queries exclude archived_at IS NULL
 - [Phase 03-full-tool-suite]: check_scope uses maybeSingle() not single() for scope_definitions — no-rows is valid state not an error
 - [Phase 03-full-tool-suite]: check_scope uses Promise.all for parallel scope_definitions + scope_changes fetch inside one withUserContext
+- [Phase 03-full-tool-suite]: mark_followup_sent uses sent_at IS NOT NULL pattern (no status enum) — consistent with schema design from Phase 01
+- [Phase 03-full-tool-suite]: get_followup_context uses Promise.all for three parallel Supabase queries inside one withUserContext to avoid sequential latency
 
 ### Pending Todos
 
@@ -94,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T15:18:37.530Z
-Stopped at: Completed 03-04-PLAN.md
+Last session: 2026-03-28T15:26:38.114Z
+Stopped at: Completed 03-05-PLAN.md
 Resume file: None
