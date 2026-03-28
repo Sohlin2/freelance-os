@@ -1,0 +1,446 @@
+import * as z from 'zod/v4';
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { withUserContext } from '../lib/with-user-context.js';
+
+const FOLLOW_UP_TYPE_ENUM = [
+  'proposal_follow_up',
+  'invoice_overdue',
+  'check_in',
+  'awaiting_response',
+  'other',
+] as const;
+
+export function registerFollowUpTools(server: McpServer, userId: string): void {
+  // Tool 1: create_followup
+  server.registerTool(
+    'create_followup',
+    {
+      description:
+        'Store a drafted follow-up message. Use when the freelancer has composed a follow-up and wants to save it.',
+      inputSchema: {
+        client_id: z.string().uuid().describe('Client UUID this follow-up is for'),
+        project_id: z
+          .string()
+          .uuid()
+          .optional()
+          .describe('Project UUID this follow-up relates to (optional)'),
+        type: z
+          .enum(FOLLOW_UP_TYPE_ENUM)
+          .default('check_in')
+          .describe('Type of follow-up'),
+        subject: z.string().min(1).describe('Follow-up subject line'),
+        content: z.string().min(1).describe('Follow-up message body'),
+      },
+    },
+    async (args) => {
+      try {
+        const { data, error } = await withUserContext(userId, async (db) => {
+          return db
+            .from('follow_ups')
+            .insert({ ...args, user_id: userId })
+            .select()
+            .single();
+        });
+        if (error) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `Failed to create follow-up: ${error.message}`,
+              },
+            ],
+            isError: true,
+          };
+        }
+        return {
+          content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return {
+          content: [{ type: 'text', text: `Failed to create follow-up: ${message}` }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  // Tool 2: get_followup
+  server.registerTool(
+    'get_followup',
+    {
+      description:
+        'Retrieve a single follow-up by ID. Use when the freelancer asks to view a specific follow-up record.',
+      inputSchema: {
+        followup_id: z.string().uuid().describe('Follow-up UUID'),
+      },
+    },
+    async (args) => {
+      try {
+        const { data, error } = await withUserContext(userId, async (db) => {
+          return db
+            .from('follow_ups')
+            .select('*')
+            .eq('id', args.followup_id)
+            .is('archived_at', null)
+            .single();
+        });
+        if (error || !data) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: 'Follow-up not found or has been archived',
+              },
+            ],
+            isError: true,
+          };
+        }
+        return {
+          content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return {
+          content: [{ type: 'text', text: `Failed to get follow-up: ${message}` }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  // Tool 3: list_followups
+  server.registerTool(
+    'list_followups',
+    {
+      description:
+        'List follow-ups for a client or project. Use when the freelancer asks to review follow-up history.',
+      inputSchema: {
+        client_id: z
+          .string()
+          .uuid()
+          .optional()
+          .describe('Filter by client UUID'),
+        project_id: z
+          .string()
+          .uuid()
+          .optional()
+          .describe('Filter by project UUID'),
+        type: z
+          .enum(FOLLOW_UP_TYPE_ENUM)
+          .optional()
+          .describe('Filter by follow-up type'),
+        sent: z
+          .boolean()
+          .optional()
+          .describe('Filter by sent status: true = sent, false = drafts'),
+        sort_by: z
+          .enum(['created_at', 'sent_at'])
+          .default('created_at')
+          .describe('Field to sort by'),
+        sort_dir: z
+          .enum(['asc', 'desc'])
+          .default('desc')
+          .describe('Sort direction'),
+        limit: z
+          .number()
+          .int()
+          .min(1)
+          .max(100)
+          .default(20)
+          .describe('Number of results'),
+        offset: z
+          .number()
+          .int()
+          .min(0)
+          .default(0)
+          .describe('Pagination offset'),
+      },
+    },
+    async (args) => {
+      try {
+        const { data, error, count } = await withUserContext(userId, async (db) => {
+          let query = db
+            .from('follow_ups')
+            .select('*', { count: 'exact' })
+            .is('archived_at', null);
+
+          if (args.client_id) {
+            query = query.eq('client_id', args.client_id);
+          }
+          if (args.project_id) {
+            query = query.eq('project_id', args.project_id);
+          }
+          if (args.type) {
+            query = query.eq('type', args.type);
+          }
+          if (args.sent === true) {
+            query = query.not('sent_at', 'is', null);
+          } else if (args.sent === false) {
+            query = query.is('sent_at', null);
+          }
+
+          return query
+            .order(args.sort_by, { ascending: args.sort_dir === 'asc' })
+            .range(args.offset, args.offset + args.limit - 1);
+        });
+
+        if (error) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `Failed to list follow-ups: ${error.message}`,
+              },
+            ],
+            isError: true,
+          };
+        }
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  follow_ups: data,
+                  total: count,
+                  limit: args.limit,
+                  offset: args.offset,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return {
+          content: [{ type: 'text', text: `Failed to list follow-ups: ${message}` }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  // Tool 4: update_followup
+  server.registerTool(
+    'update_followup',
+    {
+      description:
+        "Update a follow-up's content or details. Use when the freelancer wants to edit a drafted follow-up before sending.",
+      inputSchema: {
+        followup_id: z.string().uuid().describe('Follow-up UUID to update'),
+        subject: z.string().min(1).optional().describe('Updated subject line'),
+        content: z.string().min(1).optional().describe('Updated message body'),
+        type: z
+          .enum(FOLLOW_UP_TYPE_ENUM)
+          .optional()
+          .describe('Updated follow-up type'),
+        project_id: z
+          .string()
+          .uuid()
+          .optional()
+          .nullable()
+          .describe('Updated project UUID (null to unlink from project)'),
+      },
+    },
+    async (args) => {
+      try {
+        const { followup_id, ...updates } = args;
+        const updateFields = Object.fromEntries(
+          Object.entries(updates).filter(([, v]) => v !== undefined)
+        );
+        if (Object.keys(updateFields).length === 0) {
+          return {
+            content: [{ type: 'text', text: 'No fields to update' }],
+            isError: true,
+          };
+        }
+        const { data, error } = await withUserContext(userId, async (db) => {
+          return db
+            .from('follow_ups')
+            .update(updateFields)
+            .eq('id', followup_id)
+            .select()
+            .single();
+        });
+        if (error) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `Failed to update follow-up: ${error.message}`,
+              },
+            ],
+            isError: true,
+          };
+        }
+        return {
+          content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return {
+          content: [{ type: 'text', text: `Failed to update follow-up: ${message}` }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  // Tool 5: mark_followup_sent
+  server.registerTool(
+    'mark_followup_sent',
+    {
+      description:
+        'Mark a follow-up as sent. Use when the freelancer confirms they have sent the follow-up to the client.',
+      inputSchema: {
+        followup_id: z.string().uuid().describe('Follow-up UUID to mark as sent'),
+      },
+    },
+    async (args) => {
+      try {
+        const { data, error } = await withUserContext(userId, async (db) => {
+          return db
+            .from('follow_ups')
+            .update({ sent_at: new Date().toISOString() })
+            .eq('id', args.followup_id)
+            .is('sent_at', null)
+            .select()
+            .single();
+        });
+        if (error || !data) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: 'Follow-up not found or already marked as sent',
+              },
+            ],
+            isError: true,
+          };
+        }
+        return {
+          content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to mark follow-up as sent: ${message}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  // Tool 6: get_followup_context
+  server.registerTool(
+    'get_followup_context',
+    {
+      description:
+        'Fetch all relevant context for drafting a follow-up: overdue invoices, project status, days since last contact, prior follow-ups. Always call this before create_followup.',
+      inputSchema: {
+        client_id: z
+          .string()
+          .uuid()
+          .describe('Client UUID to fetch context for'),
+        project_id: z
+          .string()
+          .uuid()
+          .optional()
+          .describe('Project UUID to narrow invoice context (optional)'),
+      },
+    },
+    async (args) => {
+      try {
+        const result = await withUserContext(userId, async (db) => {
+          // Three parallel queries for client context
+          const clientQuery = db
+            .from('clients')
+            .select('id, name, email, company')
+            .eq('id', args.client_id)
+            .single();
+
+          let invoiceQuery = db
+            .from('invoices')
+            .select('id, invoice_number, status, total, currency, due_date, issued_at')
+            .eq('client_id', args.client_id)
+            .is('archived_at', null)
+            .in('status', ['sent', 'overdue']);
+
+          if (args.project_id) {
+            invoiceQuery = invoiceQuery.eq('project_id', args.project_id);
+          }
+
+          const followUpQuery = db
+            .from('follow_ups')
+            .select('id, type, subject, sent_at, created_at')
+            .eq('client_id', args.client_id)
+            .is('archived_at', null)
+            .order('created_at', { ascending: false })
+            .limit(5);
+
+          const [clientResult, invoicesResult, followUpsResult] = await Promise.all([
+            clientQuery,
+            invoiceQuery,
+            followUpQuery,
+          ]);
+
+          return { clientResult, invoicesResult, followUpsResult };
+        });
+
+        const { clientResult, invoicesResult, followUpsResult } = result as {
+          clientResult: { data: unknown; error: unknown };
+          invoicesResult: { data: unknown; error: unknown };
+          followUpsResult: { data: unknown; error: unknown };
+        };
+
+        if (clientResult.error || !clientResult.data) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: 'Client not found or has been archived',
+              },
+            ],
+            isError: true,
+          };
+        }
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify(
+                {
+                  client: clientResult.data,
+                  outstanding_invoices: invoicesResult.data ?? [],
+                  recent_follow_ups: followUpsResult.data ?? [],
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to get follow-up context: ${message}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    }
+  );
+}

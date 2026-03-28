@@ -231,21 +231,24 @@ describe('list_followups', () => {
   });
 
   it('with sent=false filter: uses is(sent_at, null) for drafts', async () => {
-    let sentAtNullCalled = false;
+    const isCallArgs: Array<[string, unknown]> = [];
 
     mockWithUserContext.mockImplementation(async (_userId, fn) => {
+      // Build a chainable query object that tracks all .is() calls
+      const makeChain = (): Record<string, unknown> => ({
+        is: (field: string, value: unknown) => {
+          isCallArgs.push([field, value]);
+          return makeChain();
+        },
+        not: () => makeChain(),
+        eq: () => makeChain(),
+        order: () => makeChain(),
+        range: async () => ({ data: [baseFollowUp], error: null, count: 1 }),
+      });
+
       return fn({
         from: () => ({
-          select: () => ({
-            is: (field: string, value: unknown) => {
-              if (field === 'sent_at' && value === null) sentAtNullCalled = true;
-              return {
-                order: () => ({
-                  range: async () => ({ data: [baseFollowUp], error: null, count: 1 }),
-                }),
-              };
-            },
-          }),
+          select: () => makeChain(),
         }),
       } as never);
     });
@@ -258,27 +261,28 @@ describe('list_followups', () => {
       offset: 0,
     });
 
-    expect(sentAtNullCalled).toBe(true);
+    const sentAtNullCall = isCallArgs.find(([field, value]) => field === 'sent_at' && value === null);
+    expect(sentAtNullCall).toBeDefined();
   });
 
   it('with sent=true filter: uses not(sent_at, is, null) for sent items', async () => {
-    let notSentAtNullCalled = false;
+    const notCallArgs: Array<[string, string, unknown]> = [];
 
     mockWithUserContext.mockImplementation(async (_userId, fn) => {
+      const makeChain = (): Record<string, unknown> => ({
+        is: () => makeChain(),
+        not: (field: string, op: string, value: unknown) => {
+          notCallArgs.push([field, op, value]);
+          return makeChain();
+        },
+        eq: () => makeChain(),
+        order: () => makeChain(),
+        range: async () => ({ data: [{ ...baseFollowUp, sent_at: '2026-01-02T00:00:00Z' }], error: null, count: 1 }),
+      });
+
       return fn({
         from: () => ({
-          select: () => ({
-            is: () => ({
-              not: (field: string, op: string, value: unknown) => {
-                if (field === 'sent_at' && op === 'is' && value === null) notSentAtNullCalled = true;
-                return {
-                  order: () => ({
-                    range: async () => ({ data: [{ ...baseFollowUp, sent_at: '2026-01-02T00:00:00Z' }], error: null, count: 1 }),
-                  }),
-                };
-              },
-            }),
-          }),
+          select: () => makeChain(),
         }),
       } as never);
     });
@@ -291,7 +295,8 @@ describe('list_followups', () => {
       offset: 0,
     });
 
-    expect(notSentAtNullCalled).toBe(true);
+    const notSentAtNullCall = notCallArgs.find(([field, op, value]) => field === 'sent_at' && op === 'is' && value === null);
+    expect(notSentAtNullCall).toBeDefined();
   });
 });
 
