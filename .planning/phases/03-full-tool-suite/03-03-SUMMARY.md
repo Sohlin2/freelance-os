@@ -24,6 +24,7 @@ metrics:
   tasks_completed: 2
   files_created: 2
   files_modified: 0
+requirements-completed: [TIME-01, TIME-02]
 ---
 
 # Phase 03 Plan 03: Time Entry Tools Summary

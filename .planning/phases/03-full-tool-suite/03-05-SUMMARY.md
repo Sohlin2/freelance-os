@@ -26,6 +26,7 @@ metrics:
   tasks_completed: 3
   files_created: 2
   files_modified: 1
+requirements-completed: [FLLW-01, FLLW-03]
 ---
 
 # Phase 3 Plan 05: Follow-Up Tools and Full Server Wiring Summary
