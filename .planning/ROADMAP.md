@@ -101,7 +101,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Plugin manifest, MCP config, build script, package.json publishing setup (INFRA-04, INFRA-05)
+- [x] 05-01-PLAN.md — Plugin manifest, MCP config, build script, package.json publishing setup (INFRA-04, INFRA-05)
 - [ ] 05-02-PLAN.md — Plugin packaging tests and npm-focused README (INFRA-04, INFRA-05)
 
 ## Progress

@@ -12,8 +12,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **INFRA-01**: MCP server connects to hosted Supabase with full CRUD for all domain entities
 - [x] **INFRA-02**: API key authentication gates all MCP server access
 - [x] **INFRA-03**: Supabase schema supports multi-tenant data isolation via RLS policies
-- [ ] **INFRA-04**: Package is npm installable with Claude Code plugin manifest (plugin.json)
-- [ ] **INFRA-05**: Plugin userConfig collects API key at install time (sensitive, stored in keychain)
+- [x] **INFRA-04**: Package is npm installable with Claude Code plugin manifest (plugin.json)
+- [x] **INFRA-05**: Plugin userConfig collects API key at install time (sensitive, stored in keychain)
 
 ### Client CRM
 
@@ -102,8 +102,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-01 | Phase 1 | Complete |
 | INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Complete |
-| INFRA-04 | Phase 5 | Pending |
-| INFRA-05 | Phase 5 | Pending |
+| INFRA-04 | Phase 5 | Complete |
+| INFRA-05 | Phase 5 | Complete |
 | CRM-01 | Phase 2 | Complete |
 | CRM-02 | Phase 2 | Complete |
 | CRM-03 | Phase 2 | Complete |
