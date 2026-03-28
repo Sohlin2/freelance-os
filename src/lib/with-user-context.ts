@@ -14,10 +14,12 @@ export async function withUserContext<T>(
   fn: (db: SupabaseClient<Database>) => Promise<T>
 ): Promise<T> {
   const db = createUserClient();
-  // Uses transaction scope (true) deliberately — safer than session scope (false)
-  // because context auto-clears at transaction end, preventing cross-request leakage.
-  // RESEARCH.md Pattern 3 used session scope (false), but open question 3 analysis
-  // recommended transaction scope (true). See migration SQL for matching comment.
+  // Uses session scope (set_config 3rd arg = false) — PostgREST sends each
+  // .from().select() as a separate HTTP request / Postgres transaction.
+  // Transaction scope (true) would clear user context before data queries execute.
+  // Session scope persists across requests within the same connection.
+  // Connection pooling prevents cross-user leakage (each pool checkout is clean).
+  // See migration 000009 for the corrective fix (000008 originally used true).
   await db.rpc('set_app_user_id', { p_user_id: userId });
   return fn(db);
 }
