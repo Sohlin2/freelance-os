@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-28T10:17:06.291Z"
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-03-28T10:48:01.304Z"
 last_activity: 2026-03-28 — Roadmap created, ready to begin Phase 1 planning
 progress:
   total_phases: 5
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 3
+  completed_plans: 1
   percent: 0
 ---
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 01 P01 | 3 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -63,6 +64,9 @@ Recent decisions affecting current work:
 - Roadmap: Data layer before server before skills — driven by component dependency graph; this order is a technical requirement, not a preference
 - Roadmap: RLS policies written in same migration as table creation — cannot be retrofitted safely after user data exists
 - Roadmap: Streamable HTTP transport (not stdio) — MCP server must be remote because user data lives in hosted Supabase
+- [Phase 01]: Extensions installed in extensions schema to avoid search_path conflicts
+- [Phase 01]: current_app_user_id() uses NULLIF empty-string guard to prevent UUID cast error when session variable is unset
+- [Phase 01]: supabase CLI installed as npm dev dep for portable cross-platform usage
 
 ### Pending Todos
 
@@ -75,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T10:17:06.288Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-data-foundation/01-CONTEXT.md
+Last session: 2026-03-28T10:48:01.301Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None
