@@ -17,7 +17,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Client CRM
 
-- [ ] **CRM-01**: User can create, read, update, and delete client records (name, contact info, billing rate, notes)
+- [x] **CRM-01**: User can create, read, update, and delete client records (name, contact info, billing rate, notes)
 - [ ] **CRM-02**: User can create projects linked to a client with status tracking (active/completed/paused)
 - [ ] **CRM-03**: User can view a client's full project history and communication log
 - [ ] **CRM-04**: User can search and filter clients and projects by name, status, or date
@@ -104,7 +104,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-03 | Phase 1 | Complete |
 | INFRA-04 | Phase 5 | Pending |
 | INFRA-05 | Phase 5 | Pending |
-| CRM-01 | Phase 2 | Pending |
+| CRM-01 | Phase 2 | Complete |
 | CRM-02 | Phase 2 | Pending |
 | CRM-03 | Phase 2 | Pending |
 | CRM-04 | Phase 2 | Pending |
