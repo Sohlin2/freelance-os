@@ -31,15 +31,15 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Invoices
 
-- [x] **INV-01**: User can generate an invoice with line items, totals, and due date
-- [x] **INV-02**: User can track invoice status (draft/sent/paid/overdue)
-- [x] **INV-03**: Invoice auto-references the original proposal scope and agreed rate
-- [x] **INV-04**: User can list invoices filtered by status, client, or date range
+- [ ] **INV-01**: User can generate an invoice with line items, totals, and due date
+- [ ] **INV-02**: User can track invoice status (draft/sent/paid/overdue)
+- [ ] **INV-03**: Invoice auto-references the original proposal scope and agreed rate
+- [ ] **INV-04**: User can list invoices filtered by status, client, or date range
 
 ### Time & Scope
 
-- [ ] **TIME-01**: User can log time entries against a project with description and duration
-- [ ] **TIME-02**: User can view aggregated time per project for invoicing
+- [x] **TIME-01**: User can log time entries against a project with description and duration
+- [x] **TIME-02**: User can view aggregated time per project for invoicing
 - [ ] **SCOPE-01**: User can define agreed project scope (deliverables, boundaries) at project start
 - [ ] **SCOPE-02**: User can log scope change requests with classification (in-scope/out-of-scope)
 - [ ] **SCOPE-03**: AI detects when a new request falls outside agreed scope and flags it as potential scope creep
@@ -112,12 +112,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROP-02 | Phase 4 | Pending |
 | PROP-03 | Phase 3 | Pending |
 | PROP-04 | Phase 3 | Pending |
-| INV-01 | Phase 3 | Complete |
-| INV-02 | Phase 3 | Complete |
-| INV-03 | Phase 3 | Complete |
-| INV-04 | Phase 3 | Complete |
-| TIME-01 | Phase 3 | Pending |
-| TIME-02 | Phase 3 | Pending |
+| INV-01 | Phase 3 | Pending |
+| INV-02 | Phase 3 | Pending |
+| INV-03 | Phase 3 | Pending |
+| INV-04 | Phase 3 | Pending |
+| TIME-01 | Phase 3 | Complete |
+| TIME-02 | Phase 3 | Complete |
 | SCOPE-01 | Phase 3 | Pending |
 | SCOPE-02 | Phase 3 | Pending |
 | SCOPE-03 | Phase 3 | Pending |
