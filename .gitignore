@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+
+# Supabase local dev
+supabase/.branches
+supabase/.temp
+
+# Generated files
+src/types/database.ts
+
+# OS
+.DS_Store
+Thumbs.db
