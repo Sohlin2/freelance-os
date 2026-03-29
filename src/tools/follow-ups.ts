@@ -11,9 +11,9 @@ const FOLLOW_UP_TYPE_ENUM = [
 ] as const;
 
 export function registerFollowUpTools(server: McpServer, userId: string): void {
-  // Tool 1: create_followup
+  // Tool 1: followups.messages.create
   server.registerTool(
-    'followups.create',
+    'followups.messages.create',
     {
       description:
         'Store a drafted follow-up message in the FreelanceOS database. Use when the freelancer has composed a follow-up and wants to save it for tracking purposes before or after sending it to the client.',
@@ -43,7 +43,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           .describe('Full body text of the follow-up message to be saved and potentially sent'),
       },
       annotations: {
-        title: 'Follow-Ups: Create',
+        title: 'Follow-ups: Messages: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -83,9 +83,9 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 2: get_followup
+  // Tool 2: followups.messages.get
   server.registerTool(
-    'followups.get',
+    'followups.messages.get',
     {
       description:
         'Retrieve a single follow-up record by its unique ID. Use when the freelancer asks to view the full details of a specific saved follow-up, including its content, type, and sent status.',
@@ -96,7 +96,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           .describe('Unique UUID identifier of the follow-up record to retrieve'),
       },
       annotations: {
-        title: 'Follow-Ups: Get',
+        title: 'Follow-ups: Messages: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -137,9 +137,9 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 3: list_followups
+  // Tool 3: followups.messages.list
   server.registerTool(
-    'followups.list',
+    'followups.messages.list',
     {
       description:
         'List and filter follow-up records for a client or project with pagination support. Use when the freelancer asks to review follow-up history, check outstanding drafts, or audit all sent communications for a given client.',
@@ -189,7 +189,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           .describe('Number of records to skip for cursor-based pagination through large result sets'),
       },
       annotations: {
-        title: 'Follow-Ups: List',
+        title: 'Follow-ups: Messages: List',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -262,9 +262,9 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 4: update_followup
+  // Tool 4: followups.messages.update
   server.registerTool(
-    'followups.update',
+    'followups.messages.update',
     {
       description:
         "Update the content or metadata of an existing follow-up record. Use when the freelancer wants to revise a drafted follow-up's subject, body, type, or project association before sending it to the client.",
@@ -299,7 +299,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           ),
       },
       annotations: {
-        title: 'Follow-Ups: Update',
+        title: 'Follow-ups: Messages: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -365,7 +365,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           ),
       },
       annotations: {
-        title: 'Follow-Ups: Mark Sent',
+        title: 'Follow-ups: Sent: Mark',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -434,7 +434,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           ),
       },
       annotations: {
-        title: 'Follow-Ups: Get Context',
+        title: 'Follow-ups: Context: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,

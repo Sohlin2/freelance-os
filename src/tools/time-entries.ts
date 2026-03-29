@@ -3,9 +3,9 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { withUserContext } from '../lib/with-user-context.js';
 
 export function registerTimeEntryTools(server: McpServer, userId: string): void {
-  // Tool 1: time.create
+  // Tool 1: time.entries.create
   server.registerTool(
-    'time.create',
+    'time.entries.create',
     {
       description:
         'Log a time entry against a project to record hours worked. Use when the freelancer reports time spent on a task, meeting, or deliverable so it can be tracked and later billed to the client.',
@@ -27,7 +27,7 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
           .describe('Whether this time entry should be billed to the client on the next invoice'),
       },
       annotations: {
-        title: 'Time: Create',
+        title: 'Time: Entries: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -67,9 +67,9 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     }
   );
 
-  // Tool 2: time.get
+  // Tool 2: time.entries.get
   server.registerTool(
-    'time.get',
+    'time.entries.get',
     {
       description:
         'Retrieve a single time entry record by its unique identifier. Use when the freelancer asks to view the details of a specific logged time entry, such as its description, duration, or billable status.',
@@ -77,7 +77,7 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
         time_entry_id: z.string().uuid().describe('Unique UUID identifier of the time entry record to retrieve'),
       },
       annotations: {
-        title: 'Time: Get',
+        title: 'Time: Entries: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -118,9 +118,9 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     }
   );
 
-  // Tool 3: time.list
+  // Tool 3: time.entries.list
   server.registerTool(
-    'time.list',
+    'time.entries.list',
     {
       description:
         'List time entries with optional filtering by project, date range, and billable status. Use when reviewing logged hours for a project, preparing a timesheet, or checking what work has been recorded before generating an invoice.',
@@ -158,7 +158,7 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
           .describe('Number of records to skip for cursor-based pagination through large result sets'),
       },
       annotations: {
-        title: 'Time: List',
+        title: 'Time: Entries: List',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -226,9 +226,9 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     }
   );
 
-  // Tool 4: time.update
+  // Tool 4: time.entries.update
   server.registerTool(
-    'time.update',
+    'time.entries.update',
     {
       description:
         "Update one or more fields on an existing time entry record. Use when the freelancer needs to correct a logged entry's duration, description, date, or billable flag after it was originally saved.",
@@ -245,7 +245,7 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
         billable: z.boolean().optional().describe('Updated flag indicating whether this time entry should be billed to the client'),
       },
       annotations: {
-        title: 'Time: Update',
+        title: 'Time: Entries: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -296,9 +296,9 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     }
   );
 
-  // Tool 5: time.archive (soft delete)
+  // Tool 5: time.entries.archive (soft delete)
   server.registerTool(
-    'time.archive',
+    'time.entries.archive',
     {
       description:
         'Soft-delete a time entry by setting its archived_at timestamp, hiding it from all queries. Use when the freelancer wants to permanently remove an incorrectly logged or duplicate time entry from their records without destroying the underlying data.',
@@ -306,7 +306,7 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
         time_entry_id: z.string().uuid().describe('Unique UUID identifier of the time entry record to soft-delete by archiving'),
       },
       annotations: {
-        title: 'Time: Archive',
+        title: 'Time: Entries: Archive',
         readOnlyHint: false,
         destructiveHint: true,
         idempotentHint: true,
@@ -353,9 +353,9 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     }
   );
 
-  // Tool 6: time.aggregate (JS-side reduce, no migration needed)
+  // Tool 6: time.entries.aggregate (JS-side reduce, no migration needed)
   server.registerTool(
-    'time.aggregate',
+    'time.entries.aggregate',
     {
       description:
         'Calculate the total minutes and hours logged against a project over an optional date range. Use when preparing an invoice, verifying billable hours before sending to a client, or generating a summary timesheet report.',
@@ -375,7 +375,7 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
           .describe('When true, only sum time entries that are marked as billable to the client'),
       },
       annotations: {
-        title: 'Time: Aggregate',
+        title: 'Time: Entries: Aggregate',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,

@@ -11,9 +11,9 @@ const lineItemSchema = z.object({
 });
 
 export function registerInvoiceTools(server: McpServer, userId: string): void {
-  // Tool 1: invoices.create
+  // Tool 1: invoices.records.create
   server.registerTool(
-    'invoices.create',
+    'invoices.records.create',
     {
       description:
         'Create and persist a new invoice with line items, tax, and totals in the FreelanceOS database. Use when the freelancer wants to generate and save a billable invoice for a completed or ongoing project.',
@@ -57,7 +57,7 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
         notes: z.string().optional().nullable().describe('Optional freeform notes or payment instructions to include on the invoice'),
       },
       annotations: {
-        title: 'Invoices: Create',
+        title: 'Invoices: Records: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -97,9 +97,9 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 2: invoices.get
+  // Tool 2: invoices.records.get
   server.registerTool(
-    'invoices.get',
+    'invoices.records.get',
     {
       description:
         'Retrieve the full details of a single invoice by its UUID. Use when the freelancer asks to view, review, or share the details of a specific invoice.',
@@ -107,7 +107,7 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
         invoice_id: z.string().uuid().describe('UUID of the invoice to retrieve; must reference a non-archived invoice owned by this user'),
       },
       annotations: {
-        title: 'Invoices: Get',
+        title: 'Invoices: Records: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -148,9 +148,9 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 3: invoices.list
+  // Tool 3: invoices.records.list
   server.registerTool(
-    'invoices.list',
+    'invoices.records.list',
     {
       description:
         'Return a paginated, filtered list of invoices for the authenticated freelancer. Use when the freelancer asks about outstanding, paid, overdue, or draft invoices, or wants a revenue summary for a date range.',
@@ -200,7 +200,7 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
           .describe('Zero-based index of the first record to return, used for paginating through large result sets'),
       },
       annotations: {
-        title: 'Invoices: List',
+        title: 'Invoices: Records: List',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -276,9 +276,9 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 4: invoices.update
+  // Tool 4: invoices.records.update
   server.registerTool(
-    'invoices.update',
+    'invoices.records.update',
     {
       description:
         'Update one or more fields on an existing invoice, including its status or financial totals. Use when the freelancer marks an invoice as sent, records a payment, corrects line items, or changes the due date.',
@@ -322,7 +322,7 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
           .describe('Revised freeform notes or payment instructions to display on the invoice; set to null to clear'),
       },
       annotations: {
-        title: 'Invoices: Update',
+        title: 'Invoices: Records: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
