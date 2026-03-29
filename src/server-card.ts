@@ -1614,7 +1614,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "scope.log_change",
+      "name": "scope.changes.log",
       "description": "Record a client scope change request with classification and impact notes to maintain an auditable history of scope creep. Use this tool ONLY after the freelancer confirms they want to log the change \u00e2\u20ac\u201d never log speculatively without explicit instruction.",
       "inputSchema": {
         "type": "object",
@@ -1667,7 +1667,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "scope.list_changes",
+      "name": "scope.changes.list",
       "description": "List all scope change requests logged against a project, with optional filtering by classification and configurable sort order. Use when reviewing scope creep history, preparing a change-order summary, or auditing out-of-scope requests for billing.",
       "inputSchema": {
         "type": "object",
@@ -1978,7 +1978,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "followups.mark_sent",
+      "name": "followups.sent.mark",
       "description": "Record the current timestamp as the sent date on a follow-up, transitioning it from draft to sent status. Use when the freelancer confirms they have actually sent the follow-up message to the client outside of FreelanceOS.",
       "inputSchema": {
         "type": "object",
@@ -2003,7 +2003,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "followups.get_context",
+      "name": "followups.context.get",
       "description": "Fetch all relevant context needed to draft an effective follow-up for a client, including outstanding invoices, recent follow-up history, and client contact details. Always call this tool before followups.create so the drafted message is informed by the client's current account status.",
       "inputSchema": {
         "type": "object",
@@ -2045,7 +2045,7 @@ export const serverCard = {
   "prompts": [
     {
       "name": "freelance-onboarding",
-      "description": "Step-by-step guide to set up your freelance business in FreelanceOS. Walks through creating your first client, project, proposal, and invoice."
+      "description": "Step-by-step guide to set up your freelance business in FreelanceOS."
     },
     {
       "name": "weekly-review",
