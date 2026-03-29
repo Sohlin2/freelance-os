@@ -100,100 +100,176 @@ app.get('/', (req, res, next) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FreelanceOS — AI Freelance Business Manager for Claude Code</title>
-  <meta name="description" content="Manage your entire freelance business from Claude Code. Proposals, invoices, time tracking, scope management, and follow-ups — all conversational. 37 MCP tools, 5 coaching skills.">
-  <meta property="og:title" content="FreelanceOS — AI Freelance Manager for Claude Code">
-  <meta property="og:description" content="Proposals, invoices, time tracking, scope management, and follow-ups — all from your terminal. 37 tools, 5 coaching skills, one install command.">
+  <meta name="description" content="Stop context-switching between coding and admin. FreelanceOS turns Claude Code into your freelance business manager — proposals, invoices, time tracking, scope management, and follow-ups. 37 MCP tools, 5 coaching skills. One install command.">
+  <meta property="og:title" content="FreelanceOS — Your Freelance Business, Inside Claude Code">
+  <meta property="og:description" content="Proposals, invoices, time tracking, scope management, and follow-ups — all from your terminal. 37 tools, 5 coaching skills. Stop tab-switching, start shipping.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://freelance-os-production.up.railway.app">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FreelanceOS — AI Freelance Manager for Claude Code">
-  <meta name="twitter:description" content="Manage your freelance business without leaving Claude Code. 37 MCP tools, 5 coaching skills, instant setup.">
+  <meta name="twitter:title" content="FreelanceOS — Your Freelance Business, Inside Claude Code">
+  <meta name="twitter:description" content="37 MCP tools turn Claude into your freelance business manager. Proposals, invoices, time tracking — conversational. One install, no browser needed.">
   <link rel="canonical" href="https://freelance-os-production.up.railway.app">
+  <meta name="keywords" content="freelance tools, claude code plugin, mcp server, freelance invoicing, freelance proposals, time tracking, scope management, ai freelance, claude code mcp">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FreelanceOS",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Windows, macOS, Linux",
+    "description": "AI-powered freelance business manager for Claude Code. 37 MCP tools covering proposals, invoices, time tracking, scope management, and follow-ups.",
+    "url": "https://freelance-os-production.up.railway.app",
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "19.00",
+        "priceCurrency": "USD",
+        "description": "Monthly plan with 7-day free trial",
+        "url": "https://buy.stripe.com/5kQdRagAv5sr5U20rU2Ji02"
+      },
+      {
+        "@type": "Offer",
+        "price": "40.00",
+        "priceCurrency": "USD",
+        "description": "Lifetime access, one-time payment",
+        "url": "https://buy.stripe.com/00w4gAac7bQP2HQ1vY2Ji01"
+      }
+    ],
+    "featureList": "Client CRM, Proposal Drafting, Invoice Generation, Time Tracking, Scope Management, Follow-up Automation, Coaching Skills"
+  }
+  </script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e5e5e5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-    .page{max-width:640px;width:100%}
-    h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:8px}
-    .tagline{font-size:18px;color:#a3a3a3;margin-bottom:32px;line-height:1.6}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e5e5e5;min-height:100vh;padding:20px}
+    .page{max-width:680px;width:100%;margin:0 auto;padding:48px 0}
+    h1{font-size:42px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-0.5px}
+    .subtitle{font-size:15px;color:#22c55e;font-weight:600;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+    .tagline{font-size:20px;color:#a3a3a3;margin-bottom:12px;line-height:1.6}
+    .hook{font-size:15px;color:#737373;margin-bottom:32px;line-height:1.6}
     .stats{display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap}
     .stat{text-align:center}
     .stat-num{font-size:28px;font-weight:700;color:#22c55e}
     .stat-label{font-size:12px;color:#737373;text-transform:uppercase;letter-spacing:0.5px}
+    .section-title{font-size:13px;font-weight:700;color:#525252;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px}
+    .demo{background:#171717;border:1px solid #262626;border-radius:12px;padding:20px 24px;margin-bottom:32px;font-size:14px;line-height:1.8}
+    .demo-prompt{color:#22c55e;font-family:'SF Mono','Fira Code',monospace;font-size:13px}
+    .demo-response{color:#a3a3a3;font-size:13px;margin:4px 0 12px;padding-left:16px;border-left:2px solid #262626}
     .features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px}
     .feat{background:#171717;border:1px solid #262626;border-radius:8px;padding:14px 16px;font-size:14px;color:#d4d4d4}
     .feat strong{color:#fff;display:block;margin-bottom:2px}
+    .audience{background:#0c1222;border:1px solid #1e3a5f;border-radius:12px;padding:20px 24px;margin-bottom:32px;font-size:14px;color:#93c5fd;line-height:1.8}
+    .audience strong{color:#fff}
     .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
     .card{background:#171717;border:1px solid #262626;border-radius:12px;padding:24px;text-align:center}
-    .card.pop{border-color:#22c55e}
+    .card.pop{border-color:#22c55e;position:relative}
+    .card.pop::before{content:'MOST POPULAR';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;font-size:10px;font-weight:700;padding:2px 10px;border-radius:4px;letter-spacing:0.5px}
     .price{font-size:32px;font-weight:700;color:#fff;margin:8px 0 4px}
     .price span{font-size:16px;font-weight:400;color:#a3a3a3}
     .label{font-size:13px;color:#a3a3a3;margin-bottom:16px}
-    .btn{display:inline-block;width:100%;padding:12px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;text-align:center;cursor:pointer;border:none}
+    .btn{display:inline-block;width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;text-align:center;cursor:pointer;border:none;transition:all 0.2s}
     .btn-primary{background:#22c55e;color:#000}
-    .btn-primary:hover{background:#16a34a}
+    .btn-primary:hover{background:#16a34a;transform:translateY(-1px)}
     .btn-secondary{background:#262626;color:#e5e5e5}
-    .btn-secondary:hover{background:#333}
+    .btn-secondary:hover{background:#333;transform:translateY(-1px)}
     .badge{display:inline-block;background:#14532d;color:#22c55e;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;margin-bottom:8px}
-    .install{background:#171717;border:1px solid #262626;border-radius:8px;padding:16px;font-family:'SF Mono','Fira Code',monospace;font-size:14px;color:#22c55e;margin-bottom:24px;text-align:center;position:relative;cursor:pointer}
+    .install{background:#171717;border:1px solid #262626;border-radius:8px;padding:16px;font-family:'SF Mono','Fira Code',monospace;font-size:14px;color:#22c55e;margin-bottom:24px;text-align:center;position:relative;cursor:pointer;transition:border-color 0.2s}
     .install:hover{border-color:#22c55e}
     .install::after{content:'click to copy';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:#525252;font-family:-apple-system,sans-serif}
-    .setup{background:#0c1222;border:1px solid #1e3a5f;border-radius:8px;padding:16px;font-size:13px;color:#93c5fd;line-height:1.8;margin-bottom:16px}
+    .setup{background:#171717;border:1px solid #262626;border-radius:8px;padding:16px;font-size:13px;color:#d4d4d4;line-height:1.8;margin-bottom:24px}
+    .setup strong{color:#fff}
     code{background:#1e293b;padding:2px 6px;border-radius:4px;font-family:'SF Mono','Fira Code',monospace;font-size:12px}
+    .trust{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+    .trust-item{font-size:12px;color:#525252;display:flex;align-items:center;gap:4px}
+    .trust-item svg{width:14px;height:14px;fill:#22c55e}
+    .guarantee{text-align:center;background:#14532d22;border:1px solid #14532d;border-radius:8px;padding:12px;font-size:13px;color:#22c55e;margin-bottom:24px}
     .footer{text-align:center;font-size:12px;color:#525252;margin-top:16px}
     .footer a{color:#a3a3a3;text-decoration:none}
     @media(max-width:480px){
-      h1{font-size:28px}
-      .tagline{font-size:16px}
+      h1{font-size:32px}
+      .tagline{font-size:17px}
       .features{grid-template-columns:1fr}
       .cards{grid-template-columns:1fr}
       .stats{justify-content:center}
       .install::after{display:none}
+      .card.pop::before{top:-9px}
     }
   </style>
 </head>
 <body>
   <div class="page">
+    <p class="subtitle">Claude Code Plugin</p>
     <h1>FreelanceOS</h1>
-    <p class="tagline">Manage your entire freelance business from Claude Code.<br>Proposals, invoices, time tracking, scope management, and follow-ups — all conversational.</p>
+    <p class="tagline">Stop tab-switching between coding and admin.<br>Manage your freelance business without leaving Claude Code.</p>
+    <p class="hook">Proposals, invoices, time tracking, scope management, and follow-ups — tell Claude what you need in plain English. Expert coaching built in, not just data entry.</p>
+
     <div class="stats">
       <div class="stat"><div class="stat-num">37</div><div class="stat-label">MCP Tools</div></div>
       <div class="stat"><div class="stat-num">5</div><div class="stat-label">Coaching Skills</div></div>
       <div class="stat"><div class="stat-num">7</div><div class="stat-label">Entities</div></div>
     </div>
+
     <div class="install" onclick="navigator.clipboard.writeText('claude plugin install freelance-os').then(()=>{this.style.borderColor='#22c55e';this.innerHTML='Copied!';setTimeout(()=>{this.innerHTML='claude plugin install freelance-os';this.style.borderColor='#262626'},2000)})">claude plugin install freelance-os</div>
-    <div class="features">
-      <div class="feat"><strong>Proposals</strong>Draft, price, and send</div>
-      <div class="feat"><strong>Invoices</strong>Generate and track payments</div>
-      <div class="feat"><strong>Time Tracking</strong>Log hours, aggregate by project</div>
-      <div class="feat"><strong>Scope</strong>Define boundaries, catch creep</div>
-      <div class="feat"><strong>Follow-ups</strong>Overdue reminders, check-ins</div>
-      <div class="feat"><strong>Clients</strong>Full CRM in your terminal</div>
+
+    <p class="section-title">See it in action</p>
+    <div class="demo">
+      <div class="demo-prompt">> "Draft a proposal for Acme Corp's website redesign at $150/hr"</div>
+      <div class="demo-response">Claude drafts a professional proposal with pricing breakdown, revision limits, payment milestones, and scope boundaries — saved to your database.</div>
+      <div class="demo-prompt">> "Show my uninvoiced hours this week and generate an invoice"</div>
+      <div class="demo-response">Aggregates 23.5 hours across 2 projects, generates invoice with line items, tax, and payment terms. Status: draft.</div>
+      <div class="demo-prompt">> "Invoice #42 is 2 weeks overdue. Draft a follow-up."</div>
+      <div class="demo-response">Pulls client context, invoice history, and prior follow-ups. Drafts a firm but professional reminder with the exact amount and due date.</div>
     </div>
+
+    <p class="section-title">Everything you need</p>
+    <div class="features">
+      <div class="feat"><strong>Proposals</strong>Draft with pricing strategy, scope, payment terms</div>
+      <div class="feat"><strong>Invoices</strong>Line items, tax, status tracking, overdue alerts</div>
+      <div class="feat"><strong>Time Tracking</strong>Log hours, aggregate by project for billing</div>
+      <div class="feat"><strong>Scope</strong>Define boundaries, log changes, catch creep</div>
+      <div class="feat"><strong>Follow-ups</strong>Context-aware reminders and check-ins</div>
+      <div class="feat"><strong>Client CRM</strong>Contacts, rates, notes, project history</div>
+    </div>
+
+    <div class="audience">
+      <strong>Built for freelance developers</strong> who already use Claude Code for work and want to stop context-switching to manage the business side. If you bill clients, write proposals, or track hours — this replaces 3-4 separate tools with one conversation.
+    </div>
+
+    <p class="section-title">Launch pricing</p>
     <div class="cards">
       <div class="card">
         <div class="badge">7-DAY FREE TRIAL</div>
         <div class="label">Monthly</div>
         <div class="price">$19<span>/mo</span></div>
-        <div class="label">No charge for 7 days</div>
+        <div class="label">Try free for 7 days, cancel anytime</div>
         <a href="https://buy.stripe.com/5kQdRagAv5sr5U20rU2Ji02" class="btn btn-secondary">Start Free Trial</a>
       </div>
       <div class="card pop">
-        <div class="badge">BEST VALUE</div>
+        <div class="badge">SAVE 80%+</div>
         <div class="label">Lifetime</div>
         <div class="price">$40</div>
-        <div class="label">One-time payment, forever access</div>
-        <a href="https://buy.stripe.com/00w4gAac7bQP2HQ1vY2Ji01" class="btn btn-primary">Buy Once</a>
+        <div class="label">One payment, forever access</div>
+        <a href="https://buy.stripe.com/00w4gAac7bQP2HQ1vY2Ji01" class="btn btn-primary">Buy Lifetime Access</a>
       </div>
     </div>
-    <div class="setup">
-      <strong>Quick start:</strong><br>
-      1. Buy above — get your API key instantly<br>
-      2. <code>claude plugin install freelance-os</code><br>
-      3. Paste your API key when prompted<br>
-      4. Tell Claude: "Create a client for Acme Corp"
+
+    <div class="guarantee">Lifetime deal locks in current pricing. As features grow, the price will too.</div>
+
+    <div class="trust">
+      <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>Per-user data isolation (RLS)</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>API key in system keychain</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>Stripe-secured billing</div>
     </div>
+
+    <p class="section-title">Get started in 60 seconds</p>
+    <div class="setup">
+      <strong>1.</strong> Pick a plan above — your API key is delivered instantly<br>
+      <strong>2.</strong> <code>claude plugin install freelance-os</code><br>
+      <strong>3.</strong> Paste your API key when prompted<br>
+      <strong>4.</strong> Say: <em>"Create a client for Acme Corp"</em> — you're live
+    </div>
+
     <div class="footer">
-      <a href="/health">Status</a> &middot; <a href="https://www.npmjs.com/package/freelance-os">npm</a>
+      <a href="/health">Status</a> &middot; <a href="https://www.npmjs.com/package/freelance-os">npm</a> &middot; <a href="https://github.com/Sohlin2/freelance-os">GitHub</a>
     </div>
   </div>
 </body>
@@ -205,9 +281,38 @@ app.get('/.well-known/mcp/server-card.json', (_req, res) => {
   res.json(serverCard);
 });
 
+// SEO: robots.txt
+app.get('/robots.txt', (_req, res) => {
+  res.type('text/plain').send(`User-agent: *
+Allow: /
+Disallow: /mcp
+Disallow: /checkout
+Disallow: /portal
+Disallow: /stripe/
+
+Sitemap: https://freelance-os-production.up.railway.app/sitemap.xml`);
+});
+
+// SEO: sitemap.xml
+app.get('/sitemap.xml', (_req, res) => {
+  res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://freelance-os-production.up.railway.app</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://freelance-os-production.up.railway.app/health</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>`);
+});
+
 // Health check (public)
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', version: '0.1.0' });
+  res.json({ status: 'ok', version: '0.2.0' });
 });
 
 // Stripe checkout session (public — no auth needed)
