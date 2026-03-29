@@ -3,6 +3,7 @@
 **Manage your entire freelance business from Claude Code.** Proposals, invoices, time tracking, scope management, and follow-ups — all conversational.
 
 [![npm version](https://img.shields.io/npm/v/freelance-os)](https://www.npmjs.com/package/freelance-os)
+[![smithery badge](https://smithery.ai/badge/Sohlin2/freelance-os)](https://smithery.ai/servers/Sohlin2/freelance-os)
 
 ## Install
 
