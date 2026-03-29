@@ -24,29 +24,25 @@ A freelancer can manage their entire client lifecycle — from proposal to invoi
 - ✓ Smart prompt skill pack with 5 SKILL.md files at 12,103/15,000 token budget — v1.0
 - ✓ npm installable plugin with keychain-backed API key and secret scanning — v1.0
 - ✓ RLS multi-tenant isolation with session-scoped user context (fixed in Phase 6) — v1.0
+- ✓ npm published as `freelance-os@0.1.0` with correct plugin structure — v1.1
+- ✓ MCP server registry listings on mcp.so, glama.ai, smithery.ai — v1.1
+- ✓ SEO-optimized landing page at Railway root with conversion copy — v1.1
+- ✓ Social media launch content drafted (X thread, Reddit, HN) — v1.1
+- ✓ Free trial support (7-day trial for monthly plan) — v1.1
+- ✓ README with install instructions, feature showcase, and buy links — v1.1
+- ✓ Analytics/monitoring for conversion tracking — v1.1
+- ✓ GitHub repo public at github.com/Sohlin2/freelance-os — v1.1
+- ✓ Smithery compatibility: CORS, x-api-key header, server-card.json, MCP on `/` — v1.1
 
 ### Active
 
-- [ ] npm publish with correct package structure for plugin installation
-- [ ] MCP server registry listings (mcp.so, glama.ai, smithery.ai)
-- [ ] SEO-optimized landing page with conversion-focused copy
-- [ ] Social media launch content (X thread, Reddit, HN Show HN)
-- [ ] Free trial support (7-day trial for monthly plan)
-- [ ] README with install instructions, feature showcase, and buy links
-- [ ] Analytics/monitoring for conversion tracking
+No active requirements. Next milestone not yet defined.
 
-## Current Milestone: v1.1 Marketing & Monetization Launch
+## Completed Milestone: v1.1 Marketing & Monetization Launch
 
 **Goal:** Take FreelanceOS from deployed to revenue-generating — npm published, marketplace-listed, discoverable, and converting visitors to paying subscribers.
 
-**Target features:**
-- npm publish with correct package structure
-- MCP server registry listings
-- SEO-optimized landing page
-- Social media launch content
-- Free trial support
-- README with install docs and buy links
-- Conversion analytics
+**Result:** All targets achieved on 2026-03-29.
 
 ### Out of Scope
 
@@ -73,6 +69,9 @@ Tech stack: Node.js 20, Express, MCP SDK 1.x (Streamable HTTP), Supabase (PostgR
 - **API KEY DELIVERY:** Edge function serves one-time key retrieval page after checkout
 - Monthly: $19/mo (price_1TG44XLtZyfmfxUd77Aypt2r) | Lifetime: $40 (price_1TG44YLtZyfmfxUd3O8gEJnT)
 - Payment links: buy.stripe.com/bJefZi83Zg75dmu2A22Ji00 (monthly) | buy.stripe.com/00w4gAac7bQP2HQ1vY2Ji01 (lifetime)
+- **PUBLISHED:** npm package `freelance-os@0.1.0` (41 files, 28KB)
+- **DISCOVERABLE:** Listed on mcp.so, glama.ai, smithery.ai
+- **GITHUB:** github.com/Sohlin2/freelance-os (public)
 
 ## Constraints
 
@@ -114,4 +113,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after v1.1 milestone start*
+*Last updated: 2026-03-29 after v1.1 milestone completion*
