@@ -199,6 +199,12 @@ app.post('/mcp', apiKeyAuthMiddleware, billingMiddleware, async (req, res) => {
 app.get('/mcp', (_req, res) => { res.status(405).end(); });
 app.delete('/mcp', (_req, res) => { res.status(405).end(); });
 
+// Reject OAuth dynamic client registration — FreelanceOS uses API key auth, not OAuth.
+// Without this, scanners (e.g. Smithery) get a generic 404 HTML page and misinterpret it.
+app.post('/register', (_req, res) => {
+  res.status(404).json({ error: 'OAuth not supported. Use X-API-Key or Authorization: Bearer <key>' });
+});
+
 const PORT = Number(process.env.PORT ?? 3000);
 app.listen(PORT, () => {
   console.log(`FreelanceOS MCP server listening on port ${PORT}`);
