@@ -27,10 +27,10 @@ describe('plugin.json manifest (INFRA-04)', () => {
     expect(manifest.name).toBe('freelance-os');
   });
 
-  it('plugin.json has skills field set to "./skills/"', () => {
+  it('plugin.json has skills field with glob pattern', () => {
     const path = join(ROOT, '.claude-plugin', 'plugin.json');
     const manifest = JSON.parse(readFileSync(path, 'utf8'));
-    expect(manifest.skills).toBe('./skills/');
+    expect(manifest.skills).toEqual(['./skills/*/SKILL.md']);
   });
 
   it('plugin.json does NOT contain mcpServers key (lives in .mcp.json)', () => {
@@ -86,12 +86,12 @@ describe('.mcp.json server config (INFRA-04, INFRA-05)', () => {
     expect(config.mcpServers['freelance-os'].type).toBe('http');
   });
 
-  it('mcpServers["freelance-os"].url is a string starting with "https://"', () => {
+  it('mcpServers["freelance-os"].url uses user_config variable', () => {
     const path = join(ROOT, '.mcp.json');
     const config = JSON.parse(readFileSync(path, 'utf8'));
     const url = config.mcpServers['freelance-os'].url;
     expect(typeof url).toBe('string');
-    expect(url.startsWith('https://')).toBe(true);
+    expect(url).toContain('${user_config.FREELANCEOS_SERVER_URL}');
   });
 
   it('Authorization header contains "${user_config.FREELANCEOS_API_KEY}" (exact substitution syntax)', () => {

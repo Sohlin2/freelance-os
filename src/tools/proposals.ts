@@ -275,7 +275,7 @@ export function registerProposalTools(server: McpServer, userId: string): void {
           }
 
           // Capture original status before update for rollback if needed
-          const originalStatus = (proposal as { status: string }).status;
+          const originalStatus = proposal.status;
 
           // Step 2: Update proposal status to accepted
           const { data: updatedProposal, error: updateError } = await db
@@ -302,9 +302,9 @@ export function registerProposalTools(server: McpServer, userId: string): void {
             .from('scope_definitions')
             .upsert(
               {
-                project_id: (proposal as { project_id: string }).project_id,
+                project_id: proposal.project_id,
                 user_id: userId,
-                deliverables: (proposal as { content: string | null }).content ?? '',
+                deliverables: proposal.content ?? '',
               },
               { onConflict: 'project_id' }
             )

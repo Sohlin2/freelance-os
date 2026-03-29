@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_key_deliveries: {
+        Row: {
+          id: string
+          retrieval_token: string
+          api_key_raw: string
+          email: string
+          plan: string
+          expires_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          retrieval_token: string
+          api_key_raw: string
+          email: string
+          plan: string
+          expires_at?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          retrieval_token?: string
+          api_key_raw?: string
+          email?: string
+          plan?: string
+          expires_at?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -462,6 +492,42 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          id: string
+          plan: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          plan?: string
+          status?: string
+          stripe_customer_id: string
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          id?: string
+          plan?: string
+          status?: string
+          stripe_customer_id?: string
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       time_entries: {
         Row: {
           archived_at: string | null
@@ -515,6 +581,7 @@ export type Database = {
     }
     Functions: {
       current_app_user_id: { Args: never; Returns: string }
+      get_user_id_by_email: { Args: { p_email: string }; Returns: string }
       set_app_user_id: { Args: { p_user_id: string }; Returns: undefined }
       validate_api_key: { Args: { p_key: string }; Returns: string }
     }
