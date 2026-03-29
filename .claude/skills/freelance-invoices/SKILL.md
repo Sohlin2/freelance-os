@@ -19,13 +19,13 @@ This skill activates when a freelancer is:
 
 ## Tool workflow
 
-1. `get_project` — confirm project and client context before creating
-2. `list_proposals` — find the accepted proposal for pricing reference; invoice amounts should trace back to agreed scope and rate
-3. `aggregate_time` — if billing hourly, call this for the billing period to get accurate total hours before writing line items
-4. `create_invoice` — generate with itemized line_items, due_date, and calculated total
-5. `get_invoice` — retrieve invoice details for review, sharing, or status checking
-6. `list_invoices` — review outstanding or overdue invoices; use status filter (`draft`, `sent`, `paid`, `overdue`)
-7. `update_invoice` — advance invoice status: draft → sent (day of delivery) → paid (day payment clears); set paid_at when marking paid
+1. `projects.get` — confirm project and client context before creating
+2. `proposals.list` — find the accepted proposal for pricing reference; invoice amounts should trace back to agreed scope and rate
+3. `time.aggregate` — if billing hourly, call this for the billing period to get accurate total hours before writing line items
+4. `invoices.create` — generate with itemized line_items, due_date, and calculated total
+5. `invoices.get` — retrieve invoice details for review, sharing, or status checking
+6. `invoices.list` — review outstanding or overdue invoices; use status filter (`draft`, `sent`, `paid`, `overdue`)
+7. `invoices.update` — advance invoice status: draft → sent (day of delivery) → paid (day payment clears); set paid_at when marking paid
 8. If overdue: hand off to the freelance-followups skill for follow-up coaching
 
 ## Invoice coaching principles
@@ -40,7 +40,7 @@ Always itemize work. "Website design - $3,000" is worse than individual line ite
 Itemization justifies the total and makes partial disputes easier to resolve.
 
 ### Reference the proposal
-Every invoice should trace back to the accepted proposal amount. If the invoice differs (scope change, additional work), note why in the line item description or notes field. Use `list_proposals` to pull the original agreed rate before writing amounts.
+Every invoice should trace back to the accepted proposal amount. If the invoice differs (scope change, additional work), note why in the line item description or notes field. Use `proposals.list` to pull the original agreed rate before writing amounts.
 
 ### Due dates
 - Default Net 30 for established clients, Net 15 for new clients
@@ -63,14 +63,14 @@ Use sequential numbering (INV-001, INV-002, INV-003). Never reuse numbers. This 
 | Project type | Line items |
 |-------------|------------|
 | Fixed-price project | Milestone deliverables from proposal (matches deliverables list) |
-| Hourly project | "Development work — [billing period]" with hours from `aggregate_time` x rate |
+| Hourly project | "Development work — [billing period]" with hours from `time.aggregate` x rate |
 | Retainer | "Monthly retainer — [Month Year]" + "Overage: [N] hours at $X/hr" if applicable |
 | Scope change add-on | Original scope line items + "Additional work: [change description]" |
 
 ## Conditional coaching
 
-**Creating from scratch:** Walk through line items step by step. Pull the proposal rate with `list_proposals`, pull hours with `aggregate_time` if hourly, then draft items together. Set `due_date` before saving.
+**Creating from scratch:** Walk through line items step by step. Pull the proposal rate with `proposals.list`, pull hours with `time.aggregate` if hourly, then draft items together. Set `due_date` before saving.
 
-**User has details ready:** Create efficiently with `create_invoice`. Offer a quick review of line items before confirming — "Want me to check itemization before saving?" If user says "just save it" — call `create_invoice` immediately.
+**User has details ready:** Create efficiently with `invoices.create`. Offer a quick review of line items before confirming — "Want me to check itemization before saving?" If user says "just save it" — call `invoices.create` immediately.
 
-**Checking status:** Use `list_invoices` with a status filter. Flag any invoices in "sent" status past their `due_date` — those need to be marked overdue and followed up.
+**Checking status:** Use `invoices.list` with a status filter. Flag any invoices in "sent" status past their `due_date` — those need to be marked overdue and followed up.

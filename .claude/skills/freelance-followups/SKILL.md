@@ -20,16 +20,16 @@ This skill activates when a freelancer is:
 
 ## Tool workflow
 
-1. `get_followup_context` — ALWAYS call this first. Returns client info, outstanding invoices, and recent follow-up history. This is the data foundation for any follow-up.
+1. `followups.get_context` — ALWAYS call this first. Returns client info, outstanding invoices, and recent follow-up history. This is the data foundation for any follow-up.
 2. Analyze the context: identify follow-up type, days since last contact, invoice status, prior follow-up count
 3. Apply the timing and tone matrix below to determine the right approach
 4. Draft the follow-up content
-5. `create_followup` — persist with the correct type field matching the context
-6. After user confirms they have sent it: `mark_followup_sent` to record the sent timestamp
+5. `followups.create` — persist with the correct type field matching the context
+6. After user confirms they have sent it: `followups.mark_sent` to record the sent timestamp
 
 Also useful:
-- `list_followups` — check follow-up history before drafting to avoid sending duplicate follow-ups on the same day
-- `get_followup` — retrieve a specific follow-up by ID. Use when referencing a previously created follow-up to check its content, type, or sent status before drafting a new one.
+- `followups.list` — check follow-up history before drafting to avoid sending duplicate follow-ups on the same day
+- `followups.get` — retrieve a specific follow-up by ID. Use when referencing a previously created follow-up to check its content, type, or sent status before drafting a new one.
 
 ## Timing and tone matrix
 
@@ -47,13 +47,13 @@ Also useful:
 
 - **3 follow-up limit:** Never send more than 3 follow-ups for the same item without a response. After 3, wait for the client to re-engage or have a direct conversation.
 - **Reference specific data:** Always include invoice number, amount, project name, and date sent. Generic follow-ups feel automated and get lower response rates.
-- **Check history first:** Before drafting, review context from get_followup_context — avoid sending duplicate follow-ups on the same day or for the same item.
+- **Check history first:** Before drafting, review context from followups.get_context — avoid sending duplicate follow-ups on the same day or for the same item.
 - **Timing:** Morning emails (9-10 AM client timezone) get higher response rates than afternoon.
 - **Brevity:** Follow-ups should be 3-5 sentences maximum. One clear ask per email. Longer emails get skipped.
 
 ## Follow-up count guidance
 
-When get_followup_context returns recent_follow_ups, count how many are for the same context (same invoice, same proposal):
+When followups.get_context returns recent_follow_ups, count how many are for the same context (same invoice, same proposal):
 - 0 prior follow-ups: send first follow-up using timing from the matrix above
 - 1 prior follow-up: increase firmness one notch (friendly → professional)
 - 2 prior follow-ups: increase firmness another notch (professional → direct)
@@ -61,8 +61,8 @@ When get_followup_context returns recent_follow_ups, count how many are for the 
 
 ## Conditional coaching
 
-**User is asking Claude to draft:** Apply full timing and tone coaching. Pull context first with get_followup_context, identify the correct type and tone before writing.
+**User is asking Claude to draft:** Apply full timing and tone coaching. Pull context first with followups.get_context, identify the correct type and tone before writing.
 
-**User has written content and wants to save it:** Offer a quick tone check. Example: "This reads a bit strong for a first reminder — want me to soften it?" If the tone matches the context from the matrix, approve and persist with create_followup.
+**User has written content and wants to save it:** Offer a quick tone check. Example: "This reads a bit strong for a first reminder — want me to soften it?" If the tone matches the context from the matrix, approve and persist with followups.create.
 
-**User says "just save it" or "just send it":** Persist immediately with create_followup and mark_followup_sent. No coaching unless asked.
+**User says "just save it" or "just send it":** Persist immediately with followups.create and followups.mark_sent. No coaching unless asked.

@@ -3,9 +3,9 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { withUserContext } from '../lib/with-user-context.js';
 
 export function registerProjectTools(server: McpServer, userId: string): void {
-  // Tool 1: create_project
+  // Tool 1: projects.create
   server.registerTool(
-    'create_project',
+    'projects.create',
     {
       description:
         'Create a new project linked to an existing client and persist it to the FreelanceOS database. Use this tool when a freelancer is starting new work for a client and needs to track budget, timeline, and status across the project lifecycle.',
@@ -19,7 +19,7 @@ export function registerProjectTools(server: McpServer, userId: string): void {
         end_date: z.string().date().optional().describe('Expected project end or delivery date in YYYY-MM-DD format'),
       },
       annotations: {
-        title: 'Create Project',
+        title: 'Projects: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -59,9 +59,9 @@ export function registerProjectTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 2: get_project
+  // Tool 2: projects.get
   server.registerTool(
-    'get_project',
+    'projects.get',
     {
       description:
         "Retrieve full details for a single project, including the associated client name and contact information. Use this tool when a freelancer asks about a specific project's status, budget, or timeline.",
@@ -69,7 +69,7 @@ export function registerProjectTools(server: McpServer, userId: string): void {
         project_id: z.string().uuid().describe('Unique UUID identifier of the project record to retrieve'),
       },
       annotations: {
-        title: 'Get Project',
+        title: 'Projects: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -110,9 +110,9 @@ export function registerProjectTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 3: list_projects
+  // Tool 3: projects.list
   server.registerTool(
-    'list_projects',
+    'projects.list',
     {
       description:
         'List all non-archived projects with optional full-text search, status and client filters, sorting, and pagination. Use this tool when a freelancer wants an overview of their work portfolio or needs to locate a specific project by name or client.',
@@ -138,7 +138,7 @@ export function registerProjectTools(server: McpServer, userId: string): void {
         offset: z.number().int().min(0).default(0).describe('Zero-based index offset into the full result set used for paginating through large lists'),
       },
       annotations: {
-        title: 'List Projects',
+        title: 'Projects: List',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -203,9 +203,9 @@ export function registerProjectTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 4: update_project
+  // Tool 4: projects.update
   server.registerTool(
-    'update_project',
+    'projects.update',
     {
       description:
         "Update one or more fields on an existing project record, including name, description, budget, dates, or lifecycle status. Use this tool when a freelancer wants to edit project details, revise the budget, adjust the timeline, or mark a project as paused or completed.",
@@ -223,7 +223,7 @@ export function registerProjectTools(server: McpServer, userId: string): void {
         end_date: z.string().date().optional().nullable().describe('Revised expected end date in YYYY-MM-DD format, or null to clear it'),
       },
       annotations: {
-        title: 'Update Project',
+        title: 'Projects: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -274,9 +274,9 @@ export function registerProjectTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 5: archive_project
+  // Tool 5: projects.archive
   server.registerTool(
-    'archive_project',
+    'projects.archive',
     {
       description:
         'Soft-delete a project by setting its archived_at timestamp, hiding it from all active project lists while preserving all historical data. Use this tool when a freelancer wants to close out a completed or cancelled project without permanently destroying its records.',
@@ -284,7 +284,7 @@ export function registerProjectTools(server: McpServer, userId: string): void {
         project_id: z.string().uuid().describe('Unique UUID identifier of the active project record to archive'),
       },
       annotations: {
-        title: 'Archive Project',
+        title: 'Projects: Archive',
         readOnlyHint: false,
         destructiveHint: true,
         idempotentHint: true,

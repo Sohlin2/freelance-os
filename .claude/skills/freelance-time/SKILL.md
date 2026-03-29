@@ -19,13 +19,13 @@ This skill activates when a freelancer is:
 
 ## Tool workflow
 
-1. `get_project` — confirm which project to log time against; verify the project is active
-2. `create_time_entry` — log the entry with a descriptive `description`, `duration_minutes`, `entry_date`, and `billable` flag
-3. `list_time_entries` — review entries for a project or date range; check for missing entries or duplicates before aggregating
-4. `aggregate_time` — sum total billable hours for the billing period; always run `list_time_entries` first to spot gaps
-5. `update_time_entry` — correct a logged entry's duration, date, or description if needed
-6. `archive_time_entry` — remove an incorrectly logged entry (soft delete; use instead of update when the entry should not exist at all)
-7. For invoicing: hand off to the freelance-invoices skill — pass the `total_hours` from `aggregate_time` as the quantity line item
+1. `projects.get` — confirm which project to log time against; verify the project is active
+2. `time.create` — log the entry with a descriptive `description`, `duration_minutes`, `entry_date`, and `billable` flag
+3. `time.list` — review entries for a project or date range; check for missing entries or duplicates before aggregating
+4. `time.aggregate` — sum total billable hours for the billing period; always run `time.list` first to spot gaps
+5. `time.update` — correct a logged entry's duration, date, or description if needed
+6. `time.archive` — remove an incorrectly logged entry (soft delete; use instead of update when the entry should not exist at all)
+7. For invoicing: hand off to the freelance-invoices skill — pass the `total_hours` from `time.aggregate` as the quantity line item
 
 ## Time tracking principles
 
@@ -44,15 +44,15 @@ Set `billable: false` for:
 - Rework caused by your own errors
 - Learning new tools or techniques for the project (unless agreed otherwise)
 
-Only bill for client-facing value. Use `aggregate_time` with `billable_only: true` (the default) for invoice amounts.
+Only bill for client-facing value. Use `time.aggregate` with `billable_only: true` (the default) for invoice amounts.
 
 ### Track before aggregating
-Always run `list_time_entries` before `aggregate_time` to spot missing entries or duplicates. The aggregate is only as accurate as its inputs. A quick scan takes seconds and prevents under-billing or double-billing.
+Always run `time.list` before `time.aggregate` to spot missing entries or duplicates. The aggregate is only as accurate as its inputs. A quick scan takes seconds and prevents under-billing or double-billing.
 
 ## Conditional coaching
 
 **Logging time:** Remind about descriptive entries if the description is vague (e.g., "worked on project"). Suggest rounding to the nearest 15 minutes if `duration_minutes` is not a multiple of 15.
 
-**Aggregating for invoice:** Prompt to review entries first with `list_time_entries`, then call `aggregate_time`. Hand off the result to the freelance-invoices skill with the total hours as the line item quantity.
+**Aggregating for invoice:** Prompt to review entries first with `time.list`, then call `time.aggregate`. Hand off the result to the freelance-invoices skill with the total hours as the line item quantity.
 
-**User just wants to log quickly:** Call `create_time_entry` immediately. No coaching unless the entry looks problematic (missing description, zero duration, non-billable flag).
+**User just wants to log quickly:** Call `time.create` immediately. No coaching unless the entry looks problematic (missing description, zero duration, non-billable flag).

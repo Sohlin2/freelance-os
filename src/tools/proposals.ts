@@ -3,9 +3,9 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { withUserContext } from '../lib/with-user-context.js';
 
 export function registerProposalTools(server: McpServer, userId: string): void {
-  // Tool 1: create_proposal
+  // Tool 1: proposals.create
   server.registerTool(
-    'create_proposal',
+    'proposals.create',
     {
       description:
         'Store a new proposal for a project, capturing all relevant details such as title, deliverables, pricing, and expiry date. Use when the freelancer has drafted proposal content and wants to persist it to the database for tracking and future reference.',
@@ -19,7 +19,7 @@ export function registerProposalTools(server: McpServer, userId: string): void {
         valid_until: z.string().date().optional().describe('Expiry date after which the proposal is no longer valid (YYYY-MM-DD)'),
       },
       annotations: {
-        title: 'Create Proposal',
+        title: 'Proposals: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -59,9 +59,9 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 2: get_proposal
+  // Tool 2: proposals.get
   server.registerTool(
-    'get_proposal',
+    'proposals.get',
     {
       description:
         'Retrieve a single proposal by its unique identifier, returning all stored fields including status, amount, and content. Use when the freelancer asks to view, review, or reference the details of a specific proposal.',
@@ -69,7 +69,7 @@ export function registerProposalTools(server: McpServer, userId: string): void {
         proposal_id: z.string().uuid().describe('UUID of the proposal record to retrieve from the database'),
       },
       annotations: {
-        title: 'Get Proposal',
+        title: 'Proposals: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -110,9 +110,9 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 3: list_proposals
+  // Tool 3: proposals.list
   server.registerTool(
-    'list_proposals',
+    'proposals.list',
     {
       description:
         'List proposals filtered by project, client, or status with support for sorting and pagination. Use when the freelancer asks for proposal history, wants to audit outstanding proposals, or needs to check the status of proposals sent to a client.',
@@ -132,7 +132,7 @@ export function registerProposalTools(server: McpServer, userId: string): void {
         offset: z.number().int().min(0).default(0).describe('Number of records to skip for cursor-based pagination'),
       },
       annotations: {
-        title: 'List Proposals',
+        title: 'Proposals: List',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -197,9 +197,9 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 4: update_proposal
+  // Tool 4: proposals.update
   server.registerTool(
-    'update_proposal',
+    'proposals.update',
     {
       description:
         'Update one or more fields on an existing proposal, including content, pricing, status, or key timestamps. Use when the freelancer wants to revise proposal details, mark it as sent, or record a client response without going through the full accept flow.',
@@ -218,7 +218,7 @@ export function registerProposalTools(server: McpServer, userId: string): void {
         responded_at: z.string().datetime().optional().nullable().describe('ISO 8601 timestamp recording when the client replied or responded'),
       },
       annotations: {
-        title: 'Update Proposal',
+        title: 'Proposals: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -269,9 +269,9 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 5: accept_proposal (CRITICAL transactional tool — D-04, PROP-03)
+  // Tool 5: proposals.accept (CRITICAL transactional tool — D-04, PROP-03)
   server.registerTool(
-    'accept_proposal',
+    'proposals.accept',
     {
       description:
         'Mark a proposal as accepted, record the response timestamp, and automatically seed the linked project\'s scope_definitions from the proposal deliverables in a single atomic operation. Use when the freelancer confirms that a client has accepted the proposal and work is ready to begin.',
@@ -279,7 +279,7 @@ export function registerProposalTools(server: McpServer, userId: string): void {
         proposal_id: z.string().uuid().describe('UUID of the proposal that the client has agreed to accept'),
       },
       annotations: {
-        title: 'Accept Proposal',
+        title: 'Proposals: Accept',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,

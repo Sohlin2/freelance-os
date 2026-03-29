@@ -19,26 +19,26 @@ This skill activates when a freelancer is:
 
 ## Tool workflow
 
-1. `list_clients` or `get_client` — confirm client context: billing rate, company, past project history
-2. `list_proposals` — check prior proposals for this client to avoid duplicate pricing or conflicting terms
-3. `get_project` — confirm project details, status, and timeline
+1. `clients.list` or `clients.get` — confirm client context: billing rate, company, past project history
+2. `proposals.list` — check prior proposals for this client to avoid duplicate pricing or conflicting terms
+3. `projects.get` — confirm project details, status, and timeline
 4. Draft proposal content applying the coaching principles below
-5. `create_proposal` — persist with implicit draft status (do NOT set status to "sent" yet)
-6. After user confirms they have sent it: `update_proposal` with status "sent" and sent_at timestamp
-7. When client accepts: `accept_proposal` — marks the proposal accepted AND seeds the project scope from deliverables
+5. `proposals.create` — persist with implicit draft status (do NOT set status to "sent" yet)
+6. After user confirms they have sent it: `proposals.update` with status "sent" and sent_at timestamp
+7. When client accepts: `proposals.accept` — marks the proposal accepted AND seeds the project scope from deliverables
 
 ### Project lifecycle tools
 
 These tools operate on the project entity referenced by proposals:
 
-- `archive_project` — soft-delete a project when it is complete or cancelled. Use after final invoice is paid and all deliverables are accepted. Archiving is reversible (data is retained with an `archived_at` timestamp, not deleted). Always confirm with the freelancer before archiving — once archived, the project will not appear in default `list_projects` results.
+- `projects.archive` — soft-delete a project when it is complete or cancelled. Use after final invoice is paid and all deliverables are accepted. Archiving is reversible (data is retained with an `archived_at` timestamp, not deleted). Always confirm with the freelancer before archiving — once archived, the project will not appear in default `projects.list` results.
 
 ## Coaching principles
 
 ### Pricing
 - Always calculate from time_estimate x hourly_rate, not gut feeling
 - Ask "how many hours do you estimate?" before quoting a fixed price
-- If client has a billing_rate on file (from get_client), use it as the baseline
+- If client has a billing_rate on file (from clients.get), use it as the baseline
 - For fixed-price projects: add 20% buffer for unknowns — e.g., 10 hours at $100/hr = $1,000 base, quote $1,200
 - Never price below $50/hour for professional services
 - Itemize pricing when possible — clients respect transparency and it reduces disputes
@@ -68,7 +68,7 @@ These tools operate on the project entity referenced by proposals:
 ### Proposal validity
 - All proposals expire in 30 days — state this explicitly
 - Prevents "I want to go ahead with the proposal from 6 months ago" at outdated rates
-- Set valid_until when calling create_proposal
+- Set valid_until when calling proposals.create
 
 ### Deliverables language
 - List specific deliverables, not vague outcomes
@@ -94,6 +94,6 @@ These tools operate on the project entity referenced by proposals:
 
 **Drafting from scratch:** Apply full coaching. Ask clarifying questions about scope, timeline, and rate before writing. Do not draft without at least: deliverables list, estimated hours, and hourly rate.
 
-**User has written content, wants to store it:** Offer a quick review. Example: "Want me to check pricing and scope clarity before saving? I noticed you have not mentioned revision limits or payment terms." If user says "just save it" — call create_proposal immediately without further coaching.
+**User has written content, wants to store it:** Offer a quick review. Example: "Want me to check pricing and scope clarity before saving? I noticed you have not mentioned revision limits or payment terms." If user says "just save it" — call proposals.create immediately without further coaching.
 
-**User says "just save it" or "save this":** Persist immediately with create_proposal. No coaching unless asked.
+**User says "just save it" or "save this":** Persist immediately with proposals.create. No coaching unless asked.

@@ -3,9 +3,9 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { withUserContext } from '../lib/with-user-context.js';
 
 export function registerClientTools(server: McpServer, userId: string): void {
-  // Tool 1: create_client
+  // Tool 1: clients.create
   server.registerTool(
-    'create_client',
+    'clients.create',
     {
       description:
         "Create a new client record in the FreelanceOS database. Use this tool whenever a freelancer mentions a new client they're starting to work with or want to begin tracking — capturing contact details and default billing rate upfront saves time when creating projects and invoices later.",
@@ -33,7 +33,7 @@ export function registerClientTools(server: McpServer, userId: string): void {
           .describe('Free-form notes about this client such as communication preferences, contract terms, or background context'),
       },
       annotations: {
-        title: 'Create Client',
+        title: 'Clients: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -73,9 +73,9 @@ export function registerClientTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 2: get_client
+  // Tool 2: clients.get
   server.registerTool(
-    'get_client',
+    'clients.get',
     {
       description:
         "Retrieve the full profile for a single client, including all associated projects and follow-up communications. Use this tool when a freelancer asks about a specific client by name or ID, or when you need complete client context before drafting a proposal, invoice, or follow-up.",
@@ -83,7 +83,7 @@ export function registerClientTools(server: McpServer, userId: string): void {
         client_id: z.string().uuid().describe('The unique identifier (UUID) of the client to retrieve'),
       },
       annotations: {
-        title: 'Get Client',
+        title: 'Clients: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -126,9 +126,9 @@ export function registerClientTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 3: list_clients
+  // Tool 3: clients.list
   server.registerTool(
-    'list_clients',
+    'clients.list',
     {
       description:
         'List all active (non-archived) clients with optional name search, sorting, and pagination. Use this tool when a freelancer wants an overview of their client roster, needs to look up a client by name, or when you need to present a list of clients for the user to choose from.',
@@ -160,7 +160,7 @@ export function registerClientTools(server: McpServer, userId: string): void {
           .describe('Number of records to skip before returning results, used for paginating through large client lists'),
       },
       annotations: {
-        title: 'List Clients',
+        title: 'Clients: List',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -222,9 +222,9 @@ export function registerClientTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 4: update_client
+  // Tool 4: clients.update
   server.registerTool(
-    'update_client',
+    'clients.update',
     {
       description:
         "Update one or more fields on an existing client record. Use this tool when a freelancer wants to correct contact details, change a billing rate, update notes, or make any other modification to a client's stored information — only the fields you provide will be changed, all others remain untouched.",
@@ -248,7 +248,7 @@ export function registerClientTools(server: McpServer, userId: string): void {
         notes: z.string().optional().nullable().describe('New free-form notes to replace the existing notes, or null to clear them'),
       },
       annotations: {
-        title: 'Update Client',
+        title: 'Clients: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -299,9 +299,9 @@ export function registerClientTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 5: archive_client
+  // Tool 5: clients.archive
   server.registerTool(
-    'archive_client',
+    'clients.archive',
     {
       description:
         'Soft-delete a client by setting their archived_at timestamp, hiding them from all active client lists while preserving their full history. Use this tool when a freelancer is done working with a client and wants to retire the record — the client and all linked projects, invoices, and follow-ups remain in the database and can be audited, but will no longer appear in normal queries.',
@@ -309,7 +309,7 @@ export function registerClientTools(server: McpServer, userId: string): void {
         client_id: z.string().uuid().describe('The unique identifier (UUID) of the client to archive'),
       },
       annotations: {
-        title: 'Archive Client',
+        title: 'Clients: Archive',
         readOnlyHint: false,
         destructiveHint: true,
         idempotentHint: true,

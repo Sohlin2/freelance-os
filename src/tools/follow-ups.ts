@@ -13,7 +13,7 @@ const FOLLOW_UP_TYPE_ENUM = [
 export function registerFollowUpTools(server: McpServer, userId: string): void {
   // Tool 1: create_followup
   server.registerTool(
-    'create_followup',
+    'followups.create',
     {
       description:
         'Store a drafted follow-up message in the FreelanceOS database. Use when the freelancer has composed a follow-up and wants to save it for tracking purposes before or after sending it to the client.',
@@ -43,7 +43,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           .describe('Full body text of the follow-up message to be saved and potentially sent'),
       },
       annotations: {
-        title: 'Create Follow-Up',
+        title: 'Follow-Ups: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -85,7 +85,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
 
   // Tool 2: get_followup
   server.registerTool(
-    'get_followup',
+    'followups.get',
     {
       description:
         'Retrieve a single follow-up record by its unique ID. Use when the freelancer asks to view the full details of a specific saved follow-up, including its content, type, and sent status.',
@@ -96,7 +96,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           .describe('Unique UUID identifier of the follow-up record to retrieve'),
       },
       annotations: {
-        title: 'Get Follow-Up',
+        title: 'Follow-Ups: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -139,7 +139,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
 
   // Tool 3: list_followups
   server.registerTool(
-    'list_followups',
+    'followups.list',
     {
       description:
         'List and filter follow-up records for a client or project with pagination support. Use when the freelancer asks to review follow-up history, check outstanding drafts, or audit all sent communications for a given client.',
@@ -189,7 +189,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           .describe('Number of records to skip for cursor-based pagination through large result sets'),
       },
       annotations: {
-        title: 'List Follow-Ups',
+        title: 'Follow-Ups: List',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -264,7 +264,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
 
   // Tool 4: update_followup
   server.registerTool(
-    'update_followup',
+    'followups.update',
     {
       description:
         "Update the content or metadata of an existing follow-up record. Use when the freelancer wants to revise a drafted follow-up's subject, body, type, or project association before sending it to the client.",
@@ -299,7 +299,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           ),
       },
       annotations: {
-        title: 'Update Follow-Up',
+        title: 'Follow-Ups: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -352,7 +352,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
 
   // Tool 5: mark_followup_sent
   server.registerTool(
-    'mark_followup_sent',
+    'followups.mark_sent',
     {
       description:
         'Record the current timestamp as the sent date on a follow-up, transitioning it from draft to sent status. Use when the freelancer confirms they have actually sent the follow-up message to the client outside of FreelanceOS.',
@@ -365,7 +365,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           ),
       },
       annotations: {
-        title: 'Mark Follow-Up Sent',
+        title: 'Follow-Ups: Mark Sent',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -414,10 +414,10 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
 
   // Tool 6: get_followup_context
   server.registerTool(
-    'get_followup_context',
+    'followups.get_context',
     {
       description:
-        'Fetch all relevant context needed to draft an effective follow-up for a client, including outstanding invoices, recent follow-up history, and client contact details. Always call this tool before create_followup so the drafted message is informed by the client\'s current account status.',
+        'Fetch all relevant context needed to draft an effective follow-up for a client, including outstanding invoices, recent follow-up history, and client contact details. Always call this tool before followups.create so the drafted message is informed by the client\'s current account status.',
       inputSchema: {
         client_id: z
           .string()
@@ -434,7 +434,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
           ),
       },
       annotations: {
-        title: 'Get Follow-Up Context',
+        title: 'Follow-Ups: Get Context',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,

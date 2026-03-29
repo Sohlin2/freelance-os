@@ -3,9 +3,9 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { withUserContext } from '../lib/with-user-context.js';
 
 export function registerScopeTools(server: McpServer, userId: string): void {
-  // Tool 1: create_scope
+  // Tool 1: scope.create
   server.registerTool(
-    'create_scope',
+    'scope.create',
     {
       description:
         'Define and persist the agreed project scope with deliverables, boundaries, and exclusions. Use this tool when starting a new project or immediately after a proposal is accepted by the client to establish a clear, shared understanding of what will be built.',
@@ -29,7 +29,7 @@ export function registerScopeTools(server: McpServer, userId: string): void {
           .describe('Specific work items or deliverables that are explicitly excluded from this project scope'),
       },
       annotations: {
-        title: 'Create Project Scope',
+        title: 'Scope: Create',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -69,9 +69,9 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 2: get_scope
+  // Tool 2: scope.get
   server.registerTool(
-    'get_scope',
+    'scope.get',
     {
       description:
         'Retrieve the current active scope definition for a project, including deliverables, boundaries, assumptions, and exclusions. Use when the freelancer wants to review exactly what was agreed with the client before starting work or answering a scope question.',
@@ -79,7 +79,7 @@ export function registerScopeTools(server: McpServer, userId: string): void {
         project_id: z.string().uuid().describe('UUID of the project whose scope definition should be retrieved'),
       },
       annotations: {
-        title: 'Get Project Scope',
+        title: 'Scope: Get',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -120,9 +120,9 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 3: update_scope
+  // Tool 3: scope.update
   server.registerTool(
-    'update_scope',
+    'scope.update',
     {
       description:
         'Update one or more fields of the active scope definition for a project. Use when the client and freelancer have mutually agreed to change the scope and the persisted record needs to reflect the new agreement.',
@@ -150,7 +150,7 @@ export function registerScopeTools(server: McpServer, userId: string): void {
           .describe('Revised list of work items or deliverables that are explicitly excluded from the updated scope'),
       },
       annotations: {
-        title: 'Update Project Scope',
+        title: 'Scope: Update',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: true,
@@ -202,9 +202,9 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 4: log_scope_change
+  // Tool 4: scope.log_change
   server.registerTool(
-    'log_scope_change',
+    'scope.log_change',
     {
       description:
         'Record a client scope change request with classification and impact notes to maintain an auditable history of scope creep. Use this tool ONLY after the freelancer confirms they want to log the change — never log speculatively without explicit instruction.',
@@ -233,7 +233,7 @@ export function registerScopeTools(server: McpServer, userId: string): void {
           .describe('ISO 8601 datetime when this scope change request was resolved or formally accepted'),
       },
       annotations: {
-        title: 'Log Scope Change',
+        title: 'Scope: Log Change',
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
@@ -273,9 +273,9 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 5: list_scope_changes
+  // Tool 5: scope.list_changes
   server.registerTool(
-    'list_scope_changes',
+    'scope.list_changes',
     {
       description:
         'List all scope change requests logged against a project, with optional filtering by classification and configurable sort order. Use when reviewing scope creep history, preparing a change-order summary, or auditing out-of-scope requests for billing.',
@@ -308,7 +308,7 @@ export function registerScopeTools(server: McpServer, userId: string): void {
           .describe('Number of records to skip for pagination — use with limit to page through results'),
       },
       annotations: {
-        title: 'List Scope Changes',
+        title: 'Scope: List Changes',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,
@@ -368,9 +368,9 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 6: check_scope
+  // Tool 6: scope.check
   server.registerTool(
-    'check_scope',
+    'scope.check',
     {
       description:
         'Retrieve the agreed scope definition and full change history for a project so Claude can assess whether a new client request falls within the original agreement. Use this tool when a client asks for something new and the freelancer wants an informed opinion on whether it is in scope before responding.',
@@ -382,7 +382,7 @@ export function registerScopeTools(server: McpServer, userId: string): void {
           .describe('Detailed description of the new client request to be evaluated against the agreed project scope'),
       },
       annotations: {
-        title: 'Check Request Against Scope',
+        title: 'Scope: Check',
         readOnlyHint: true,
         destructiveHint: false,
         idempotentHint: true,

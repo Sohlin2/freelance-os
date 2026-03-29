@@ -70,7 +70,7 @@ export function buildServer(userId: string): McpServer {
 
   // Resources — expose useful read-only data
   server.resource('business-summary', 'freelance://summary', { description: 'High-level overview of your freelance business: total clients, active projects, pending invoices, and recent activity.', mimeType: 'text/plain' }, async () => ({
-    contents: [{ uri: 'freelance://summary', text: 'Use the list_clients, list_projects, list_invoices, and list_time_entries tools to build a comprehensive business summary.' }],
+    contents: [{ uri: 'freelance://summary', text: 'Use the clients.list, projects.list, invoices.list, and time.list tools to build a comprehensive business summary.' }],
   }));
 
   return server;
