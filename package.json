@@ -3,21 +3,32 @@
   "version": "0.1.0",
   "description": "Freelance business manager for Claude Code — proposals, invoices, follow-ups, scope, and time tracking",
   "type": "module",
+  "main": "dist/server.js",
   "license": "MIT",
   "author": "FreelanceOS",
   "repository": {
     "type": "git",
     "url": "https://github.com/freelance-os/freelance-os"
   },
-  "keywords": ["freelance", "crm", "proposals", "invoices", "mcp", "claude-code", "plugin"],
+  "keywords": [
+    "freelance",
+    "crm",
+    "proposals",
+    "invoices",
+    "mcp",
+    "claude-code",
+    "plugin"
+  ],
   "files": [
+    "dist/",
     ".claude-plugin/",
     "skills/",
     ".mcp.json",
     "README.md"
   ],
   "scripts": {
-    "build": "node scripts/build-plugin.js",
+    "build": "tsc && node scripts/build-plugin.js",
+    "start": "node dist/server.js",
     "prepublishOnly": "npm run build",
     "db:reset": "npx supabase db reset",
     "db:push": "npx supabase db push",
@@ -30,9 +41,11 @@
     "@modelcontextprotocol/sdk": "^1.28.0",
     "@supabase/supabase-js": "^2.100.1",
     "express": "^5.2.1",
+    "stripe": "^17.7.0",
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.0",
     "supabase": "^2.84.4",

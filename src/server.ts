@@ -1,6 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import express from 'express';
+import cors from 'cors';
 import { apiKeyAuthMiddleware } from './middleware/auth.js';
 import { billingMiddleware } from './middleware/billing.js';
 import { registerClientTools } from './tools/clients.js';
@@ -47,6 +48,14 @@ export function buildServer(userId: string): McpServer {
 }
 
 const app = express();
+
+// CORS — required for browser-based MCP scanners (e.g. Smithery)
+app.use(cors({
+  origin: true,
+  methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key', 'Accept'],
+  exposedHeaders: ['Content-Type'],
+}));
 
 // Stripe webhook needs raw body for signature verification — must come BEFORE express.json()
 app.post('/stripe/webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
