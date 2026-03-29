@@ -1,6 +1,11 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "name": "FreelanceOS",
+  "description": "AI-powered freelance business manager for Claude Code. 37 MCP tools and 5 coaching skills covering proposals, invoices, time tracking, scope management, and follow-ups.",
   "maintainers": [
     "Sohlin2"
-  ]
+  ],
+  "repository": {
+    "url": "https://github.com/Sohlin2/freelance-os"
+  }
 }
