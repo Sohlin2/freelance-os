@@ -19,10 +19,10 @@ When prompted, paste your API key. That's it — start managing your freelance b
 
 | Plan | Price | Link |
 |------|-------|------|
-| **Monthly** | $19/month | [Subscribe](https://buy.stripe.com/bJefZi83Zg75dmu2A22Ji00) |
+| **Monthly** | $19/month (7-day free trial) | [Start Free Trial](https://buy.stripe.com/5kQdRagAv5sr5U20rU2Ji02) |
 | **Lifetime** | $40 one-time | [Buy Once](https://buy.stripe.com/00w4gAac7bQP2HQ1vY2Ji01) |
 
-Your API key is delivered instantly after purchase. Stored in your system keychain — never in plaintext.
+Monthly plans include a **7-day free trial** — no charge until day 8. Your API key is delivered instantly. Stored in your system keychain — never in plaintext.
 
 ## What You Get
 

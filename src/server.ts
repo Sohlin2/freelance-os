@@ -171,10 +171,11 @@ app.get('/', (req, res, next) => {
     </div>
     <div class="cards">
       <div class="card">
+        <div class="badge">7-DAY FREE TRIAL</div>
         <div class="label">Monthly</div>
         <div class="price">$19<span>/mo</span></div>
-        <div class="label">Cancel anytime</div>
-        <a href="https://buy.stripe.com/bJefZi83Zg75dmu2A22Ji00" class="btn btn-secondary">Subscribe</a>
+        <div class="label">No charge for 7 days</div>
+        <a href="https://buy.stripe.com/5kQdRagAv5sr5U20rU2Ji02" class="btn btn-secondary">Start Free Trial</a>
       </div>
       <div class="card pop">
         <div class="badge">BEST VALUE</div>
