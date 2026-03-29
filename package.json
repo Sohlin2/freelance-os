@@ -1,14 +1,19 @@
 {
   "name": "freelance-os",
-  "version": "0.1.0",
-  "description": "Freelance business manager for Claude Code — proposals, invoices, follow-ups, scope, and time tracking",
+  "version": "0.2.0",
+  "description": "AI-powered freelance business manager for Claude Code. Proposals, invoices, time tracking, scope management, and follow-ups — 37 tools, 5 coaching skills.",
   "type": "module",
   "main": "dist/server.js",
   "license": "MIT",
-  "author": "FreelanceOS",
+  "author": {
+    "name": "Jacob Sohlin",
+    "email": "jacobsohlin@proton.me",
+    "url": "https://github.com/Sohlin2"
+  },
+  "homepage": "https://github.com/Sohlin2/freelance-os",
   "repository": {
     "type": "git",
-    "url": "https://github.com/freelance-os/freelance-os"
+    "url": "https://github.com/Sohlin2/freelance-os"
   },
   "keywords": [
     "freelance",
@@ -16,8 +21,12 @@
     "proposals",
     "invoices",
     "mcp",
+    "mcp-server",
     "claude-code",
-    "plugin"
+    "plugin",
+    "time-tracking",
+    "scope-management",
+    "ai"
   ],
   "files": [
     "dist/",
