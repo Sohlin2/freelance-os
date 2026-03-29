@@ -21,7 +21,7 @@ export const serverCard = {
   },
   "tools": [
     {
-      "name": "create_client",
+      "name": "clients.create",
       "description": "Create a new client record in the FreelanceOS database. Use this tool whenever a freelancer mentions a new client they're starting to work with or want to begin tracking \u00e2\u20ac\u201d capturing contact details and default billing rate upfront saves time when creating projects and invoices later.",
       "inputSchema": {
         "type": "object",
@@ -67,7 +67,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Create Client",
+        "title": "Clients: Create",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -75,7 +75,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_client",
+      "name": "clients.get",
       "description": "Retrieve the full profile for a single client, including all associated projects and follow-up communications. Use this tool when a freelancer asks about a specific client by name or ID, or when you need complete client context before drafting a proposal, invoice, or follow-up.",
       "inputSchema": {
         "type": "object",
@@ -92,7 +92,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Client",
+        "title": "Clients: Get",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -100,7 +100,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "list_clients",
+      "name": "clients.list",
       "description": "List all active (non-archived) clients with optional name search, sorting, and pagination. Use this tool when a freelancer wants an overview of their client roster, needs to look up a client by name, or when you need to present a list of clients for the user to choose from.",
       "inputSchema": {
         "type": "object",
@@ -146,7 +146,7 @@ export const serverCard = {
         }
       },
       "annotations": {
-        "title": "List Clients",
+        "title": "Clients: List",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -154,7 +154,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "update_client",
+      "name": "clients.update",
       "description": "Update one or more fields on an existing client record. Use this tool when a freelancer wants to correct contact details, change a billing rate, update notes, or make any other modification to a client's stored information \u00e2\u20ac\u201d only the fields you provide will be changed, all others remain untouched.",
       "inputSchema": {
         "type": "object",
@@ -240,7 +240,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Update Client",
+        "title": "Clients: Update",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -248,7 +248,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "archive_client",
+      "name": "clients.archive",
       "description": "Soft-delete a client by setting their archived_at timestamp, hiding them from all active client lists while preserving their full history. Use this tool when a freelancer is done working with a client and wants to retire the record \u00e2\u20ac\u201d the client and all linked projects, invoices, and follow-ups remain in the database and can be audited, but will no longer appear in normal queries.",
       "inputSchema": {
         "type": "object",
@@ -265,7 +265,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Archive Client",
+        "title": "Clients: Archive",
         "readOnlyHint": false,
         "destructiveHint": true,
         "idempotentHint": true,
@@ -273,7 +273,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "create_project",
+      "name": "projects.create",
       "description": "Create a new project linked to an existing client and persist it to the FreelanceOS database. Use this tool when a freelancer is starting new work for a client and needs to track budget, timeline, and status across the project lifecycle.",
       "inputSchema": {
         "type": "object",
@@ -324,7 +324,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Create Project",
+        "title": "Projects: Create",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -332,7 +332,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_project",
+      "name": "projects.get",
       "description": "Retrieve full details for a single project, including the associated client name and contact information. Use this tool when a freelancer asks about a specific project's status, budget, or timeline.",
       "inputSchema": {
         "type": "object",
@@ -349,7 +349,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Project",
+        "title": "Projects: Get",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -357,7 +357,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "list_projects",
+      "name": "projects.list",
       "description": "List all non-archived projects with optional full-text search, status and client filters, sorting, and pagination. Use this tool when a freelancer wants an overview of their work portfolio or needs to locate a specific project by name or client.",
       "inputSchema": {
         "type": "object",
@@ -419,7 +419,7 @@ export const serverCard = {
         }
       },
       "annotations": {
-        "title": "List Projects",
+        "title": "Projects: List",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -427,7 +427,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "update_project",
+      "name": "projects.update",
       "description": "Update one or more fields on an existing project record, including name, description, budget, dates, or lifecycle status. Use this tool when a freelancer wants to edit project details, revise the budget, adjust the timeline, or mark a project as paused or completed.",
       "inputSchema": {
         "type": "object",
@@ -513,7 +513,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Update Project",
+        "title": "Projects: Update",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -521,7 +521,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "archive_project",
+      "name": "projects.archive",
       "description": "Soft-delete a project by setting its archived_at timestamp, hiding it from all active project lists while preserving all historical data. Use this tool when a freelancer wants to close out a completed or cancelled project without permanently destroying its records.",
       "inputSchema": {
         "type": "object",
@@ -538,7 +538,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Archive Project",
+        "title": "Projects: Archive",
         "readOnlyHint": false,
         "destructiveHint": true,
         "idempotentHint": true,
@@ -546,7 +546,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "create_proposal",
+      "name": "proposals.create",
       "description": "Store a new proposal for a project, capturing all relevant details such as title, deliverables, pricing, and expiry date. Use when the freelancer has drafted proposal content and wants to persist it to the database for tracking and future reference.",
       "inputSchema": {
         "type": "object",
@@ -598,7 +598,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Create Proposal",
+        "title": "Proposals: Create",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -606,7 +606,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_proposal",
+      "name": "proposals.get",
       "description": "Retrieve a single proposal by its unique identifier, returning all stored fields including status, amount, and content. Use when the freelancer asks to view, review, or reference the details of a specific proposal.",
       "inputSchema": {
         "type": "object",
@@ -623,7 +623,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Proposal",
+        "title": "Proposals: Get",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -631,7 +631,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "list_proposals",
+      "name": "proposals.list",
       "description": "List proposals filtered by project, client, or status with support for sorting and pagination. Use when the freelancer asks for proposal history, wants to audit outstanding proposals, or needs to check the status of proposals sent to a client.",
       "inputSchema": {
         "type": "object",
@@ -696,7 +696,7 @@ export const serverCard = {
         }
       },
       "annotations": {
-        "title": "List Proposals",
+        "title": "Proposals: List",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -704,7 +704,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "update_proposal",
+      "name": "proposals.update",
       "description": "Update one or more fields on an existing proposal, including content, pricing, status, or key timestamps. Use when the freelancer wants to revise proposal details, mark it as sent, or record a client response without going through the full accept flow.",
       "inputSchema": {
         "type": "object",
@@ -805,7 +805,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Update Proposal",
+        "title": "Proposals: Update",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -813,7 +813,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "accept_proposal",
+      "name": "proposals.accept",
       "description": "Mark a proposal as accepted, record the response timestamp, and automatically seed the linked project's scope_definitions from the proposal deliverables in a single atomic operation. Use when the freelancer confirms that a client has accepted the proposal and work is ready to begin.",
       "inputSchema": {
         "type": "object",
@@ -830,7 +830,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Accept Proposal",
+        "title": "Proposals: Accept",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -838,7 +838,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "create_invoice",
+      "name": "invoices.create",
       "description": "Create and persist a new invoice with line items, tax, and totals in the FreelanceOS database. Use when the freelancer wants to generate and save a billable invoice for a completed or ongoing project.",
       "inputSchema": {
         "type": "object",
@@ -984,7 +984,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Create Invoice",
+        "title": "Invoices: Create",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -992,7 +992,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_invoice",
+      "name": "invoices.get",
       "description": "Retrieve the full details of a single invoice by its UUID. Use when the freelancer asks to view, review, or share the details of a specific invoice.",
       "inputSchema": {
         "type": "object",
@@ -1009,7 +1009,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Invoice",
+        "title": "Invoices: Get",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1017,7 +1017,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "list_invoices",
+      "name": "invoices.list",
       "description": "Return a paginated, filtered list of invoices for the authenticated freelancer. Use when the freelancer asks about outstanding, paid, overdue, or draft invoices, or wants a revenue summary for a date range.",
       "inputSchema": {
         "type": "object",
@@ -1090,7 +1090,7 @@ export const serverCard = {
         }
       },
       "annotations": {
-        "title": "List Invoices",
+        "title": "Invoices: List",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1098,7 +1098,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "update_invoice",
+      "name": "invoices.update",
       "description": "Update one or more fields on an existing invoice, including its status or financial totals. Use when the freelancer marks an invoice as sent, records a payment, corrects line items, or changes the due date.",
       "inputSchema": {
         "type": "object",
@@ -1229,7 +1229,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Update Invoice",
+        "title": "Invoices: Update",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1237,7 +1237,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "create_time_entry",
+      "name": "time.create",
       "description": "Log a time entry against a project to record hours worked. Use when the freelancer reports time spent on a task, meeting, or deliverable so it can be tracked and later billed to the client.",
       "inputSchema": {
         "type": "object",
@@ -1276,7 +1276,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Create Time Entry",
+        "title": "Time: Create",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -1284,7 +1284,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_time_entry",
+      "name": "time.get",
       "description": "Retrieve a single time entry record by its unique identifier. Use when the freelancer asks to view the details of a specific logged time entry, such as its description, duration, or billable status.",
       "inputSchema": {
         "type": "object",
@@ -1301,7 +1301,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Time Entry",
+        "title": "Time: Get",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1309,7 +1309,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "list_time_entries",
+      "name": "time.list",
       "description": "List time entries with optional filtering by project, date range, and billable status. Use when reviewing logged hours for a project, preparing a timesheet, or checking what work has been recorded before generating an invoice.",
       "inputSchema": {
         "type": "object",
@@ -1368,7 +1368,7 @@ export const serverCard = {
         }
       },
       "annotations": {
-        "title": "List Time Entries",
+        "title": "Time: List",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1376,7 +1376,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "update_time_entry",
+      "name": "time.update",
       "description": "Update one or more fields on an existing time entry record. Use when the freelancer needs to correct a logged entry's duration, description, date, or billable flag after it was originally saved.",
       "inputSchema": {
         "type": "object",
@@ -1412,7 +1412,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Update Time Entry",
+        "title": "Time: Update",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1420,7 +1420,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "archive_time_entry",
+      "name": "time.archive",
       "description": "Soft-delete a time entry by setting its archived_at timestamp, hiding it from all queries. Use when the freelancer wants to permanently remove an incorrectly logged or duplicate time entry from their records without destroying the underlying data.",
       "inputSchema": {
         "type": "object",
@@ -1437,7 +1437,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Archive Time Entry",
+        "title": "Time: Archive",
         "readOnlyHint": false,
         "destructiveHint": true,
         "idempotentHint": true,
@@ -1445,7 +1445,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "aggregate_time",
+      "name": "time.aggregate",
       "description": "Calculate the total minutes and hours logged against a project over an optional date range. Use when preparing an invoice, verifying billable hours before sending to a client, or generating a summary timesheet report.",
       "inputSchema": {
         "type": "object",
@@ -1475,7 +1475,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Aggregate Time",
+        "title": "Time: Aggregate",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1483,7 +1483,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "create_scope",
+      "name": "scope.create",
       "description": "Define and persist the agreed project scope with deliverables, boundaries, and exclusions. Use this tool when starting a new project or immediately after a proposal is accepted by the client to establish a clear, shared understanding of what will be built.",
       "inputSchema": {
         "type": "object",
@@ -1518,7 +1518,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Create Project Scope",
+        "title": "Scope: Create",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -1526,7 +1526,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_scope",
+      "name": "scope.get",
       "description": "Retrieve the current active scope definition for a project, including deliverables, boundaries, assumptions, and exclusions. Use when the freelancer wants to review exactly what was agreed with the client before starting work or answering a scope question.",
       "inputSchema": {
         "type": "object",
@@ -1543,7 +1543,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Project Scope",
+        "title": "Scope: Get",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1551,7 +1551,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "update_scope",
+      "name": "scope.update",
       "description": "Update one or more fields of the active scope definition for a project. Use when the client and freelancer have mutually agreed to change the scope and the persisted record needs to reflect the new agreement.",
       "inputSchema": {
         "type": "object",
@@ -1606,7 +1606,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Update Project Scope",
+        "title": "Scope: Update",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1614,7 +1614,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "log_scope_change",
+      "name": "scope.log_change",
       "description": "Record a client scope change request with classification and impact notes to maintain an auditable history of scope creep. Use this tool ONLY after the freelancer confirms they want to log the change \u00e2\u20ac\u201d never log speculatively without explicit instruction.",
       "inputSchema": {
         "type": "object",
@@ -1659,7 +1659,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Log Scope Change",
+        "title": "Scope: Log Change",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -1667,7 +1667,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "list_scope_changes",
+      "name": "scope.list_changes",
       "description": "List all scope change requests logged against a project, with optional filtering by classification and configurable sort order. Use when reviewing scope creep history, preparing a change-order summary, or auditing out-of-scope requests for billing.",
       "inputSchema": {
         "type": "object",
@@ -1725,7 +1725,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "List Scope Changes",
+        "title": "Scope: List Changes",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1733,7 +1733,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "check_scope",
+      "name": "scope.check",
       "description": "Retrieve the agreed scope definition and full change history for a project so Claude can assess whether a new client request falls within the original agreement. Use this tool when a client asks for something new and the freelancer wants an informed opinion on whether it is in scope before responding.",
       "inputSchema": {
         "type": "object",
@@ -1756,7 +1756,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Check Request Against Scope",
+        "title": "Scope: Check",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1764,7 +1764,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "create_followup",
+      "name": "followups.create",
       "description": "Store a drafted follow-up message in the FreelanceOS database. Use when the freelancer has composed a follow-up and wants to save it for tracking purposes before or after sending it to the client.",
       "inputSchema": {
         "type": "object",
@@ -1811,7 +1811,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Create Follow-Up",
+        "title": "Follow-Ups: Create",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": false,
@@ -1819,7 +1819,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_followup",
+      "name": "followups.get",
       "description": "Retrieve a single follow-up record by its unique ID. Use when the freelancer asks to view the full details of a specific saved follow-up, including its content, type, and sent status.",
       "inputSchema": {
         "type": "object",
@@ -1836,7 +1836,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Follow-Up",
+        "title": "Follow-Ups: Get",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1844,7 +1844,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "list_followups",
+      "name": "followups.list",
       "description": "List and filter follow-up records for a client or project with pagination support. Use when the freelancer asks to review follow-up history, check outstanding drafts, or audit all sent communications for a given client.",
       "inputSchema": {
         "type": "object",
@@ -1911,7 +1911,7 @@ export const serverCard = {
         }
       },
       "annotations": {
-        "title": "List Follow-Ups",
+        "title": "Follow-Ups: List",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1919,7 +1919,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "update_followup",
+      "name": "followups.update",
       "description": "Update the content or metadata of an existing follow-up record. Use when the freelancer wants to revise a drafted follow-up's subject, body, type, or project association before sending it to the client.",
       "inputSchema": {
         "type": "object",
@@ -1970,7 +1970,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Update Follow-Up",
+        "title": "Follow-Ups: Update",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -1978,7 +1978,7 @@ export const serverCard = {
       }
     },
     {
-      "name": "mark_followup_sent",
+      "name": "followups.mark_sent",
       "description": "Record the current timestamp as the sent date on a follow-up, transitioning it from draft to sent status. Use when the freelancer confirms they have actually sent the follow-up message to the client outside of FreelanceOS.",
       "inputSchema": {
         "type": "object",
@@ -1995,7 +1995,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Mark Follow-Up Sent",
+        "title": "Follow-Ups: Mark Sent",
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -2003,8 +2003,8 @@ export const serverCard = {
       }
     },
     {
-      "name": "get_followup_context",
-      "description": "Fetch all relevant context needed to draft an effective follow-up for a client, including outstanding invoices, recent follow-up history, and client contact details. Always call this tool before create_followup so the drafted message is informed by the client's current account status.",
+      "name": "followups.get_context",
+      "description": "Fetch all relevant context needed to draft an effective follow-up for a client, including outstanding invoices, recent follow-up history, and client contact details. Always call this tool before followups.create so the drafted message is informed by the client's current account status.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -2026,7 +2026,7 @@ export const serverCard = {
         ]
       },
       "annotations": {
-        "title": "Get Follow-Up Context",
+        "title": "Follow-Ups: Get Context",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
