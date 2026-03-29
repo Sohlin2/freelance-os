@@ -63,8 +63,9 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), handleStr
 
 app.use(express.json());
 
-// Landing page
-app.get('/', (_req, res) => {
+// Landing page (skip if MCP session header present — handled by MCP GET below)
+app.get('/', (req, res, next) => {
+  if (req.headers['mcp-session-id']) return next();
   res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,36 +188,105 @@ app.post('/checkout', handleCheckout);
 app.post('/portal', apiKeyAuthMiddleware, handlePortalSession);
 
 // MCP handler (auth + active subscription required)
-const mcpHandler: express.RequestHandler = async (req, res) => {
+// Session store: maps sessionId → { server, transport, userId, lastAccess }
+import { randomUUID } from 'node:crypto';
+
+const sessions = new Map<string, {
+  server: McpServer;
+  transport: StreamableHTTPServerTransport;
+  userId: string;
+  lastAccess: number;
+}>();
+
+// Clean up sessions older than 5 minutes
+setInterval(() => {
+  const cutoff = Date.now() - 5 * 60 * 1000;
+  for (const [id, session] of sessions) {
+    if (session.lastAccess < cutoff) {
+      session.transport.close();
+      session.server.close();
+      sessions.delete(id);
+    }
+  }
+}, 60_000);
+
+const mcpPostHandler: express.RequestHandler = async (req, res) => {
   const userId = req.userId!;
+
+  // Check for existing session
+  const sessionId = req.headers['mcp-session-id'] as string | undefined;
+  if (sessionId && sessions.has(sessionId)) {
+    const session = sessions.get(sessionId)!;
+    session.lastAccess = Date.now();
+    try {
+      await session.transport.handleRequest(req, res, req.body);
+    } catch (err) {
+      if (!res.headersSent) {
+        res.status(500).json({ jsonrpc: '2.0', error: { code: -32603, message: 'Internal server error' }, id: null });
+      }
+    }
+    return;
+  }
+
+  // New session: create server + transport
   const server = buildServer(userId);
   const transport = new StreamableHTTPServerTransport({
-    sessionIdGenerator: undefined,
+    sessionIdGenerator: () => randomUUID(),
   });
+
   try {
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
-    res.on('close', () => {
-      transport.close();
-      server.close();
-    });
+
+    // Store session for subsequent requests
+    const newSessionId = transport.sessionId;
+    if (newSessionId) {
+      sessions.set(newSessionId, { server, transport, userId, lastAccess: Date.now() });
+    }
   } catch (err) {
     if (!res.headersSent) {
-      res.status(500).json({
-        jsonrpc: '2.0',
-        error: { code: -32603, message: 'Internal server error' },
-        id: null,
-      });
+      res.status(500).json({ jsonrpc: '2.0', error: { code: -32603, message: 'Internal server error' }, id: null });
     }
   }
 };
 
-// Mount MCP on both /mcp and / (Smithery posts to base URL)
-app.post('/mcp', apiKeyAuthMiddleware, billingMiddleware, mcpHandler);
-app.post('/', apiKeyAuthMiddleware, billingMiddleware, mcpHandler);
+const mcpGetHandler: express.RequestHandler = async (req, res) => {
+  const sessionId = req.headers['mcp-session-id'] as string | undefined;
+  if (!sessionId || !sessions.has(sessionId)) {
+    res.status(400).json({ jsonrpc: '2.0', error: { code: -32000, message: 'Invalid or missing session ID' }, id: null });
+    return;
+  }
+  const session = sessions.get(sessionId)!;
+  session.lastAccess = Date.now();
+  try {
+    await session.transport.handleRequest(req, res);
+  } catch (err) {
+    if (!res.headersSent) {
+      res.status(500).json({ jsonrpc: '2.0', error: { code: -32603, message: 'Internal server error' }, id: null });
+    }
+  }
+};
 
-app.get('/mcp', (_req, res) => { res.status(405).end(); });
-app.delete('/mcp', (_req, res) => { res.status(405).end(); });
+const mcpDeleteHandler: express.RequestHandler = async (req, res) => {
+  const sessionId = req.headers['mcp-session-id'] as string | undefined;
+  if (sessionId && sessions.has(sessionId)) {
+    const session = sessions.get(sessionId)!;
+    session.transport.close();
+    session.server.close();
+    sessions.delete(sessionId);
+  }
+  res.status(200).end();
+};
+
+// Mount MCP on both /mcp and / (Smithery posts to base URL)
+app.post('/mcp', apiKeyAuthMiddleware, billingMiddleware, mcpPostHandler);
+app.post('/', apiKeyAuthMiddleware, billingMiddleware, mcpPostHandler);
+
+app.get('/mcp', apiKeyAuthMiddleware, billingMiddleware, mcpGetHandler);
+app.get('/', apiKeyAuthMiddleware, billingMiddleware, mcpGetHandler);
+
+app.delete('/mcp', mcpDeleteHandler);
+app.delete('/', mcpDeleteHandler);
 
 // Catch-all: return JSON 404 for unknown routes.
 // Prevents Express default HTML 404s that break MCP scanners (e.g. Smithery).
