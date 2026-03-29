@@ -8,12 +8,13 @@ declare module 'express-serve-static-core' {
 }
 
 export const apiKeyAuthMiddleware: RequestHandler = async (req, res, next) => {
+  const xApiKey = req.headers['x-api-key'] as string | undefined;
   const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith('Bearer ')) {
-    res.status(401).json({ error: 'Missing API key. Provide Authorization: Bearer <key>' });
+  const apiKey = xApiKey || (authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : undefined);
+  if (!apiKey) {
+    res.status(401).json({ error: 'Missing API key. Provide X-API-Key or Authorization: Bearer <key>' });
     return;
   }
-  const apiKey = authHeader.slice(7);
   try {
     const { data: userId, error } = await createAdminClient().rpc('validate_api_key', { p_key: apiKey });
     if (error || !userId) {
