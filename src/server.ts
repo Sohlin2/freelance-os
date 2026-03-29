@@ -169,6 +169,45 @@ app.get('/', (_req, res) => {
 </html>`);
 });
 
+// MCP server card — allows scanners (e.g. Smithery) to discover capabilities without connecting
+app.get('/.well-known/mcp/server-card.json', (_req, res) => {
+  res.json({
+    name: 'freelance-os',
+    version: '0.1.0',
+    description: 'AI-powered freelance business manager for Claude Code. Proposals, invoices, time tracking, scope management, and follow-ups — 37 tools, 5 coaching skills.',
+    transport: 'streamable-http',
+    url: 'https://freelance-os-production.up.railway.app/mcp',
+    authentication: { type: 'api-key', header: 'x-api-key' },
+    tools: [
+      { name: 'create_client', description: 'Create a new client record' },
+      { name: 'list_clients', description: 'List all clients' },
+      { name: 'get_client', description: 'Get client details by ID' },
+      { name: 'create_project', description: 'Create a new project for a client' },
+      { name: 'list_projects', description: 'List projects, optionally filtered by client' },
+      { name: 'get_project', description: 'Get project details by ID' },
+      { name: 'update_project', description: 'Update project fields' },
+      { name: 'create_proposal', description: 'Create a proposal for a project' },
+      { name: 'list_proposals', description: 'List proposals, optionally filtered by project' },
+      { name: 'get_proposal', description: 'Get proposal details by ID' },
+      { name: 'update_proposal', description: 'Update proposal fields' },
+      { name: 'create_invoice', description: 'Create an invoice for a project' },
+      { name: 'list_invoices', description: 'List invoices, optionally filtered by project' },
+      { name: 'get_invoice', description: 'Get invoice details by ID' },
+      { name: 'update_invoice', description: 'Update invoice fields' },
+      { name: 'create_time_entry', description: 'Log a time entry for a project' },
+      { name: 'list_time_entries', description: 'List time entries, optionally filtered' },
+      { name: 'aggregate_time', description: 'Aggregate time entries by project' },
+      { name: 'create_scope_definition', description: 'Define scope boundaries for a project' },
+      { name: 'list_scope_changes', description: 'List scope changes for a project' },
+      { name: 'log_scope_change', description: 'Log a scope change request' },
+      { name: 'create_follow_up', description: 'Create a follow-up reminder' },
+      { name: 'list_follow_ups', description: 'List follow-ups, optionally filtered' },
+      { name: 'get_follow_up', description: 'Get follow-up details by ID' },
+      { name: 'mark_follow_up_sent', description: 'Mark a follow-up as sent' },
+    ],
+  });
+});
+
 // Health check (public)
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', version: '0.1.0' });
