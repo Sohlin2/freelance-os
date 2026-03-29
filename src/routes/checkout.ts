@@ -23,7 +23,7 @@ export const handleCheckout: RequestHandler = async (req, res) => {
       customer_email: email,
       ...(plan === 'monthly' ? { subscription_data: { trial_period_days: 7 } } : {}),
       success_url: `${process.env.SUPABASE_URL}/functions/v1/get-api-key?token={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.APP_URL ?? 'https://freelanceos.dev'}/cancel`,
+      cancel_url: `${process.env.APP_URL ?? 'https://freelance-os-production.up.railway.app'}/cancel`,
       metadata: { plan },
     });
 

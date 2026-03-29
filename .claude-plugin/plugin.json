@@ -1,23 +1,24 @@
 {
   "name": "freelance-os",
-  "version": "0.1.0",
-  "description": "Freelance business manager for Claude Code — proposals, invoices, follow-ups, scope, and time tracking",
+  "version": "0.2.1",
+  "description": "Freelance business manager for Claude Code — proposals, invoices, follow-ups, scope, and time tracking. 37 MCP tools, 5 coaching skills.",
   "author": {
-    "name": "FreelanceOS",
-    "url": "https://freelanceos.dev"
+    "name": "Jacob Sohlin",
+    "url": "https://github.com/Sohlin2"
   },
-  "homepage": "https://freelanceos.dev",
-  "repository": "https://github.com/freelance-os/freelance-os",
+  "homepage": "https://freelance-os-production.up.railway.app",
+  "repository": "https://github.com/Sohlin2/freelance-os",
   "license": "MIT",
   "keywords": ["freelance", "crm", "proposals", "invoices", "mcp", "scope", "time-tracking"],
   "skills": ["./skills/*/SKILL.md"],
   "userConfig": {
     "FREELANCEOS_API_KEY": {
-      "description": "Your FreelanceOS API key — get one at freelanceos.dev/dashboard",
+      "description": "Your FreelanceOS API key — get one at https://freelance-os-production.up.railway.app",
       "sensitive": true
     },
     "FREELANCEOS_SERVER_URL": {
-      "description": "FreelanceOS MCP server URL (e.g., https://mcp.freelanceos.dev/mcp)",
+      "description": "FreelanceOS MCP server URL",
+      "default": "https://freelance-os-production.up.railway.app/mcp",
       "sensitive": false
     }
   }

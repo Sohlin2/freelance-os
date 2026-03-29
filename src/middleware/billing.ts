@@ -19,7 +19,7 @@ export const billingMiddleware: RequestHandler = async (req, res, next) => {
 
     if (error || !data) {
       res.status(403).json({
-        error: 'No active subscription. Visit https://freelanceos.dev to subscribe.',
+        error: 'No active subscription. Visit https://freelance-os-production.up.railway.app to subscribe.',
         code: 'SUBSCRIPTION_REQUIRED',
       });
       return;
@@ -27,7 +27,7 @@ export const billingMiddleware: RequestHandler = async (req, res, next) => {
 
     if (data.current_period_end && new Date(data.current_period_end) < new Date()) {
       res.status(403).json({
-        error: 'Subscription expired. Visit https://freelanceos.dev to renew.',
+        error: 'Subscription expired. Visit https://freelance-os-production.up.railway.app to renew.',
         code: 'SUBSCRIPTION_EXPIRED',
       });
       return;

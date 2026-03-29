@@ -50,6 +50,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",
     "@supabase/supabase-js": "^2.100.1",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "stripe": "^17.7.0",
     "zod": "^4.0.0"

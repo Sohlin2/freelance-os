@@ -1,8 +1,8 @@
-/** MCP server card — auto-generated from live tools/list response */
+/** MCP server card ï¿½ auto-generated from live tools/list response */
 export const serverCard = {
   "serverInfo": {
     "name": "freelance-os",
-    "version": "0.1.0",
+    "version": "0.2.1",
     "title": "FreelanceOS",
     "description": "AI-powered freelance business manager. Manage clients, proposals, invoices, time tracking, scope, and follow-ups \u2014 37 tools covering the full freelance lifecycle from lead to payment.",
     "websiteUrl": "https://github.com/Sohlin2/freelance-os",

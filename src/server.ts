@@ -37,7 +37,7 @@ export function buildServer(userId: string): McpServer {
   const server = new McpServer(
     {
       name: 'freelance-os',
-      version: '0.1.0',
+      version: '0.2.1',
       description: 'AI-powered freelance business manager. Manage clients, proposals, invoices, time tracking, scope, and follow-ups — 37 tools covering the full freelance lifecycle from lead to payment.',
       websiteUrl: 'https://github.com/Sohlin2/freelance-os',
       icons: [{ src: 'https://raw.githubusercontent.com/Sohlin2/freelance-os/main/logo.svg', mimeType: 'image/svg+xml' }],
@@ -312,7 +312,7 @@ app.get('/sitemap.xml', (_req, res) => {
 
 // Health check (public)
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', version: '0.2.0' });
+  res.json({ status: 'ok', version: '0.2.1' });
 });
 
 // Stripe checkout session (public — no auth needed)

@@ -26,7 +26,7 @@ export const handlePortalSession: RequestHandler = async (req, res) => {
 
     const session = await stripe.billingPortal.sessions.create({
       customer: data.stripe_customer_id,
-      return_url: `${process.env.APP_URL ?? 'https://freelanceos.dev'}/dashboard`,
+      return_url: `${process.env.APP_URL ?? 'https://freelance-os-production.up.railway.app'}/dashboard`,
     });
 
     res.json({ url: session.url });
