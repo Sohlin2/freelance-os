@@ -1,0 +1,40 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.sohlin2/freelance-os",
+  "title": "FreelanceOS",
+  "description": "AI-powered freelance business manager. Manage clients, proposals, invoices, time tracking, scope, and follow-ups — 37 tools covering the full freelance lifecycle from lead to payment.",
+  "version": "0.2.1",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://freelance-os-production.up.railway.app/mcp",
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "description": "FreelanceOS API key (get one at https://freelance-os-production.up.railway.app)",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "freelance-os",
+      "version": "0.2.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "FreelanceOS API key for MCP server authentication",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": true,
+          "name": "FREELANCE_OS_API_KEY"
+        }
+      ]
+    }
+  ]
+}

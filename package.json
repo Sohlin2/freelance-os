@@ -1,6 +1,7 @@
 {
   "name": "freelance-os",
-  "version": "0.2.0",
+  "version": "0.2.1",
+  "mcpName": "io.github.sohlin2/freelance-os",
   "description": "AI-powered freelance business manager for Claude Code. Proposals, invoices, time tracking, scope management, and follow-ups — 37 tools, 5 coaching skills.",
   "type": "module",
   "main": "dist/server.js",
