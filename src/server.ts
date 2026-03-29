@@ -219,8 +219,8 @@ app.post('/checkout', handleCheckout);
 // Customer portal (authenticated — lets users manage subscription)
 app.post('/portal', apiKeyAuthMiddleware, handlePortalSession);
 
-// MCP endpoint (auth + active subscription required)
-app.post('/mcp', apiKeyAuthMiddleware, billingMiddleware, async (req, res) => {
+// MCP handler (auth + active subscription required)
+const mcpHandler: express.RequestHandler = async (req, res) => {
   const userId = req.userId!;
   const server = buildServer(userId);
   const transport = new StreamableHTTPServerTransport({
@@ -242,7 +242,11 @@ app.post('/mcp', apiKeyAuthMiddleware, billingMiddleware, async (req, res) => {
       });
     }
   }
-});
+};
+
+// Mount MCP on both /mcp and / (Smithery posts to base URL)
+app.post('/mcp', apiKeyAuthMiddleware, billingMiddleware, mcpHandler);
+app.post('/', apiKeyAuthMiddleware, billingMiddleware, mcpHandler);
 
 app.get('/mcp', (_req, res) => { res.status(405).end(); });
 app.delete('/mcp', (_req, res) => { res.status(405).end(); });
