@@ -202,9 +202,9 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 4: scope.log_change
+  // Tool 4: scope.changes.log
   server.registerTool(
-    'scope.log_change',
+    'scope.changes.log',
     {
       description:
         'Record a client scope change request with classification and impact notes to maintain an auditable history of scope creep. Use this tool ONLY after the freelancer confirms they want to log the change — never log speculatively without explicit instruction.',
@@ -273,9 +273,9 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     }
   );
 
-  // Tool 5: scope.list_changes
+  // Tool 5: scope.changes.list
   server.registerTool(
-    'scope.list_changes',
+    'scope.changes.list',
     {
       description:
         'List all scope change requests logged against a project, with optional filtering by classification and configurable sort order. Use when reviewing scope creep history, preparing a change-order summary, or auditing out-of-scope requests for billing.',

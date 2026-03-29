@@ -352,7 +352,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
 
   // Tool 5: mark_followup_sent
   server.registerTool(
-    'followups.mark_sent',
+    'followups.sent.mark',
     {
       description:
         'Record the current timestamp as the sent date on a follow-up, transitioning it from draft to sent status. Use when the freelancer confirms they have actually sent the follow-up message to the client outside of FreelanceOS.',
@@ -414,7 +414,7 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
 
   // Tool 6: get_followup_context
   server.registerTool(
-    'followups.get_context',
+    'followups.context.get',
     {
       description:
         'Fetch all relevant context needed to draft an effective follow-up for a client, including outstanding invoices, recent follow-up history, and client contact details. Always call this tool before followups.create so the drafted message is informed by the client\'s current account status.',
