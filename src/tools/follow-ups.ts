@@ -16,20 +16,38 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     'create_followup',
     {
       description:
-        'Store a drafted follow-up message. Use when the freelancer has composed a follow-up and wants to save it.',
+        'Store a drafted follow-up message in the FreelanceOS database. Use when the freelancer has composed a follow-up and wants to save it for tracking purposes before or after sending it to the client.',
       inputSchema: {
-        client_id: z.string().uuid().describe('Client UUID this follow-up is for'),
+        client_id: z
+          .string()
+          .uuid()
+          .describe('UUID of the client this follow-up message is addressed to'),
         project_id: z
           .string()
           .uuid()
           .optional()
-          .describe('Project UUID this follow-up relates to (optional)'),
+          .describe('UUID of the specific project this follow-up is related to, if applicable'),
         type: z
           .enum(FOLLOW_UP_TYPE_ENUM)
           .default('check_in')
-          .describe('Type of follow-up'),
-        subject: z.string().min(1).describe('Follow-up subject line'),
-        content: z.string().min(1).describe('Follow-up message body'),
+          .describe(
+            'Category of follow-up: proposal_follow_up, invoice_overdue, check_in, awaiting_response, or other'
+          ),
+        subject: z
+          .string()
+          .min(1)
+          .describe('Subject line or brief title summarizing the purpose of this follow-up message'),
+        content: z
+          .string()
+          .min(1)
+          .describe('Full body text of the follow-up message to be saved and potentially sent'),
+      },
+      annotations: {
+        title: 'Create Follow-Up',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -70,9 +88,19 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     'get_followup',
     {
       description:
-        'Retrieve a single follow-up by ID. Use when the freelancer asks to view a specific follow-up record.',
+        'Retrieve a single follow-up record by its unique ID. Use when the freelancer asks to view the full details of a specific saved follow-up, including its content, type, and sent status.',
       inputSchema: {
-        followup_id: z.string().uuid().describe('Follow-up UUID'),
+        followup_id: z
+          .string()
+          .uuid()
+          .describe('Unique UUID identifier of the follow-up record to retrieve'),
+      },
+      annotations: {
+        title: 'Get Follow-Up',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -114,47 +142,58 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     'list_followups',
     {
       description:
-        'List follow-ups for a client or project. Use when the freelancer asks to review follow-up history.',
+        'List and filter follow-up records for a client or project with pagination support. Use when the freelancer asks to review follow-up history, check outstanding drafts, or audit all sent communications for a given client.',
       inputSchema: {
         client_id: z
           .string()
           .uuid()
           .optional()
-          .describe('Filter by client UUID'),
+          .describe('UUID of the client whose follow-ups should be returned'),
         project_id: z
           .string()
           .uuid()
           .optional()
-          .describe('Filter by project UUID'),
+          .describe('UUID of the project to narrow results to follow-ups for that project'),
         type: z
           .enum(FOLLOW_UP_TYPE_ENUM)
           .optional()
-          .describe('Filter by follow-up type'),
+          .describe(
+            'Filter results to a specific follow-up category such as invoice_overdue or check_in'
+          ),
         sent: z
           .boolean()
           .optional()
-          .describe('Filter by sent status: true = sent, false = drafts'),
+          .describe(
+            'Pass true to return only sent follow-ups, false to return only unsent drafts'
+          ),
         sort_by: z
           .enum(['created_at', 'sent_at'])
           .default('created_at')
-          .describe('Field to sort by'),
+          .describe('Database column to use when ordering the returned follow-up records'),
         sort_dir: z
           .enum(['asc', 'desc'])
           .default('desc')
-          .describe('Sort direction'),
+          .describe('Direction to sort results — asc for oldest first, desc for newest first'),
         limit: z
           .number()
           .int()
           .min(1)
           .max(100)
           .default(20)
-          .describe('Number of results'),
+          .describe('Maximum number of follow-up records to return in a single response'),
         offset: z
           .number()
           .int()
           .min(0)
           .default(0)
-          .describe('Pagination offset'),
+          .describe('Number of records to skip for cursor-based pagination through large result sets'),
+      },
+      annotations: {
+        title: 'List Follow-Ups',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -228,21 +267,43 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     'update_followup',
     {
       description:
-        "Update a follow-up's content or details. Use when the freelancer wants to edit a drafted follow-up before sending.",
+        "Update the content or metadata of an existing follow-up record. Use when the freelancer wants to revise a drafted follow-up's subject, body, type, or project association before sending it to the client.",
       inputSchema: {
-        followup_id: z.string().uuid().describe('Follow-up UUID to update'),
-        subject: z.string().min(1).optional().describe('Updated subject line'),
-        content: z.string().min(1).optional().describe('Updated message body'),
+        followup_id: z
+          .string()
+          .uuid()
+          .describe('Unique UUID of the follow-up record that should be updated'),
+        subject: z
+          .string()
+          .min(1)
+          .optional()
+          .describe('Replacement subject line to overwrite the existing follow-up subject'),
+        content: z
+          .string()
+          .min(1)
+          .optional()
+          .describe('Replacement message body text to overwrite the existing follow-up content'),
         type: z
           .enum(FOLLOW_UP_TYPE_ENUM)
           .optional()
-          .describe('Updated follow-up type'),
+          .describe(
+            'New category to assign this follow-up, such as changing check_in to invoice_overdue'
+          ),
         project_id: z
           .string()
           .uuid()
           .optional()
           .nullable()
-          .describe('Updated project UUID (null to unlink from project)'),
+          .describe(
+            'UUID of a project to associate with this follow-up, or null to remove the project link'
+          ),
+      },
+      annotations: {
+        title: 'Update Follow-Up',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -294,9 +355,21 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     'mark_followup_sent',
     {
       description:
-        'Mark a follow-up as sent. Use when the freelancer confirms they have sent the follow-up to the client.',
+        'Record the current timestamp as the sent date on a follow-up, transitioning it from draft to sent status. Use when the freelancer confirms they have actually sent the follow-up message to the client outside of FreelanceOS.',
       inputSchema: {
-        followup_id: z.string().uuid().describe('Follow-up UUID to mark as sent'),
+        followup_id: z
+          .string()
+          .uuid()
+          .describe(
+            'Unique UUID of the follow-up record that the freelancer has just sent to the client'
+          ),
+      },
+      annotations: {
+        title: 'Mark Follow-Up Sent',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -344,17 +417,28 @@ export function registerFollowUpTools(server: McpServer, userId: string): void {
     'get_followup_context',
     {
       description:
-        'Fetch all relevant context for drafting a follow-up: overdue invoices, project status, days since last contact, prior follow-ups. Always call this before create_followup.',
+        'Fetch all relevant context needed to draft an effective follow-up for a client, including outstanding invoices, recent follow-up history, and client contact details. Always call this tool before create_followup so the drafted message is informed by the client\'s current account status.',
       inputSchema: {
         client_id: z
           .string()
           .uuid()
-          .describe('Client UUID to fetch context for'),
+          .describe(
+            'UUID of the client for whom follow-up context — invoices, prior messages, contact info — should be assembled'
+          ),
         project_id: z
           .string()
           .uuid()
           .optional()
-          .describe('Project UUID to narrow invoice context (optional)'),
+          .describe(
+            'UUID of a specific project to restrict invoice context to that project only, rather than all client invoices'
+          ),
+      },
+      annotations: {
+        title: 'Get Follow-Up Context',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {

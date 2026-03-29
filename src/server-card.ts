@@ -1,6 +1,13 @@
 /** MCP server card for registry discovery (Smithery, etc.) */
 export const serverCard = {
-  serverInfo: { name: 'freelance-os', version: '0.1.0' },
+  serverInfo: {
+    name: 'freelance-os',
+    version: '0.1.0',
+    title: 'FreelanceOS',
+    description: 'AI-powered freelance business manager. Manage clients, proposals, invoices, time tracking, scope, and follow-ups — 37 tools covering the full freelance lifecycle from lead to payment.',
+    websiteUrl: 'https://github.com/Sohlin2/freelance-os',
+    icons: [{ src: 'https://raw.githubusercontent.com/Sohlin2/freelance-os/main/logo.svg', mimeType: 'image/svg+xml' }],
+  },
   authentication: { required: true, schemes: ['api-key'] },
   tools: [
     { name: 'create_client', description: 'Create a new client record. Use when a freelancer mentions a new client they want to track.', inputSchema: { type: 'object', properties: { name: { type: 'string', description: 'Client name or company name' }, email: { type: 'string', format: 'email', description: 'Client email address' }, phone: { type: 'string', description: 'Client phone number' }, company: { type: 'string', description: 'Company name if different from client name' }, billing_rate: { type: 'number', description: 'Default hourly rate' }, currency: { type: 'string', description: 'ISO 4217 currency code' }, notes: { type: 'string', description: 'Free-form notes about this client' } }, required: ['name'] } },

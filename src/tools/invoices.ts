@@ -3,11 +3,11 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { withUserContext } from '../lib/with-user-context.js';
 
 const lineItemSchema = z.object({
-  description: z.string().describe('Line item description'),
-  quantity: z.number().describe('Quantity'),
-  unit: z.string().describe('Unit (e.g. hours, project)'),
-  rate: z.number().describe('Rate per unit'),
-  amount: z.number().describe('Total amount for this line item'),
+  description: z.string().describe('Human-readable label for this billable line item, e.g. "Website design – homepage"'),
+  quantity: z.number().describe('Number of units delivered for this line item, e.g. 8 for 8 hours'),
+  unit: z.string().describe('Unit of measure for the quantity field, e.g. "hours", "days", or "project"'),
+  rate: z.number().describe('Price charged per single unit in the invoice currency, e.g. 150.00 for $150/hr'),
+  amount: z.number().describe('Pre-calculated total for this line item (quantity × rate), used for display and subtotal roll-up'),
 });
 
 export function registerInvoiceTools(server: McpServer, userId: string): void {
@@ -16,45 +16,52 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
     'create_invoice',
     {
       description:
-        'Store a new invoice with line items and totals. Use when the freelancer wants to generate and save an invoice for a project.',
+        'Create and persist a new invoice with line items, tax, and totals in the FreelanceOS database. Use when the freelancer wants to generate and save a billable invoice for a completed or ongoing project.',
       inputSchema: {
-        client_id: z.string().uuid().describe('Client UUID'),
-        project_id: z.string().uuid().describe('Project UUID'),
-        invoice_number: z.string().min(1).describe('Invoice number (e.g. INV-001)'),
+        client_id: z.string().uuid().describe('UUID of the client being billed; must match an existing client record'),
+        project_id: z.string().uuid().describe('UUID of the project this invoice covers; used to group invoices by engagement'),
+        invoice_number: z.string().min(1).describe('Unique human-readable invoice identifier shown on the document, e.g. INV-001'),
         proposal_id: z
           .string()
           .uuid()
           .optional()
           .nullable()
-          .describe('Optional proposal UUID this invoice is based on'),
+          .describe('UUID of the originating proposal if this invoice was generated from an approved proposal'),
         line_items: z
           .array(lineItemSchema)
           .default([])
-          .describe('Array of line items'),
-        subtotal: z.number().default(0).describe('Subtotal before tax'),
+          .describe('Ordered list of billable line items that make up the body of the invoice'),
+        subtotal: z.number().default(0).describe('Sum of all line item amounts before tax is applied, in the invoice currency'),
         tax_rate: z
           .number()
           .optional()
           .nullable()
-          .describe('Tax rate as a decimal (e.g. 0.1 for 10%)'),
-        tax_amount: z.number().default(0).describe('Calculated tax amount'),
-        total: z.number().default(0).describe('Total including tax'),
+          .describe('Applicable tax rate expressed as a decimal fraction, e.g. 0.1 for 10% GST or sales tax'),
+        tax_amount: z.number().default(0).describe('Calculated tax value derived from subtotal × tax_rate, in the invoice currency'),
+        total: z.number().default(0).describe('Final amount due including subtotal and tax, in the invoice currency'),
         currency: z
           .string()
           .length(3)
           .default('USD')
-          .describe('ISO 4217 currency code'),
+          .describe('Three-letter ISO 4217 currency code for all monetary values on this invoice, e.g. USD, EUR, GBP'),
         due_date: z
           .string()
           .optional()
           .nullable()
-          .describe('Due date (YYYY-MM-DD)'),
+          .describe('Payment deadline for the invoice formatted as YYYY-MM-DD, e.g. 2026-04-30'),
         issued_at: z
           .string()
           .optional()
           .nullable()
-          .describe('Issue date (ISO datetime)'),
-        notes: z.string().optional().nullable().describe('Additional notes'),
+          .describe('ISO 8601 datetime when the invoice was formally issued to the client, defaults to now if omitted'),
+        notes: z.string().optional().nullable().describe('Optional freeform notes or payment instructions to include on the invoice'),
+      },
+      annotations: {
+        title: 'Create Invoice',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -95,9 +102,16 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
     'get_invoice',
     {
       description:
-        'Retrieve a single invoice by ID. Use when the freelancer asks to view a specific invoice.',
+        'Retrieve the full details of a single invoice by its UUID. Use when the freelancer asks to view, review, or share the details of a specific invoice.',
       inputSchema: {
-        invoice_id: z.string().uuid().describe('Invoice UUID'),
+        invoice_id: z.string().uuid().describe('UUID of the invoice to retrieve; must reference a non-archived invoice owned by this user'),
+      },
+      annotations: {
+        title: 'Get Invoice',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -139,51 +153,58 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
     'list_invoices',
     {
       description:
-        'List invoices filtered by status, client, or date range. Use when the freelancer asks about outstanding, paid, or overdue invoices.',
+        'Return a paginated, filtered list of invoices for the authenticated freelancer. Use when the freelancer asks about outstanding, paid, overdue, or draft invoices, or wants a revenue summary for a date range.',
       inputSchema: {
         status: z
           .enum(['draft', 'sent', 'paid', 'overdue', 'void'])
           .optional()
-          .describe('Filter by invoice status'),
+          .describe('Restrict results to invoices with this specific lifecycle status, e.g. "overdue" to surface unpaid past-due invoices'),
         client_id: z
           .string()
           .uuid()
           .optional()
-          .describe('Filter by client UUID'),
+          .describe('Restrict results to invoices belonging to this specific client UUID'),
         project_id: z
           .string()
           .uuid()
           .optional()
-          .describe('Filter by project UUID'),
+          .describe('Restrict results to invoices associated with this specific project UUID'),
         date_from: z
           .string()
           .optional()
-          .describe('Filter issued_at >= date (YYYY-MM-DD)'),
+          .describe('Return only invoices issued on or after this date, formatted as YYYY-MM-DD'),
         date_to: z
           .string()
           .optional()
-          .describe('Filter issued_at <= date (YYYY-MM-DD)'),
+          .describe('Return only invoices issued on or before this date, formatted as YYYY-MM-DD'),
         sort_by: z
           .enum(['created_at', 'due_date', 'total', 'invoice_number'])
           .default('created_at')
-          .describe('Field to sort by'),
+          .describe('Database column used to order the result set before pagination is applied'),
         sort_dir: z
           .enum(['asc', 'desc'])
           .default('desc')
-          .describe('Sort direction'),
+          .describe('Direction of the sort: "asc" for oldest/lowest first, "desc" for newest/highest first'),
         limit: z
           .number()
           .int()
           .min(1)
           .max(100)
           .default(20)
-          .describe('Number of results'),
+          .describe('Maximum number of invoice records to return in a single page, between 1 and 100'),
         offset: z
           .number()
           .int()
           .min(0)
           .default(0)
-          .describe('Pagination offset'),
+          .describe('Zero-based index of the first record to return, used for paginating through large result sets'),
+      },
+      annotations: {
+        title: 'List Invoices',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -260,45 +281,52 @@ export function registerInvoiceTools(server: McpServer, userId: string): void {
     'update_invoice',
     {
       description:
-        'Update invoice fields or status. Use when the freelancer marks an invoice as sent, paid, or overdue.',
+        'Update one or more fields on an existing invoice, including its status or financial totals. Use when the freelancer marks an invoice as sent, records a payment, corrects line items, or changes the due date.',
       inputSchema: {
-        invoice_id: z.string().uuid().describe('Invoice UUID to update'),
+        invoice_id: z.string().uuid().describe('UUID of the invoice to update; must reference an existing invoice owned by this user'),
         status: z
           .enum(['draft', 'sent', 'paid', 'overdue', 'void'])
           .optional()
-          .describe('Updated invoice status'),
+          .describe('New lifecycle status for the invoice, e.g. "paid" when the client has settled the balance'),
         line_items: z
           .array(lineItemSchema)
           .optional()
-          .describe('Updated line items'),
-        subtotal: z.number().optional().describe('Updated subtotal'),
+          .describe('Replacement array of billable line items that fully overwrites the existing line items on the invoice'),
+        subtotal: z.number().optional().describe('Revised sum of all line item amounts before tax, in the invoice currency'),
         tax_rate: z
           .number()
           .optional()
           .nullable()
-          .describe('Updated tax rate'),
-        tax_amount: z.number().optional().describe('Updated tax amount'),
-        total: z.number().optional().describe('Updated total'),
+          .describe('Revised tax rate as a decimal fraction, e.g. 0.15 for 15%; set to null to remove tax'),
+        tax_amount: z.number().optional().describe('Revised calculated tax value derived from the updated subtotal and tax rate'),
+        total: z.number().optional().describe('Revised final amount due including subtotal and tax, in the invoice currency'),
         due_date: z
           .string()
           .optional()
           .nullable()
-          .describe('Updated due date'),
+          .describe('Revised payment deadline formatted as YYYY-MM-DD; set to null to remove the due date'),
         issued_at: z
           .string()
           .optional()
           .nullable()
-          .describe('Updated issue date'),
+          .describe('Revised ISO 8601 datetime when the invoice was formally issued to the client'),
         paid_at: z
           .string()
           .optional()
           .nullable()
-          .describe('Date invoice was paid'),
+          .describe('ISO 8601 datetime when payment was received; set when marking an invoice as paid'),
         notes: z
           .string()
           .optional()
           .nullable()
-          .describe('Updated notes'),
+          .describe('Revised freeform notes or payment instructions to display on the invoice; set to null to clear'),
+      },
+      annotations: {
+        title: 'Update Invoice',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {

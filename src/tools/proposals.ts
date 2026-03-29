@@ -8,15 +8,22 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     'create_proposal',
     {
       description:
-        'Store a new proposal for a project. Use when the freelancer has drafted proposal content and wants to save it.',
+        'Store a new proposal for a project, capturing all relevant details such as title, deliverables, pricing, and expiry date. Use when the freelancer has drafted proposal content and wants to persist it to the database for tracking and future reference.',
       inputSchema: {
-        client_id: z.string().uuid().describe('Client UUID this proposal is for'),
-        project_id: z.string().uuid().describe('Project UUID this proposal belongs to'),
-        title: z.string().min(1).describe('Proposal title'),
-        content: z.string().optional().describe('Free-form proposal content or deliverables description'),
-        amount: z.number().positive().optional().describe('Proposed project amount'),
-        currency: z.string().length(3).default('USD').describe('ISO 4217 currency code'),
-        valid_until: z.string().date().optional().describe('Proposal expiry date (YYYY-MM-DD)'),
+        client_id: z.string().uuid().describe('UUID of the client this proposal is being created for'),
+        project_id: z.string().uuid().describe('UUID of the project this proposal is scoped and billed against'),
+        title: z.string().min(1).describe('Short descriptive title that identifies the proposal at a glance'),
+        content: z.string().optional().describe('Free-form proposal body describing deliverables, timeline, and terms'),
+        amount: z.number().positive().optional().describe('Total monetary value being proposed for the project engagement'),
+        currency: z.string().length(3).default('USD').describe('Three-letter ISO 4217 currency code for the proposal amount'),
+        valid_until: z.string().date().optional().describe('Expiry date after which the proposal is no longer valid (YYYY-MM-DD)'),
+      },
+      annotations: {
+        title: 'Create Proposal',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -57,9 +64,16 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     'get_proposal',
     {
       description:
-        'Retrieve a single proposal by ID. Use when the freelancer asks to view or reference a specific proposal.',
+        'Retrieve a single proposal by its unique identifier, returning all stored fields including status, amount, and content. Use when the freelancer asks to view, review, or reference the details of a specific proposal.',
       inputSchema: {
-        proposal_id: z.string().uuid().describe('Proposal UUID'),
+        proposal_id: z.string().uuid().describe('UUID of the proposal record to retrieve from the database'),
+      },
+      annotations: {
+        title: 'Get Proposal',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -101,21 +115,28 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     'list_proposals',
     {
       description:
-        'List proposals for a project or client. Use when the freelancer asks for proposal history or wants to check existing proposals.',
+        'List proposals filtered by project, client, or status with support for sorting and pagination. Use when the freelancer asks for proposal history, wants to audit outstanding proposals, or needs to check the status of proposals sent to a client.',
       inputSchema: {
-        project_id: z.string().uuid().optional().describe('Filter by project UUID'),
-        client_id: z.string().uuid().optional().describe('Filter by client UUID'),
+        project_id: z.string().uuid().optional().describe('Narrow results to proposals belonging to this project UUID'),
+        client_id: z.string().uuid().optional().describe('Narrow results to proposals associated with this client UUID'),
         status: z
           .enum(['draft', 'sent', 'accepted', 'declined', 'expired'])
           .optional()
-          .describe('Filter by proposal status'),
+          .describe('Filter proposals to only those matching the given lifecycle status'),
         sort_by: z
           .enum(['created_at', 'updated_at', 'amount', 'title'])
           .default('created_at')
-          .describe('Field to sort by'),
-        sort_dir: z.enum(['asc', 'desc']).default('desc').describe('Sort direction'),
-        limit: z.number().int().min(1).max(100).default(20).describe('Number of results'),
-        offset: z.number().int().min(0).default(0).describe('Pagination offset'),
+          .describe('Database column to use as the primary sort key for results'),
+        sort_dir: z.enum(['asc', 'desc']).default('desc').describe('Direction to sort results — ascending or descending'),
+        limit: z.number().int().min(1).max(100).default(20).describe('Maximum number of proposal records to return in this page'),
+        offset: z.number().int().min(0).default(0).describe('Number of records to skip for cursor-based pagination'),
+      },
+      annotations: {
+        title: 'List Proposals',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -181,20 +202,27 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     'update_proposal',
     {
       description:
-        'Update proposal fields or status. Use when the freelancer wants to change proposal content, status, or details.',
+        'Update one or more fields on an existing proposal, including content, pricing, status, or key timestamps. Use when the freelancer wants to revise proposal details, mark it as sent, or record a client response without going through the full accept flow.',
       inputSchema: {
-        proposal_id: z.string().uuid().describe('Proposal UUID to update'),
-        title: z.string().min(1).optional().describe('Updated proposal title'),
-        content: z.string().optional().nullable().describe('Updated proposal content'),
+        proposal_id: z.string().uuid().describe('UUID of the proposal record that should be updated'),
+        title: z.string().min(1).optional().describe('Replacement title to give the proposal a new descriptive name'),
+        content: z.string().optional().nullable().describe('Replacement body text describing deliverables, scope, and terms'),
         status: z
           .enum(['draft', 'sent', 'accepted', 'declined', 'expired'])
           .optional()
-          .describe('Updated status'),
-        amount: z.number().positive().optional().nullable().describe('Updated amount'),
-        currency: z.string().length(3).optional().describe('Updated currency code'),
-        valid_until: z.string().date().optional().nullable().describe('Updated expiry date'),
-        sent_at: z.string().datetime().optional().nullable().describe('Timestamp when proposal was sent'),
-        responded_at: z.string().datetime().optional().nullable().describe('Timestamp when client responded'),
+          .describe('New lifecycle status to assign to the proposal record'),
+        amount: z.number().positive().optional().nullable().describe('Revised total monetary value for the project engagement'),
+        currency: z.string().length(3).optional().describe('Replacement three-letter ISO 4217 currency code for the amount'),
+        valid_until: z.string().date().optional().nullable().describe('New expiry date after which the proposal is no longer valid (YYYY-MM-DD)'),
+        sent_at: z.string().datetime().optional().nullable().describe('ISO 8601 timestamp recording when the proposal was delivered to the client'),
+        responded_at: z.string().datetime().optional().nullable().describe('ISO 8601 timestamp recording when the client replied or responded'),
+      },
+      annotations: {
+        title: 'Update Proposal',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -246,9 +274,16 @@ export function registerProposalTools(server: McpServer, userId: string): void {
     'accept_proposal',
     {
       description:
-        'Mark a proposal as accepted and seed the project scope from its deliverables. Use when the freelancer confirms a proposal was accepted by the client.',
+        'Mark a proposal as accepted, record the response timestamp, and automatically seed the linked project\'s scope_definitions from the proposal deliverables in a single atomic operation. Use when the freelancer confirms that a client has accepted the proposal and work is ready to begin.',
       inputSchema: {
-        proposal_id: z.string().uuid().describe('Proposal UUID to accept'),
+        proposal_id: z.string().uuid().describe('UUID of the proposal that the client has agreed to accept'),
+      },
+      annotations: {
+        title: 'Accept Proposal',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {

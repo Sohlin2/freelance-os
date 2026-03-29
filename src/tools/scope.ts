@@ -8,25 +8,32 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     'create_scope',
     {
       description:
-        'Define the agreed project scope with deliverables and boundaries. Use when starting a project or after a proposal is accepted.',
+        'Define and persist the agreed project scope with deliverables, boundaries, and exclusions. Use this tool when starting a new project or immediately after a proposal is accepted by the client to establish a clear, shared understanding of what will be built.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID'),
+        project_id: z.string().uuid().describe('UUID of the project this scope definition belongs to'),
         deliverables: z
           .string()
           .min(1)
-          .describe('What will be delivered — free-form description of outputs'),
+          .describe('Detailed free-form description of all outputs and artifacts that will be delivered to the client'),
         boundaries: z
           .string()
           .optional()
-          .describe('What is in and out of scope for this project'),
+          .describe('Explicit statement of what work is inside and outside the agreed scope for this project'),
         assumptions: z
           .string()
           .optional()
-          .describe('Assumptions made when defining the scope'),
+          .describe('Assumptions made by the freelancer when defining this scope that the client should be aware of'),
         exclusions: z
           .string()
           .optional()
-          .describe('Explicitly excluded work items'),
+          .describe('Specific work items or deliverables that are explicitly excluded from this project scope'),
+      },
+      annotations: {
+        title: 'Create Project Scope',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -67,9 +74,16 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     'get_scope',
     {
       description:
-        'Retrieve the agreed scope for a project. Use when the freelancer wants to review what was agreed.',
+        'Retrieve the current active scope definition for a project, including deliverables, boundaries, assumptions, and exclusions. Use when the freelancer wants to review exactly what was agreed with the client before starting work or answering a scope question.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID'),
+        project_id: z.string().uuid().describe('UUID of the project whose scope definition should be retrieved'),
+      },
+      annotations: {
+        title: 'Get Project Scope',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -111,29 +125,36 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     'update_scope',
     {
       description:
-        'Update the project scope definition. Use when the agreed scope changes and needs to be updated.',
+        'Update one or more fields of the active scope definition for a project. Use when the client and freelancer have mutually agreed to change the scope and the persisted record needs to reflect the new agreement.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID'),
+        project_id: z.string().uuid().describe('UUID of the project whose scope definition should be updated'),
         deliverables: z
           .string()
           .min(1)
           .optional()
-          .describe('Updated deliverables description'),
+          .describe('Revised description of all outputs and artifacts that will be delivered under the updated scope'),
         boundaries: z
           .string()
           .optional()
           .nullable()
-          .describe('Updated boundaries'),
+          .describe('Revised statement of what work is inside and outside the agreed scope after the change'),
         assumptions: z
           .string()
           .optional()
           .nullable()
-          .describe('Updated assumptions'),
+          .describe('Revised assumptions that underpin the updated scope agreement with the client'),
         exclusions: z
           .string()
           .optional()
           .nullable()
-          .describe('Updated exclusions'),
+          .describe('Revised list of work items or deliverables that are explicitly excluded from the updated scope'),
+      },
+      annotations: {
+        title: 'Update Project Scope',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -186,30 +207,37 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     'log_scope_change',
     {
       description:
-        'Record a scope change request with classification. Use ONLY after the freelancer confirms they want to log the change.',
+        'Record a client scope change request with classification and impact notes to maintain an auditable history of scope creep. Use this tool ONLY after the freelancer confirms they want to log the change — never log speculatively without explicit instruction.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID'),
+        project_id: z.string().uuid().describe('UUID of the project this scope change request is associated with'),
         description: z
           .string()
           .min(1)
-          .describe('Description of the requested change'),
+          .describe('Clear description of the change the client is requesting beyond the original agreed scope'),
         classification: z
           .enum(['in_scope', 'out_of_scope', 'needs_review'])
           .describe(
-            'Classification of the change: in_scope (covered by existing agreement), out_of_scope (additional work), needs_review (ambiguous — requires discussion)'
+            'Classification of the change: in_scope (covered by existing agreement), out_of_scope (additional billable work), needs_review (ambiguous — requires discussion with client)'
           ),
         impact: z
           .string()
           .optional()
-          .describe('Estimated impact — time, cost, or effort'),
+          .describe('Estimated impact of the change in terms of additional time, cost, or effort required'),
         requested_at: z
           .string()
           .optional()
-          .describe('ISO 8601 datetime when the change was requested (defaults to now)'),
+          .describe('ISO 8601 datetime when the client requested this change — defaults to current timestamp if omitted'),
         resolved_at: z
           .string()
           .optional()
-          .describe('ISO 8601 datetime when the change was resolved'),
+          .describe('ISO 8601 datetime when this scope change request was resolved or formally accepted'),
+      },
+      annotations: {
+        title: 'Log Scope Change',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -250,34 +278,41 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     'list_scope_changes',
     {
       description:
-        'List scope change requests logged against a project. Use when reviewing scope creep history or change log.',
+        'List all scope change requests logged against a project, with optional filtering by classification and configurable sort order. Use when reviewing scope creep history, preparing a change-order summary, or auditing out-of-scope requests for billing.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID'),
+        project_id: z.string().uuid().describe('UUID of the project whose scope change history should be listed'),
         classification: z
           .enum(['in_scope', 'out_of_scope', 'needs_review'])
           .optional()
-          .describe('Filter by classification'),
+          .describe('Optional filter to return only changes of a specific classification type'),
         sort_by: z
           .enum(['requested_at', 'created_at'])
           .default('requested_at')
-          .describe('Field to sort by'),
+          .describe('Database field used to order the returned scope change records'),
         sort_dir: z
           .enum(['asc', 'desc'])
           .default('desc')
-          .describe('Sort direction'),
+          .describe('Sort direction — desc returns the most recent changes first'),
         limit: z
           .number()
           .int()
           .min(1)
           .max(100)
           .default(20)
-          .describe('Number of results'),
+          .describe('Maximum number of scope change records to return in a single page'),
         offset: z
           .number()
           .int()
           .min(0)
           .default(0)
-          .describe('Pagination offset'),
+          .describe('Number of records to skip for pagination — use with limit to page through results'),
+      },
+      annotations: {
+        title: 'List Scope Changes',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -338,13 +373,20 @@ export function registerScopeTools(server: McpServer, userId: string): void {
     'check_scope',
     {
       description:
-        'Retrieve agreed scope and change history so Claude can assess whether a new request falls within scope. Use when a client requests something new and the freelancer wants to check if it is in scope.',
+        'Retrieve the agreed scope definition and full change history for a project so Claude can assess whether a new client request falls within the original agreement. Use this tool when a client asks for something new and the freelancer wants an informed opinion on whether it is in scope before responding.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID'),
+        project_id: z.string().uuid().describe('UUID of the project against whose scope the new request should be assessed'),
         request_description: z
           .string()
           .min(1)
-          .describe('Description of the new request to assess against the agreed scope'),
+          .describe('Detailed description of the new client request to be evaluated against the agreed project scope'),
+      },
+      annotations: {
+        title: 'Check Request Against Scope',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {

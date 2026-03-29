@@ -8,29 +8,36 @@ export function registerClientTools(server: McpServer, userId: string): void {
     'create_client',
     {
       description:
-        "Create a new client record. Use when a freelancer mentions a new client they're working with or want to track.",
+        "Create a new client record in the FreelanceOS database. Use this tool whenever a freelancer mentions a new client they're starting to work with or want to begin tracking — capturing contact details and default billing rate upfront saves time when creating projects and invoices later.",
       inputSchema: {
-        name: z.string().min(1).describe('Client name or company name'),
-        email: z.email().optional().describe('Client email address'),
-        phone: z.string().optional().describe('Client phone number'),
+        name: z.string().min(1).describe('Full name or company name of the client (required)'),
+        email: z.email().optional().describe('Primary email address used to contact this client'),
+        phone: z.string().optional().describe('Phone number for the client, including country code if international'),
         company: z
           .string()
           .optional()
-          .describe('Company name if different from client name'),
+          .describe('Company or organisation name if different from the individual contact name'),
         billing_rate: z
           .number()
           .positive()
           .optional()
-          .describe('Default hourly rate'),
+          .describe('Default hourly billing rate for this client, used as the fallback when creating time entries and invoices'),
         currency: z
           .string()
           .length(3)
           .default('USD')
-          .describe('ISO 4217 currency code'),
+          .describe('ISO 4217 three-letter currency code for all monetary amounts billed to this client (e.g. USD, EUR, GBP)'),
         notes: z
           .string()
           .optional()
-          .describe('Free-form notes about this client'),
+          .describe('Free-form notes about this client such as communication preferences, contract terms, or background context'),
+      },
+      annotations: {
+        title: 'Create Client',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -71,9 +78,16 @@ export function registerClientTools(server: McpServer, userId: string): void {
     'get_client',
     {
       description:
-        "Get a client's full profile including their projects and recent communications. Use when a freelancer asks about a specific client.",
+        "Retrieve the full profile for a single client, including all associated projects and follow-up communications. Use this tool when a freelancer asks about a specific client by name or ID, or when you need complete client context before drafting a proposal, invoice, or follow-up.",
       inputSchema: {
-        client_id: z.string().uuid().describe('Client UUID'),
+        client_id: z.string().uuid().describe('The unique identifier (UUID) of the client to retrieve'),
+      },
+      annotations: {
+        title: 'Get Client',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -117,33 +131,40 @@ export function registerClientTools(server: McpServer, userId: string): void {
     'list_clients',
     {
       description:
-        'List clients with optional search and filters. Use when a freelancer wants to see their clients or find a specific one.',
+        'List all active (non-archived) clients with optional name search, sorting, and pagination. Use this tool when a freelancer wants an overview of their client roster, needs to look up a client by name, or when you need to present a list of clients for the user to choose from.',
       inputSchema: {
         search: z
           .string()
           .optional()
-          .describe('Search clients by name (partial match)'),
+          .describe('Partial name string to filter clients by — performs a case-insensitive substring match on the client name field'),
         sort_by: z
           .enum(['name', 'created_at', 'updated_at', 'billing_rate'])
           .default('created_at')
-          .describe('Field to sort by'),
+          .describe('The client field to sort results by: name (alphabetical), created_at (when added), updated_at (recently modified), or billing_rate'),
         sort_dir: z
           .enum(['asc', 'desc'])
           .default('desc')
-          .describe('Sort direction'),
+          .describe('Sort direction: asc for ascending (A→Z, oldest first) or desc for descending (Z→A, newest first)'),
         limit: z
           .number()
           .int()
           .min(1)
           .max(100)
           .default(20)
-          .describe('Number of results'),
+          .describe('Maximum number of client records to return in a single response (1–100)'),
         offset: z
           .number()
           .int()
           .min(0)
           .default(0)
-          .describe('Pagination offset'),
+          .describe('Number of records to skip before returning results, used for paginating through large client lists'),
+      },
+      annotations: {
+        title: 'List Clients',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -206,25 +227,32 @@ export function registerClientTools(server: McpServer, userId: string): void {
     'update_client',
     {
       description:
-        "Update an existing client's information. Use when a freelancer wants to change a client's details.",
+        "Update one or more fields on an existing client record. Use this tool when a freelancer wants to correct contact details, change a billing rate, update notes, or make any other modification to a client's stored information — only the fields you provide will be changed, all others remain untouched.",
       inputSchema: {
-        client_id: z.string().uuid().describe('Client UUID to update'),
-        name: z.string().min(1).optional().describe('Updated client name'),
-        email: z.email().optional().nullable().describe('Updated email'),
-        phone: z.string().optional().nullable().describe('Updated phone'),
-        company: z.string().optional().nullable().describe('Updated company'),
+        client_id: z.string().uuid().describe('The unique identifier (UUID) of the client record to update'),
+        name: z.string().min(1).optional().describe('New full name or company name to replace the existing client name'),
+        email: z.email().optional().nullable().describe('New primary email address for the client, or null to clear it'),
+        phone: z.string().optional().nullable().describe('New phone number for the client, or null to clear it'),
+        company: z.string().optional().nullable().describe('New company or organisation name, or null to clear it'),
         billing_rate: z
           .number()
           .positive()
           .optional()
           .nullable()
-          .describe('Updated hourly rate'),
+          .describe('New default hourly billing rate for this client, or null to clear it'),
         currency: z
           .string()
           .length(3)
           .optional()
-          .describe('Updated currency code'),
-        notes: z.string().optional().nullable().describe('Updated notes'),
+          .describe('New ISO 4217 three-letter currency code to use for this client\'s billing (e.g. USD, EUR, GBP)'),
+        notes: z.string().optional().nullable().describe('New free-form notes to replace the existing notes, or null to clear them'),
+      },
+      annotations: {
+        title: 'Update Client',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -276,9 +304,16 @@ export function registerClientTools(server: McpServer, userId: string): void {
     'archive_client',
     {
       description:
-        'Archive a client (soft delete). Use when a freelancer is done working with a client but wants to keep records.',
+        'Soft-delete a client by setting their archived_at timestamp, hiding them from all active client lists while preserving their full history. Use this tool when a freelancer is done working with a client and wants to retire the record — the client and all linked projects, invoices, and follow-ups remain in the database and can be audited, but will no longer appear in normal queries.',
       inputSchema: {
-        client_id: z.string().uuid().describe('Client UUID to archive'),
+        client_id: z.string().uuid().describe('The unique identifier (UUID) of the client to archive'),
+      },
+      annotations: {
+        title: 'Archive Client',
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {

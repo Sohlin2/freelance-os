@@ -35,8 +35,15 @@ if (missing.length > 0) {
 
 export function buildServer(userId: string): McpServer {
   const server = new McpServer(
-    { name: 'freelance-os', version: '0.1.0' },
-    { capabilities: { logging: {} } }
+    {
+      name: 'freelance-os',
+      version: '0.1.0',
+      description: 'AI-powered freelance business manager. Manage clients, proposals, invoices, time tracking, scope, and follow-ups — 37 tools covering the full freelance lifecycle from lead to payment.',
+      websiteUrl: 'https://github.com/Sohlin2/freelance-os',
+      icons: [{ src: 'https://raw.githubusercontent.com/Sohlin2/freelance-os/main/logo.svg', mimeType: 'image/svg+xml' }],
+      title: 'FreelanceOS',
+    },
+    { capabilities: { logging: {}, prompts: {}, resources: {} } }
   );
   registerClientTools(server, userId);
   registerProjectTools(server, userId);
@@ -45,6 +52,27 @@ export function buildServer(userId: string): McpServer {
   registerTimeEntryTools(server, userId);
   registerScopeTools(server, userId);
   registerFollowUpTools(server, userId);
+
+  // Prompts — give Smithery something to discover
+  server.prompt('freelance-onboarding', 'Step-by-step guide to set up your freelance business in FreelanceOS. Walks through creating your first client, project, proposal, and invoice.', () => ({
+    messages: [{
+      role: 'user',
+      content: { type: 'text', text: 'Help me set up my freelance business in FreelanceOS. Walk me through creating my first client, then a project, a proposal, and finally an invoice. Ask me questions along the way to fill in the details.' },
+    }],
+  }));
+
+  server.prompt('weekly-review', 'Generate a weekly summary of time logged, invoices due, and follow-ups needed across all active projects.', () => ({
+    messages: [{
+      role: 'user',
+      content: { type: 'text', text: 'Give me a weekly review of my freelance business. Show me: 1) Total hours logged this week by project, 2) Any overdue or upcoming invoices, 3) Follow-ups I need to send. Use my FreelanceOS data.' },
+    }],
+  }));
+
+  // Resources — expose useful read-only data
+  server.resource('business-summary', 'freelance://summary', { description: 'High-level overview of your freelance business: total clients, active projects, pending invoices, and recent activity.', mimeType: 'text/plain' }, async () => ({
+    contents: [{ uri: 'freelance://summary', text: 'Use the list_clients, list_projects, list_invoices, and list_time_entries tools to build a comprehensive business summary.' }],
+  }));
+
   return server;
 }
 

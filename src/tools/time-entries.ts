@@ -8,23 +8,30 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     'create_time_entry',
     {
       description:
-        'Log a time entry against a project. Use when the freelancer reports hours worked on a project.',
+        'Log a time entry against a project to record hours worked. Use when the freelancer reports time spent on a task, meeting, or deliverable so it can be tracked and later billed to the client.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID to log time against'),
-        description: z.string().min(1).describe('What was worked on'),
+        project_id: z.string().uuid().describe('UUID of the project to log this time entry against'),
+        description: z.string().min(1).describe('Brief description of the work performed during this time block'),
         duration_minutes: z
           .number()
           .int()
           .positive()
-          .describe('Duration of work in minutes'),
+          .describe('Total duration of the work session expressed in whole minutes'),
         entry_date: z
           .string()
           .optional()
-          .describe('Date of work (YYYY-MM-DD, defaults to today)'),
+          .describe('Calendar date when the work was performed in YYYY-MM-DD format, defaults to today'),
         billable: z
           .boolean()
           .default(true)
-          .describe('Whether this time is billable to the client'),
+          .describe('Whether this time entry should be billed to the client on the next invoice'),
+      },
+      annotations: {
+        title: 'Create Time Entry',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -65,9 +72,16 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     'get_time_entry',
     {
       description:
-        'Retrieve a single time entry by ID. Use when the freelancer asks to view a specific logged time entry.',
+        'Retrieve a single time entry record by its unique identifier. Use when the freelancer asks to view the details of a specific logged time entry, such as its description, duration, or billable status.',
       inputSchema: {
-        time_entry_id: z.string().uuid().describe('Time entry UUID'),
+        time_entry_id: z.string().uuid().describe('Unique UUID identifier of the time entry record to retrieve'),
+      },
+      annotations: {
+        title: 'Get Time Entry',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -109,39 +123,46 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     'list_time_entries',
     {
       description:
-        'List time entries for a project, optionally filtered by date range. Use when reviewing logged hours for a project.',
+        'List time entries with optional filtering by project, date range, and billable status. Use when reviewing logged hours for a project, preparing a timesheet, or checking what work has been recorded before generating an invoice.',
       inputSchema: {
-        project_id: z.string().uuid().optional().describe('Filter by project UUID'),
+        project_id: z.string().uuid().optional().describe('UUID of the project to filter time entries by, omit to list across all projects'),
         start_date: z
           .string()
           .optional()
-          .describe('Filter entries on or after this date (YYYY-MM-DD)'),
+          .describe('Include only entries on or after this date in YYYY-MM-DD format'),
         end_date: z
           .string()
           .optional()
-          .describe('Filter entries on or before this date (YYYY-MM-DD)'),
-        billable: z.boolean().optional().describe('Filter by billable status'),
+          .describe('Include only entries on or before this date in YYYY-MM-DD format'),
+        billable: z.boolean().optional().describe('Filter results to only billable or only non-billable time entries'),
         sort_by: z
           .enum(['entry_date', 'created_at', 'duration_minutes'])
           .default('entry_date')
-          .describe('Field to sort by'),
+          .describe('Database column to use when ordering the returned time entries'),
         sort_dir: z
           .enum(['asc', 'desc'])
           .default('desc')
-          .describe('Sort direction'),
+          .describe('Direction to sort results — asc for oldest first, desc for newest first'),
         limit: z
           .number()
           .int()
           .min(1)
           .max(100)
           .default(20)
-          .describe('Number of results'),
+          .describe('Maximum number of time entry records to return in a single page'),
         offset: z
           .number()
           .int()
           .min(0)
           .default(0)
-          .describe('Pagination offset'),
+          .describe('Number of records to skip for cursor-based pagination through large result sets'),
+      },
+      annotations: {
+        title: 'List Time Entries',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -210,18 +231,25 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     'update_time_entry',
     {
       description:
-        "Update a time entry's duration, date, or description. Use when the freelancer wants to correct a logged entry.",
+        "Update one or more fields on an existing time entry record. Use when the freelancer needs to correct a logged entry's duration, description, date, or billable flag after it was originally saved.",
       inputSchema: {
-        time_entry_id: z.string().uuid().describe('Time entry UUID to update'),
-        description: z.string().min(1).optional().describe('Updated description'),
+        time_entry_id: z.string().uuid().describe('Unique UUID identifier of the time entry record to update'),
+        description: z.string().min(1).optional().describe('Revised description of the work performed during this time block'),
         duration_minutes: z
           .number()
           .int()
           .positive()
           .optional()
-          .describe('Updated duration in minutes'),
-        entry_date: z.string().optional().describe('Updated entry date (YYYY-MM-DD)'),
-        billable: z.boolean().optional().describe('Updated billable status'),
+          .describe('Corrected duration of the work session expressed in whole minutes'),
+        entry_date: z.string().optional().describe('Corrected date when the work was performed in YYYY-MM-DD format'),
+        billable: z.boolean().optional().describe('Updated flag indicating whether this time entry should be billed to the client'),
+      },
+      annotations: {
+        title: 'Update Time Entry',
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -273,9 +301,16 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     'archive_time_entry',
     {
       description:
-        'Archive a time entry (soft delete). Use when the freelancer wants to remove an incorrectly logged entry.',
+        'Soft-delete a time entry by setting its archived_at timestamp, hiding it from all queries. Use when the freelancer wants to permanently remove an incorrectly logged or duplicate time entry from their records without destroying the underlying data.',
       inputSchema: {
-        time_entry_id: z.string().uuid().describe('Time entry UUID to archive'),
+        time_entry_id: z.string().uuid().describe('Unique UUID identifier of the time entry record to soft-delete by archiving'),
+      },
+      annotations: {
+        title: 'Archive Time Entry',
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
@@ -323,21 +358,28 @@ export function registerTimeEntryTools(server: McpServer, userId: string): void 
     'aggregate_time',
     {
       description:
-        'Sum total hours and amount for a project over an optional date range. Use when preparing an invoice or checking billable hours.',
+        'Calculate the total minutes and hours logged against a project over an optional date range. Use when preparing an invoice, verifying billable hours before sending to a client, or generating a summary timesheet report.',
       inputSchema: {
-        project_id: z.string().uuid().describe('Project UUID to aggregate time for'),
+        project_id: z.string().uuid().describe('UUID of the project whose time entries should be summed and aggregated'),
         start_date: z
           .string()
           .optional()
-          .describe('Start of date range (YYYY-MM-DD, inclusive)'),
+          .describe('Beginning of the aggregation window in YYYY-MM-DD format, inclusive'),
         end_date: z
           .string()
           .optional()
-          .describe('End of date range (YYYY-MM-DD, inclusive)'),
+          .describe('End of the aggregation window in YYYY-MM-DD format, inclusive'),
         billable_only: z
           .boolean()
           .default(true)
-          .describe('Only sum billable time entries'),
+          .describe('When true, only sum time entries that are marked as billable to the client'),
+      },
+      annotations: {
+        title: 'Aggregate Time',
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
       },
     },
     async (args) => {
