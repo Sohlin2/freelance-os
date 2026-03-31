@@ -4,6 +4,8 @@
 
 [![npm version](https://img.shields.io/npm/v/freelance-os)](https://www.npmjs.com/package/freelance-os)
 [![smithery badge](https://smithery.ai/badge/Sohlin2/freelance-os)](https://smithery.ai/servers/Sohlin2/freelance-os)
+[![freelance-os MCP server](https://glama.ai/mcp/servers/Sohlin2/freelance-os/badges/card.svg)](https://glama.ai/mcp/servers/Sohlin2/freelance-os)
+[![freelance-os MCP server](https://glama.ai/mcp/servers/Sohlin2/freelance-os/badges/score.svg)](https://glama.ai/mcp/servers/Sohlin2/freelance-os)
 
 ## Install
 
